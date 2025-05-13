@@ -1,0 +1,60 @@
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# k8s helpers
+
+alias k=kubectl
+
+function kn () {
+  kubectl get ns ; echo 
+  if [[ "$#" -eq 1 ]]; then
+    kubectl config set-context --current --namespace $1 ; echo
+  fi
+  echo "Current namespace [ $(kubectl config view --minify | grep namespace | cut -d " " -f6) ]"
+}
+
+function kc () {
+  kubectl config get-contexts -o name ; echo
+  if [[ "$#" -eq 1 ]]; then
+    kubectl config use-context $1 ; echo
+  fi
+  echo "Current context [ $(kubectl config current-context) ]"
+  
+}
+
+# AWS helpers
+
+# Custom function to set default aws cli profile
+set-aws-profile() {
+  local aws_profile=$1
+  local aws_region=$2
+  set -x
+  export AWS_PROFILE=${aws_profile}
+  unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN AWS_REGION
+  if [ -n "$aws_region" ]; then export AWS_DEFAULT_REGION=${aws_region}; fi
+  set +x
+}
+
+# Git helpers
+# add, commit and push in a single command.
+# pass the commit message as an argument
+gacp() {
+  git add . && git commit -m "$1" && git push
+}
+
+gac() {
+  git add . && git commit -m "$1"
+}
+
+# Python helpers
+
+pyclean () {
+    find . -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete
+}
+
+poetry-generate-requirments() {
+  poetry export --without-hashes --without-urls | awk '{ print $1 }' FS=';'
+}
+export TERM=xterm-256color
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+export PATH="/Users/alan/go/bin:$PATH"
