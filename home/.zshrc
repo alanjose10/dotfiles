@@ -1,6 +1,6 @@
 
 # Created by `pipx` on 2025-10-22 23:10:33
-export PATH="$PATH:/Users/alan/.local/bin"
+export PATH="$PATH:~/.local/bin"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
