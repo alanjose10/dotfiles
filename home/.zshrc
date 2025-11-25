@@ -21,3 +21,6 @@ if [[ -n $TMUX ]]; then
   bindkey -M viins '^[[D' beginning-of-line
   bindkey -M viins '^[[C' end-of-line
 fi
+
+eval "$(pyenv init -)"
+if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
