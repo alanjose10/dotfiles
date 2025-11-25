@@ -412,6 +412,11 @@ bind m run "cut -c3- '#{TMUX_CONF}' | sh -s _toggle_mouse" \; display 'mouse #{?
 
 bind g send-keys "lazygit" Enter
 
+bind v send-keys "nvim" Enter
+
+set -g @catppuccin_flavor 'mocha'
+
+
 # -- tpm -----------------------------------------------------------------------
 
 # while I don't use tpm myself, many people requested official support so here
