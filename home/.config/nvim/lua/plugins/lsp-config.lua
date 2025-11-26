@@ -132,7 +132,10 @@ return {
 						vim.api.nvim_create_autocmd("BufWritePre", {
 							buffer = buf,
 							callback = function()
-								vim.lsp.buf.format({ async = false })
+								vim.lsp.buf.format({
+									async = false,
+									timeout = 3000,
+								})
 							end,
 						})
 					end
@@ -195,7 +198,8 @@ return {
 
 					-- Python
 					null_ls.builtins.formatting.black,
-					null_ls.builtins.formatting.isort,
+					-- TODO: isort is not letting black run the formatting
+					-- null_ls.builtins.formatting.isort,
 				},
 			})
 
