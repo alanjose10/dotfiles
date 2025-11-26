@@ -20,3 +20,9 @@ vim.keymap.set("n", "<c-h>", ":wincmd h<CR>")
 vim.keymap.set("n", "<c-l>", ":wincmd l<CR>")
 
 vim.keymap.set("n", "<leader>h", ":nohlsearch<CR>")
+
+-- writing and closing
+vim.keymap.set("n", "<leader>w", ":w<CR>", { desc = "Save file" })
+vim.keymap.set("n", "<leader>q", ":q<CR>", { desc = "Close file" })
+vim.keymap.set("n", "<leader>W", ":wa<CR>", { desc = "Save all files" })
+vim.keymap.set("n", "<leader>Q", ":qa<CR>", { desc = "Close all files" })
