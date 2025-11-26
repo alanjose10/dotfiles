@@ -1,6 +1,7 @@
 return {
 	{
 		"nvim-telescope/telescope.nvim",
+		cmd = { "Telescope", "TelescopeFindFiles" },
 		tag = "v0.1.9",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
