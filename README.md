@@ -30,3 +30,6 @@ ln -sfn ~/dotfiles/home/.config/tmux ~/.config/
 ```sh
 ln -sfn ~/dotfiles/home/.config/nvim ~/.config/
 ```
+
+## TODO: Use stove
+
