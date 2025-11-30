@@ -19,6 +19,9 @@ ln -sfn ~/dotfiles/home/.zshrc ~/
 ## tmux
 
 ```sh
+# clone tpm
+git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
+
 ln -sfn ~/dotfiles/home/.config/tmux ~/.config/
 ```
 
