@@ -22,7 +22,7 @@ ln -sfn ~/dotfiles/home/.zshrc ~/
 # clone tpm
 git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
 
-ln -sfn ~/dotfiles/home/.config/tmux ~/.config/
+ln -sfn ~/dotfiles/tmux/tmux.conf ~/.config/tmux/tmux.conf
 ```
 
 ## nvim
