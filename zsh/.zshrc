@@ -56,12 +56,7 @@ if command -v kubectl >/dev/null 2>&1; then
 fi
 
 # init fzf
-if command -v fzf >/dev/null 2>&1; then
-  source <(fzf --zsh)
-fi
-
-
-
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 autoload -Uz vcs_info
 precmd() { vcs_info }
