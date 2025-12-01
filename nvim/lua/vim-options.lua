@@ -5,6 +5,8 @@ vim.cmd("set shiftwidth=2")
 
 vim.opt.number = true
 vim.opt.relativenumber = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
 vim.g.mapleader = " "
 vim.g.background = "light"
