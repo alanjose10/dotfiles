@@ -35,6 +35,12 @@ if command -v zoxide >/dev/null 2>&1; then
   eval "$(zoxide init zsh)"
 fi
 
+# init plz autocomplete
+if command -v plz >/dev/null 2>&1; then
+  source <(plz --completion_script)
+fi
+
+
 autoload -Uz vcs_info
 precmd() { vcs_info }
 zstyle ':vcs_info:git:*' formats '%b '
