@@ -42,12 +42,9 @@ fi
 
 # init kubeclt
 if command -v kubectl >/dev/null 2>&1; then
-  # Load the completion code
-  source <(kubectl completion bash)
-  # Create the alias 'k' for 'kubectl'
+  source <(kubectl completion zsh)
   alias k=kubectl
-  # Tell bash to use the kubectl completion logic for the alias 'k'
-  complete -F __start_kubectl k
+  compdef k=kubectl
 fi
 
 
