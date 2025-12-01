@@ -38,6 +38,9 @@ fi
 # init plz autocomplete
 if command -v plz >/dev/null 2>&1; then
   source <(plz --completion_script)
+
+  alias sef="plz sef"
+  source <(sef autocomplete-script)
 fi
 
 # init kubeclt
@@ -45,6 +48,12 @@ if command -v kubectl >/dev/null 2>&1; then
   source <(kubectl completion zsh)
   alias k=kubectl
   compdef k=kubectl
+
+  export KUBECONFIG=~/.kube/config
+  for file in ~/.kube/configs/*.yaml; do
+    export KUBECONFIG=$KUBECONFIG:$file
+  done
+
 fi
 
 
