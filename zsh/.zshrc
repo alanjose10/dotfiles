@@ -40,6 +40,17 @@ if command -v plz >/dev/null 2>&1; then
   source <(plz --completion_script)
 fi
 
+# init kubeclt
+if command -v kubectl >/dev/null 2>&1; then
+  # Load the completion code
+  source <(kubectl completion bash)
+  # Create the alias 'k' for 'kubectl'
+  alias k=kubectl
+  # Tell bash to use the kubectl completion logic for the alias 'k'
+  complete -F __start_kubectl k
+fi
+
+
 
 autoload -Uz vcs_info
 precmd() { vcs_info }
