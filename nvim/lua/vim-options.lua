@@ -28,3 +28,7 @@ vim.keymap.set("n", "<leader>w", ":w<CR>", { desc = "Save file" })
 vim.keymap.set("n", "<leader>q", ":q<CR>", { desc = "Close file" })
 vim.keymap.set("n", "<leader>W", ":wa<CR>", { desc = "Save all files" })
 vim.keymap.set("n", "<leader>Q", ":qa<CR>", { desc = "Close all files" })
+
+-- Search for selected text with * (forward) or # (backward)
+vim.keymap.set("v", "*", 'y/\\V<C-R>"<CR>', { desc = "Search for selection (forward)" })
+vim.keymap.set("v", "#", 'y?\\V<C-R>"<CR>', { desc = "Search for selection (backward)" })
