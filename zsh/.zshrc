@@ -53,8 +53,13 @@ if command -v kubectl >/dev/null 2>&1; then
   for file in ~/.kube/configs/*.yaml; do
     export KUBECONFIG=$KUBECONFIG:$file
   done
-
 fi
+
+# init fzf
+if command -v fzf >/dev/null 2>&1; then
+  source <(fzf --zsh)
+fi
+
 
 
 
