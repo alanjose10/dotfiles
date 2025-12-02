@@ -63,3 +63,29 @@ precmd() { vcs_info }
 zstyle ':vcs_info:git:*' formats '%b '
 setopt PROMPT_SUBST
 PROMPT='%F{green}%*%f %F{blue}%~%f %F{red}${vcs_info_msg_0_}%f$ '
+
+
+
+# Tracing in SATs
+jaeger_deploy() {
+        docker run -d --name jaeger \
+        -p 16686:16686 \
+        -p 4318:4318 \
+        jaegertracing/all-in-one:1.53
+}
+jaeger_teardown() {
+        docker stop jaeger && docker rm jaeger
+}
+jaeger_upload() {
+        while read -r line
+        do
+                curl http://localhost:4318/v1/traces --header 'Content-Type: application/json; charset=utf-8' --data "@-" <<< "$line"
+        done < $1
+        echo
+}
+test_and_trace() {
+    plz test --rerun "$@" || return
+    filepath="$(dirname $(plz query output $1))/$(plz query print $1 | grep "trace.json" | cut -d "'" -f 2)"
+    echo "Traces exported to $filepath"
+    jaeger_upload "$filepath"
+}
