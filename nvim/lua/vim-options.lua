@@ -1,7 +1,7 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
-vim.opt.background = "light"
+vim.opt.background = "dark"
 vim.opt.clipboard = "unnamedplus"
 vim.opt.expandtab = true
 vim.opt.tabstop = 2
