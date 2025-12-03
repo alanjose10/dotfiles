@@ -33,10 +33,6 @@ fi
 # init zoxide
 if command -v zoxide >/dev/null 2>&1; then
   eval "$(zoxide init zsh)"
-  cd() {   
-    # Forward all args to zsh
-    z "$@"
-  }
 fi
 
 # init plz autocomplete
