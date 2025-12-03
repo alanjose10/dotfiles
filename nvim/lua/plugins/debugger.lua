@@ -27,8 +27,8 @@ return {
 			dapui.close()
 		end
 
-		vim.keymap.set("n", "<leader>dt", dap.toggle_breakpoint, {})
-		vim.keymap.set("n", "<leader>dc", dap.continue, {})
+		vim.keymap.set("n", "<leader>dt", dap.toggle_breakpoint, { desc = "DAP toggle breakpoint" })
+		vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "DAP continue" })
 
 		-- Uncomment to unlock more debugging keys
 		--vim.keymap.set("n", "<F10>", function()
