@@ -31,5 +31,5 @@ ln -sfn ~/dotfiles/tmux/tmux.conf ~/.config/tmux/tmux.conf
 ln -sfn ~/dotfiles/home/.config/nvim ~/.config/
 ```
 
-## TODO: Use stove
+<!-- TODO: Use stove -->
 
