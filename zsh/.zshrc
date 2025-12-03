@@ -90,3 +90,27 @@ test_and_trace() {
     echo "Traces exported to $filepath"
     jaeger_upload "$filepath"
 }
+
+# open nvim in a new window inside tmux
+start-nvim() {
+    # Current directory and its basename
+    local dir session
+    dir="$(pwd)"
+    session="$(basename "$dir")"
+
+    # If we're inside tmux already
+    if [ -n "$TMUX" ]; then
+        tmux new-window -c "$dir" "nvim"
+    else
+        # If session doesn't exist, create it
+        if ! tmux has-session -t "$session" 2>/dev/null; then
+            tmux new-session -d -s "$session" -c "$dir"
+        fi
+
+        # Create a new window running nvim (first window may already exist)
+        tmux new-window -t "$session:" -c "$dir" "nvim"
+
+        # Attach to the session
+        tmux attach-session -t "$session"
+    fi
+}
