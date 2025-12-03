@@ -70,6 +70,10 @@ vim.keymap.set("n", "<leader>q", ":q<CR>", { desc = "Close file" })
 vim.keymap.set("n", "<leader>W", ":wa<CR>", { desc = "Save all files" })
 vim.keymap.set("n", "<leader>Q", ":qa<CR>", { desc = "Close all files" })
 
+-- Split helpers (Alt-% / Alt-" plus leader fallbacks)
+vim.keymap.set("n", "<A-%>", ":vsplit<CR>", { desc = "Vertical split" })
+vim.keymap.set("n", "<A-\">", ":split<CR>", { desc = "Horizontal split" })
+
 -- Search for selected text with * (forward) or # (backward)
 vim.keymap.set("v", "*", 'y/\\V<C-R>"<CR>', { desc = "Search for selection (forward)" })
 vim.keymap.set("v", "#", 'y?\\V<C-R>"<CR>', { desc = "Search for selection (backward)" })
