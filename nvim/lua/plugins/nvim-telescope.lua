@@ -20,7 +20,12 @@ return {
 			telescope.setup({
 				defaults = {
 					layout_strategy = "horizontal",
-					layout_config = { prompt_position = "top", preview_width = 0.55 },
+					layout_config = { 
+						prompt_position = "top", 
+						horizontal = {
+							preview_width = 0.55,
+						},
+					},
 					sorting_strategy = "ascending",
 					path_display = { "smart" },
 					file_ignore_patterns = {
