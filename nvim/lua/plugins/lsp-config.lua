@@ -35,6 +35,7 @@ return {
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 			local schemastore = require("schemastore")
 			local format_group = vim.api.nvim_create_augroup("LspFormat", { clear = false })
+			local autoformat_group = vim.api.nvim_create_augroup("LspAutoFormat", { clear = true })
 
 			local function common_on_attach(client, bufnr)
 				local map = function(mode, lhs, rhs, desc)
@@ -52,18 +53,6 @@ return {
 				map("n", "<leader>cf", function()
 					vim.lsp.buf.format({ async = false, bufnr = bufnr })
 				end, "Format buffer")
-
-				-- Format on save when supported
-				if client.supports_method("textDocument/formatting") then
-					vim.api.nvim_clear_autocmds({ group = format_group, buffer = bufnr })
-					vim.api.nvim_create_autocmd("BufWritePre", {
-						group = format_group,
-						buffer = bufnr,
-						callback = function()
-							vim.lsp.buf.format({ async = false, bufnr = bufnr, timeout_ms = 3000 })
-						end,
-					})
-				end
 			end
 
 			local servers = {
@@ -190,6 +179,35 @@ return {
 			-- Enable all configured servers
 			vim.lsp.enable(vim.tbl_keys(servers))
 
+			-- Global format-on-save (prefers null-ls when available)
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				group = autoformat_group,
+				callback = function(ev)
+					local bufnr = ev.buf
+					local formatters = vim.lsp.get_clients({ bufnr = bufnr, method = "textDocument/formatting" })
+					if #formatters == 0 then
+						return
+					end
+					local has_null_ls = false
+					for _, client in ipairs(formatters) do
+						if client.name == "null-ls" then
+							has_null_ls = true
+							break
+						end
+					end
+					vim.lsp.buf.format({
+						bufnr = bufnr,
+						timeout_ms = 3000,
+						filter = function(client)
+							if has_null_ls then
+								return client.name == "null-ls"
+							end
+							return true
+						end,
+					})
+				end,
+			})
+
 			-- Auto organize imports for Go before formatting
 			vim.api.nvim_create_autocmd("BufWritePre", {
 				pattern = "*.go",
@@ -229,6 +247,7 @@ return {
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
 			local null_ls = require("null-ls")
+			-- null-ls provides formatting/linting; actual format-on-save is handled by the global autocmd above
 			null_ls.setup({
 				sources = {
 					-- Lua
