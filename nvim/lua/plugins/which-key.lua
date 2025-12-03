@@ -14,10 +14,10 @@ return {
 		wk.setup(opts)
 
 		wk.add({
-			{ "<leader>f", group = "[F]ind" },
-			{ "<leader>g", group = "[G]oto" },
-			{ "<leader>c", group = "[C]ode" },
-			{ "<leader>d", group = "[D]ebug" },
+			{ "<leader>f", group = "[F]" },
+			{ "<leader>g", group = "[G]" },
+			{ "<leader>c", group = "[C]" },
+			{ "<leader>d", group = "[D]" },
 		})
 	end,
 }

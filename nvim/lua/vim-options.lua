@@ -62,7 +62,7 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
-vim.keymap.set("n", "<leader>h", ":nohlsearch<CR>")
+vim.keymap.set("n", "<leader>h", ":nohlsearch<CR>", { desc = "Clear search highlight" })
 
 -- writing and closing
 vim.keymap.set("n", "<leader>w", ":w<CR>", { desc = "Save file" })
