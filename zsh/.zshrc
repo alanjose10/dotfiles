@@ -91,6 +91,10 @@ test_and_trace() {
 }
 
 # open nvim in a new window inside tmux
+# TODO: add features
+# - specify directory as argument (default cwd)
+# - make name shorter
+# - choose session to use if multiple found
 start-nvim() {
     # Current directory and its basename
     local dir session
