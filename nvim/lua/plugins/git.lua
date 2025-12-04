@@ -5,7 +5,9 @@ return {
 	{
 		"lewis6991/gitsigns.nvim",
 		config = function()
-			require("gitsigns").setup()
+			require("gitsigns").setup({
+				current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
+			})
 			-- A is option in mac. Make sure it is mapped to Alt in the terminal
 			-- Show inline blame or full-file blame
 			vim.keymap.set("n", "<A-g>", ":Gitsigns toggle_current_line_blame<CR>", { desc = "Toggle line blame" })
@@ -27,7 +29,7 @@ return {
 						pcall(vim.api.nvim_win_close, win, true)
 					end
 				else
-					vim.cmd("Git blame")
+					vim.cmd("Git blame --date=short --format='%h (%an %ad)'")
 				end
 
 				-- Restore focus to the original file window
@@ -36,6 +38,14 @@ return {
 				end
 			end
 			vim.keymap.set("n", "<A-G>", toggle_full_blame, { desc = "Toggle Git blame (full file)" })
+
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = "fugitiveblame",
+				callback = function()
+					-- Move to right side
+					vim.cmd("wincmd H")
+				end,
+			})
 		end,
 	},
 }
