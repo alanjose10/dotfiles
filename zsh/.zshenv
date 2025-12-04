@@ -1,3 +1,4 @@
 . "$HOME/.cargo/env"
 
-TEST="TESTING_ENV"
+export EDITOR="nvim"
+export VISUAL="nvim"
