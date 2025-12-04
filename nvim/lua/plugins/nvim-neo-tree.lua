@@ -74,9 +74,6 @@ return {
 		-- Toggle Neo-tree (left side)
 		vim.keymap.set("n", "<C-n>", ":Neotree left toggle<CR>", { desc = "Toggle file tree" })
 
-		-- Reveal + expand current file
-		vim.keymap.set("n", "<C-e>", ":Neotree reveal<CR>", { desc = "Reveal file in tree" })
-
 		----------------------------------------------------
 		-- AUTO OPEN NEO-TREE WHEN OPENING NVIM WITH A DIRECTORY
 		----------------------------------------------------
