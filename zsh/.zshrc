@@ -11,21 +11,34 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 
-# Only apply when running inside tmux
-# to enable option/command + arrow to navigate text
-if [[ -n $TMUX ]]; then
-  # Emacs keymap (default in zsh)
-  bindkey -M emacs '^[[1;3D' backward-word
-  bindkey -M emacs '^[[1;3C' forward-word
-  bindkey -M emacs '^[[D' beginning-of-line
-  bindkey -M emacs '^[[C' end-of-line
-
-  # for vi-mode
-  bindkey -M viins '^[[1;3D' backward-word
-  bindkey -M viins '^[[1;3C' forward-word
-  bindkey -M viins '^[[D' beginning-of-line
-  bindkey -M viins '^[[C' end-of-line
-fi
+# Cross-terminal word/line navigation (Option/Alt/Cmd + arrows) for tmux and bare terminals
+_word_left_keys=(
+  $'\e[1;3D'  # xterm/gnome Alt+Left
+  $'\e[1;9D'  # mac terminals Option+Left with ESC+ meta
+  $'\eb'      # Meta+b fallback
+)
+_word_right_keys=(
+  $'\e[1;3C'  # xterm/gnome Alt+Right
+  $'\e[1;9C'  # mac terminals Option+Right with ESC+ meta
+  $'\ef'      # Meta+f fallback
+)
+_line_start_keys=(
+  $'\e[H'   # Home / Cmd+Left mappings
+  $'\e[1~'  # Linux console Home
+  $'\eOH'   # xterm Home
+)
+_line_end_keys=(
+  $'\e[F'   # End / Cmd+Right mappings
+  $'\e[4~'  # Linux console End
+  $'\eOF'   # xterm End
+)
+for _km in emacs viins; do
+  for _k in "${_word_left_keys[@]}"; do bindkey -M "$_km" "$_k" backward-word; done
+  for _k in "${_word_right_keys[@]}"; do bindkey -M "$_km" "$_k" forward-word; done
+  for _k in "${_line_start_keys[@]}"; do bindkey -M "$_km" "$_k" beginning-of-line; done
+  for _k in "${_line_end_keys[@]}"; do bindkey -M "$_km" "$_k" end-of-line; done
+done
+unset _word_left_keys _word_right_keys _line_start_keys _line_end_keys _km _k
 
 # eval "$(pyenv init -)"
 # if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
