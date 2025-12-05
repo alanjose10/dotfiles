@@ -48,13 +48,13 @@ if command -v zoxide >/dev/null 2>&1; then
   eval "$(zoxide init zsh)"
 fi
 
-# init plz autocomplete
-if command -v plz >/dev/null 2>&1; then
-  source <(plz --completion_script)
+# # init plz autocomplete
+# if command -v plz >/dev/null 2>&1; then
+#   source <(plz --completion_script)
 
-  alias sef="plz sef"
-  source <(sef autocomplete-script)
-fi
+#   alias sef="plz sef"
+#   source <(sef autocomplete-script)
+# fi
 
 # init kubeclt
 if command -v kubectl >/dev/null 2>&1; then
