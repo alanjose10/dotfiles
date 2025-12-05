@@ -40,11 +40,11 @@ return {
 			-- A is option in mac. Make sure it is mapped to Alt in the terminal
 			vim.keymap.set(
 				"n",
-				"<A-g>",
+				"<M-g>",
 				":Gitsigns toggle_current_line_blame<CR>",
 				{ desc = "Toggle line blame", buffer = bufnr }
 			)
-			vim.keymap.set("n", "<A-G>", ":Gitsigns blame<CR>", { desc = "Toggle file blame", buffer = bufnr })
+			vim.keymap.set("n", "<M-G>", ":Gitsigns blame<CR>", { desc = "Toggle file blame", buffer = bufnr })
 			vim.keymap.set("n", "<leader>gp", gs.preview_hunk_inline, { desc = "Git: Preview hunk", buffer = bufnr })
 			vim.keymap.set("n", "<leader>gd", gs.diffthis, { desc = "Git: Diff this file", buffer = bufnr })
 		end,
