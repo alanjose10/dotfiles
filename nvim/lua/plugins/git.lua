@@ -1,51 +1,52 @@
 return {
-	{
-		"tpope/vim-fugitive",
-	},
-	{
-		"lewis6991/gitsigns.nvim",
-		config = function()
-			require("gitsigns").setup({
-				current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
-			})
+	"lewis6991/gitsigns.nvim",
+
+	-- Plugin loads only if Git is installed
+	enabled = vim.fn.executable("git") == 1,
+
+	-- Lazy-load when a file is opened
+	event = { "BufReadPre", "BufNewFile" },
+
+	opts = {
+		-------------------------------------------------------------------------
+		-- SIGNS (icons in the left sign column beside line numbers)
+		-------------------------------------------------------------------------
+		-- These characters appear next to lines changed by Git
+		signs = {
+			add = { text = "▎" }, -- line added
+			change = { text = "▎" }, -- line modified
+			delete = { text = "▎" }, -- line deleted
+			topdelete = { text = "▎" }, -- top part of block deleted
+			changedelete = { text = "▎" }, -- changed + deleted
+			untracked = { text = "▎" }, -- new file content not staged yet
+		},
+
+		-- Same set of signs but for *staged* changes
+		signs_staged = {
+			add = { text = "▎" },
+			change = { text = "▎" },
+			delete = { text = "▎" },
+			topdelete = { text = "▎" },
+			changedelete = { text = "▎" },
+			untracked = { text = "▎" },
+		},
+
+		-------------------------------------------------------------------------
+		-- on_attach runs whenever gitsigns attaches to a file buffer
+		-------------------------------------------------------------------------
+		on_attach = function(bufnr)
+			local gs = package.loaded.gitsigns
+
 			-- A is option in mac. Make sure it is mapped to Alt in the terminal
-			-- Show inline blame or full-file blame
-			vim.keymap.set("n", "<A-g>", ":Gitsigns toggle_current_line_blame<CR>", { desc = "Toggle line blame" })
-			local function toggle_full_blame()
-				local cur_win = vim.api.nvim_get_current_win()
-				local cur_buf = vim.api.nvim_get_current_buf()
-
-				-- Gather existing blame windows
-				local blame_wins = {}
-				for _, win in ipairs(vim.api.nvim_list_wins()) do
-					local buf = vim.api.nvim_win_get_buf(win)
-					if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].filetype == "fugitiveblame" then
-						table.insert(blame_wins, win)
-					end
-				end
-
-				if #blame_wins > 0 then
-					for _, win in ipairs(blame_wins) do
-						pcall(vim.api.nvim_win_close, win, true)
-					end
-				else
-					vim.cmd("Git blame --date=short --format='%h (%an %ad)'")
-				end
-
-				-- Restore focus to the original file window
-				if vim.api.nvim_win_is_valid(cur_win) and vim.api.nvim_buf_is_valid(cur_buf) then
-					pcall(vim.api.nvim_set_current_win, cur_win)
-				end
-			end
-			vim.keymap.set("n", "<A-G>", toggle_full_blame, { desc = "Toggle Git blame (full file)" })
-
-			vim.api.nvim_create_autocmd("FileType", {
-				pattern = "fugitiveblame",
-				callback = function()
-					-- Move to right side
-					vim.cmd("wincmd H")
-				end,
-			})
+			vim.keymap.set(
+				"n",
+				"<A-g>",
+				":Gitsigns toggle_current_line_blame<CR>",
+				{ desc = "Toggle line blame", buffer = bufnr }
+			)
+			vim.keymap.set("n", "<A-G>", ":Gitsigns blame<CR>", { desc = "Toggle file blame", buffer = bufnr })
+			vim.keymap.set("n", "<leader>gp", gs.preview_hunk_inline, { desc = "Git: Preview hunk", buffer = bufnr })
+			vim.keymap.set("n", "<leader>gd", gs.diffthis, { desc = "Git: Diff this file", buffer = bufnr })
 		end,
 	},
 }

@@ -44,10 +44,10 @@ return {
 
 				-- Core LSP UX bindings
 				map("n", "K", vim.lsp.buf.hover, "Hover")
-				map("n", "<leader>gd", vim.lsp.buf.definition, "Go to definition")
-				map("n", "<leader>gD", vim.lsp.buf.declaration, "Go to declaration")
-				map("n", "<leader>gr", vim.lsp.buf.references, "Go to references")
-				map("n", "gi", vim.lsp.buf.implementation, "Go to implementation")
+				map("n", "<leader>cd", vim.lsp.buf.definition, "Go to definition")
+				map("n", "<leader>cD", vim.lsp.buf.declaration, "Go to declaration")
+				map("n", "<leader>cr", vim.lsp.buf.references, "Go to references")
+				map("n", "ci", vim.lsp.buf.implementation, "Go to implementation")
 				map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code actions")
 				map("n", "<leader>cs", vim.lsp.buf.signature_help, "Signature help")
 				map("n", "<leader>cf", function()
