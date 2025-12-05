@@ -5,7 +5,8 @@ return {
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		"MunifTanjim/nui.nvim",
-		"nvim-tree/nvim-web-devicons", -- optional, but recommended
+		"nvim-tree/nvim-web-devicons",
+		"nvim-telescope/telescope.nvim",
 	},
 	lazy = false, -- neo-tree will lazily load itself
 	config = function()
@@ -23,6 +24,41 @@ return {
 				},
 			},
 			commands = {
+
+				-- Telescope: find_files in selected path
+				telescope_find_in_dir = function(state)
+					local node = state.tree:get_node()
+					local path = node:get_id()
+
+					-- If it's a file, search in its parent directory
+					if node.type ~= "directory" then
+						path = vim.fn.fnamemodify(path, ":h")
+					end
+
+					require("telescope.builtin").find_files({
+						cwd = path,
+						hidden = true, -- include hidden files
+						no_ignore = false, -- respect .gitignore = false
+					})
+				end,
+
+				-- Telescope: live_grep in selected path
+				telescope_grep_in_dir = function(state)
+					local node = state.tree:get_node()
+					local path = node:get_id()
+
+					if node.type ~= "directory" then
+						path = vim.fn.fnamemodify(path, ":h")
+					end
+
+					require("telescope.builtin").live_grep({
+						cwd = path,
+						additional_args = function()
+							return { "--hidden" } -- include hidden files
+						end,
+					})
+				end,
+				-- Popup to get file name/path
 				copy_selector = function(state)
 					local node = state.tree:get_node()
 					local filepath = node:get_id()
@@ -61,22 +97,21 @@ return {
 					end)
 				end,
 			},
+			-- NEO-TREE WINDOW MAPPINGS
 			window = {
 				mappings = {
 					Y = "copy_selector",
+					["<leader>ff"] = "telescope_find_in_dir",
+					["<leader>fg"] = "telescope_grep_in_dir",
 				},
 			},
 		})
 
-		----------------------------------------------------
 		-- KEYMAPS
-		----------------------------------------------------
 		-- Toggle Neo-tree (left side)
 		vim.keymap.set("n", "<C-n>", ":Neotree left toggle<CR>", { desc = "Toggle file tree" })
 
-		----------------------------------------------------
 		-- AUTO OPEN NEO-TREE WHEN OPENING NVIM WITH A DIRECTORY
-		----------------------------------------------------
 		vim.api.nvim_create_autocmd("VimEnter", {
 			callback = function(data)
 				-- If nvim was started with a directory
@@ -87,9 +122,7 @@ return {
 			end,
 		})
 
-		----------------------------------------------------
 		-- AUTO-REVEAL CURRENT FILE WHEN SWITCHING BUFFERS
-		----------------------------------------------------
 		vim.api.nvim_create_autocmd("BufEnter", {
 			callback = function()
 				-- Only run if Neo-tree is open
