@@ -6,6 +6,11 @@ if [ -d "$HOME/go/bin" ]; then
     export PATH="$PATH:$HOME/go/bin"
 fi
 
+# add to path if ~/bin exists
+if [ -d "$HOME/bin" ]; then
+    export PATH="$PATH:$HOME/bin"
+fi
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -48,13 +53,7 @@ if command -v zoxide >/dev/null 2>&1; then
   eval "$(zoxide init zsh)"
 fi
 
-# # init plz autocomplete
-# if command -v plz >/dev/null 2>&1; then
-#   source <(plz --completion_script)
 
-#   alias sef="plz sef"
-#   source <(sef autocomplete-script)
-# fi
 
 # init kubeclt
 if command -v kubectl >/dev/null 2>&1; then
@@ -63,9 +62,7 @@ if command -v kubectl >/dev/null 2>&1; then
   compdef k=kubectl
 
   export KUBECONFIG=~/.kube/config
-  for file in ~/.kube/configs/*.yaml; do
-    export KUBECONFIG=$KUBECONFIG:$file
-  done
+  
 fi
 
 # init fzf
@@ -79,29 +76,7 @@ PROMPT='%F{green}%*%f %F{blue}%~%f %F{red}${vcs_info_msg_0_}%f$ '
 
 
 
-# Tracing in SATs
-jaeger_deploy() {
-        docker run -d --name jaeger \
-        -p 16686:16686 \
-        -p 4318:4318 \
-        jaegertracing/all-in-one:1.53
-}
-jaeger_teardown() {
-        docker stop jaeger && docker rm jaeger
-}
-jaeger_upload() {
-        while read -r line
-        do
-                curl http://localhost:4318/v1/traces --header 'Content-Type: application/json; charset=utf-8' --data "@-" <<< "$line"
-        done < $1
-        echo
-}
-test_and_trace() {
-    plz test --rerun "$@" || return
-    filepath="$(dirname $(plz query output $1))/$(plz query print $1 | grep "trace.json" | cut -d "'" -f 2)"
-    echo "Traces exported to $filepath"
-    jaeger_upload "$filepath"
-}
+
 
 # open nvim in a new window inside tmux
 # TODO: add features
@@ -130,3 +105,43 @@ start-nvim() {
         tmux attach-session -t "$session"
     fi
 }
+
+
+# # Do Mac-specific stuff here
+# if [[ $(uname) == "Darwin" ]]; then
+
+# fi
+    
+
+# Do workstation specific stuff here
+if [[ $(uname) == "Linux" ]]; then
+    
+  for file in ~/.kube/configs/*.yaml; do
+    export KUBECONFIG=$KUBECONFIG:$file
+  done
+
+  # Tracing in SATs
+  jaeger_deploy() {
+    docker run -d --name jaeger \
+    -p 16686:16686 \
+    -p 4318:4318 \
+    jaegertracing/all-in-one:1.53
+  }
+  jaeger_teardown() {
+    docker stop jaeger && docker rm jaeger
+  }
+  jaeger_upload() {
+    while read -r line
+    do
+      curl http://localhost:4318/v1/traces --header 'Content-Type: application/json; charset=utf-8' --data "@-" <<< "$line"
+    done < $1
+    echo
+  }
+  test_and_trace() {
+    plz test --rerun "$@" || return
+    filepath="$(dirname $(plz query output $1))/$(plz query print $1 | grep "trace.json" | cut -d "'" -f 2)"
+    echo "Traces exported to $filepath"
+    jaeger_upload "$filepath"
+  }
+
+fi
