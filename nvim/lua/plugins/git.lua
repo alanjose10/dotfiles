@@ -8,9 +8,6 @@ return {
 	event = { "BufReadPre", "BufNewFile" },
 
 	opts = {
-		-------------------------------------------------------------------------
-		-- SIGNS (icons in the left sign column beside line numbers)
-		-------------------------------------------------------------------------
 		-- These characters appear next to lines changed by Git
 		signs = {
 			add = { text = "▎" }, -- line added
@@ -31,9 +28,7 @@ return {
 			untracked = { text = "▎" },
 		},
 
-		-------------------------------------------------------------------------
 		-- on_attach runs whenever gitsigns attaches to a file buffer
-		-------------------------------------------------------------------------
 		on_attach = function(bufnr)
 			local gs = package.loaded.gitsigns
 
@@ -45,8 +40,6 @@ return {
 				{ desc = "Toggle line blame", buffer = bufnr }
 			)
 			vim.keymap.set("n", "<M-G>", ":Gitsigns blame<CR>", { desc = "Toggle file blame", buffer = bufnr })
-			vim.keymap.set("n", "<leader>gp", gs.preview_hunk_inline, { desc = "Git: Preview hunk", buffer = bufnr })
-			vim.keymap.set("n", "<leader>gd", gs.diffthis, { desc = "Git: Diff this file", buffer = bufnr })
 		end,
 	},
 }

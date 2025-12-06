@@ -51,9 +51,7 @@ return {
 			end,
 		}
 
-		---------------------------------------------------------------------------
 		-- APPLY KEYMAPS
-		---------------------------------------------------------------------------
 		for key, func in pairs(mappings) do
 			vim.keymap.set("n", key, func, { silent = true, desc = "Smooth scroll: " .. key })
 		end
