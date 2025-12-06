@@ -7,3 +7,25 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 	desc = "Highlight on yank",
 })
+
+-- Restore cursor position when reopening a file
+vim.api.nvim_create_autocmd("BufReadPost", {
+	group = group,
+	callback = function(event)
+		-- Don't apply to gitcommit, gitrebase, or special buffers
+		if vim.tbl_contains({ "gitcommit", "gitrebase", "svn" }, vim.bo[event.buf].filetype) then
+			return
+		end
+
+		-- Get the cursor mark
+		local mark = vim.api.nvim_buf_get_mark(event.buf, '"')
+		local line_count = vim.api.nvim_buf_line_count(event.buf)
+
+		-- Check that the mark is within the file
+		if mark[1] > 0 and mark[1] <= line_count then
+			-- Protected call to avoid errors on weird buffers
+			pcall(vim.api.nvim_win_set_cursor, 0, mark)
+		end
+	end,
+	desc = "Restore cursor position after reopening file",
+})
