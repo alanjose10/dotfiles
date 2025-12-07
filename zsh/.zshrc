@@ -107,10 +107,16 @@ start-nvim() {
 }
 
 
-# # Do Mac-specific stuff here
-# if [[ $(uname) == "Darwin" ]]; then
+# Do Mac-specific stuff here
+if [[ $(uname) == "Darwin" ]]; then
+  
+  if [[ -d "/opt/homebrew/opt/libpq" ]]; then
+    export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+    export LDFLAGS="-L/opt/homebrew/opt/libpq/lib"
+    export CPPFLAGS="-I/opt/homebrew/opt/libpq/include"
+  fi
 
-# fi
+fi
     
 
 # Do workstation specific stuff here
