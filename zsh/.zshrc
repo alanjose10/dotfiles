@@ -121,6 +121,11 @@ fi
 
 # Do workstation specific stuff here
 if [[ $(uname) == "Linux" ]]; then
+
+  # plz autocomplete
+  if command -v plz >/dev/null 2>&1; then
+    source <(plz --completion_script)
+  fi
     
   for file in ~/.kube/configs/*.yaml; do
     export KUBECONFIG=$KUBECONFIG:$file
