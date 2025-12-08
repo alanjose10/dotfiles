@@ -11,7 +11,22 @@ return {
 	lazy = false, -- neo-tree will lazily load itself
 	config = function()
 		require("neo-tree").setup({
-			close_if_last_window = false,
+			default_component_configs = {
+				-- Do not show size, type, last modified, etc. Keep the window clean.
+				file_size = {
+					enabled = false,
+				},
+				type = {
+					enabled = false,
+				},
+				last_modified = {
+					enabled = false,
+				},
+				created = {
+					enabled = false,
+				},
+			},
+			close_if_last_window = true,
 			popup_border_style = "rounded",
 			filesystem = {
 				follow_current_file = {
