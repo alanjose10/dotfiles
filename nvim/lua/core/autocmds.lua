@@ -1,5 +1,6 @@
 local group = vim.api.nvim_create_augroup("core_autocmds", { clear = true })
 
+-- Highlight on yanking text
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = group,
 	callback = function()

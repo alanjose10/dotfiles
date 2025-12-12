@@ -30,3 +30,7 @@ require("lazy").setup({
 		notify = false,
 	},
 }, {})
+
+-- Sourcing lua code
+vim.keymap.set("n", "<space>x", ":.lua<CR>", { desc = "Run lua under cursor" })
+vim.keymap.set("v", "<space>x", ":lua<CR>", { desc = "Run lua under selection" })
