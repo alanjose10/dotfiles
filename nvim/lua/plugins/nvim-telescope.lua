@@ -51,10 +51,12 @@ return {
 
 			telescope.load_extension("fzf")
 
+			vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope explore help" })
+
 			vim.keymap.set("n", "<leader>ff", function()
 				builtin.find_files({ hidden = true, follow = true })
 			end, { desc = "Telescope find files" })
-			vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "Telescope find files tracked by git" })
+			vim.keymap.set("n", "<leader>FF", builtin.git_files, { desc = "Telescope find files tracked by git" })
 			vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live grep" })
 			vim.keymap.set("n", "<leader>fs", builtin.grep_string, { desc = "Grep string under cursor" })
 			vim.keymap.set("n", "<leader><BS>", function()
