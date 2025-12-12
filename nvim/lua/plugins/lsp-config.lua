@@ -10,10 +10,11 @@ return {
 			"neovim/nvim-lspconfig",
 		},
 		config = function()
-			-- Auto-install language servers we rely on
 			require("mason-lspconfig").setup({
 				ensure_installed = {
 					"lua_ls",
+					"jsonls",
+					"yamlls",
 				},
 			})
 		end,
@@ -48,6 +49,7 @@ return {
 			end
 
 			local servers = {
+
 				lua_ls = {
 					-- Avoid formatting conflicts and make Lua aware of Neovim runtime
 					on_init = function(client)
@@ -87,6 +89,30 @@ return {
 						client.server_capabilities.documentRangeFormattingProvider = false
 						common_on_attach(client, bufnr)
 					end,
+				},
+
+				jsonls = {
+					settings = {
+						json = {
+							schemas = require("schemastore").json.schemas(),
+							validate = { enable = true },
+						},
+					},
+				},
+
+				yamlls = {
+					settings = {
+						yaml = {
+							schemaStore = {
+								-- You must disable built-in schemaStore support if you want to use
+								-- this plugin and its advanced options like `ignore`.
+								enable = false,
+								-- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+								url = "",
+							},
+							schemas = require("schemastore").yaml.schemas(),
+						},
+					},
 				},
 			}
 
