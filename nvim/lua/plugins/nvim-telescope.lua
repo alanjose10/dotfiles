@@ -18,6 +18,14 @@ return {
 			local builtin = require("telescope.builtin")
 
 			telescope.setup({
+				pickers = {
+					find_files = {
+						theme = "ivy",
+					},
+				},
+				extensions = {
+					fzf = {},
+				},
 				defaults = {
 					layout_strategy = "horizontal",
 					layout_config = {
@@ -41,7 +49,7 @@ return {
 				},
 			})
 
-			pcall(telescope.load_extension, "fzf")
+			telescope.load_extension("fzf")
 
 			vim.keymap.set("n", "<leader>ff", function()
 				builtin.find_files({ hidden = true, follow = true })
