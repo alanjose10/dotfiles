@@ -13,13 +13,7 @@ return {
 			-- Auto-install language servers we rely on
 			require("mason-lspconfig").setup({
 				ensure_installed = {
-					"bashls",
-					"gopls",
-					"jsonls",
 					"lua_ls",
-					"pyright",
-					"ruff",
-					"yamlls",
 				},
 			})
 		end,
@@ -33,8 +27,6 @@ return {
 		},
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			local schemastore = require("schemastore")
-			local format_group = vim.api.nvim_create_augroup("LspFormat", { clear = false })
 			local autoformat_group = vim.api.nvim_create_augroup("LspAutoFormat", { clear = true })
 
 			local function common_on_attach(client, bufnr)
@@ -96,78 +88,6 @@ return {
 						common_on_attach(client, bufnr)
 					end,
 				},
-				gopls = {
-					-- Let gofumpt handle formatting; tighten analyses and ignore heavy dirs
-					on_attach = function(client, bufnr)
-						client.server_capabilities.documentFormattingProvider = false
-						client.server_capabilities.documentRangeFormattingProvider = false
-						common_on_attach(client, bufnr)
-					end,
-					settings = {
-						gopls = {
-							gofumpt = true,
-							directoryFilters = {
-								"-bazel-bin",
-								"-bazel-out",
-								"-bazel-testlogs",
-								"-node_modules",
-							},
-							analyses = {
-								unusedparams = true,
-								nilness = true,
-								shadow = true,
-							},
-							codelenses = {
-								gc_details = true,
-								tidy = true,
-								upgrade_dependency = true,
-							},
-						},
-					},
-				},
-				pyright = {},
-				ruff = {
-					-- Ruff for linting; leave hovers to Pyright
-					on_attach = function(client, bufnr)
-						client.server_capabilities.hoverProvider = false
-						common_on_attach(client, bufnr)
-					end,
-				},
-				jsonls = {
-					settings = {
-						json = {
-							schemas = schemastore.json.schemas(),
-							validate = { enable = true },
-						},
-					},
-				},
-				yamlls = {
-					-- K8s/GitHub-aware YAML validation + formatting
-					settings = {
-						yaml = {
-							format = { enable = true },
-							validate = true,
-							schemaStore = {
-								enable = false,
-								url = "",
-							},
-							schemas = {
-								kubernetes = {
-									"*.k8s.yaml",
-									"*.k8s.yml",
-									"**/k8s/*.yaml",
-									"**/k8s/**/*.yaml",
-									"**/kubernetes/**/*.yaml",
-									"**/helm/**/values*.yaml",
-								},
-								["https://json.schemastore.org/github-workflow.json"] = ".github/workflows/*",
-								["https://json.schemastore.org/github-action.json"] = ".github/action.{yml,yaml}",
-							},
-							keyOrdering = false,
-						},
-					},
-				},
-				bashls = {},
 			}
 
 			for server, config in pairs(servers) do
@@ -208,24 +128,6 @@ return {
 				end,
 			})
 
-			-- Auto organize imports for Go before formatting
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				pattern = "*.go",
-				callback = function()
-					local params = vim.lsp.util.make_range_params()
-					params.context = { only = { "source.organizeImports" } }
-					local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
-					for client_id, res in pairs(result or {}) do
-						for _, r in pairs(res.result or {}) do
-							if r.edit then
-								local enc = (vim.lsp.get_client_by_id(client_id) or {}).offset_encoding or "utf-16"
-								vim.lsp.util.apply_workspace_edit(r.edit, enc)
-							end
-						end
-					end
-				end,
-			})
-
 			-- Popup diagnostic
 			vim.o.updatetime = 250
 			vim.diagnostic.config({
@@ -252,21 +154,6 @@ return {
 				sources = {
 					-- Lua
 					null_ls.builtins.formatting.stylua,
-
-					-- Golang
-					null_ls.builtins.formatting.gofumpt,
-					null_ls.builtins.diagnostics.golangci_lint,
-					null_ls.builtins.code_actions.gomodifytags,
-
-					-- Python
-					null_ls.builtins.formatting.black,
-
-					-- Shell
-					null_ls.builtins.formatting.shfmt,
-
-					-- YAML / JSON / BUILD
-					null_ls.builtins.formatting.yamlfmt,
-					null_ls.builtins.formatting.buildifier,
 				},
 			})
 
@@ -281,15 +168,6 @@ return {
 		},
 		config = function()
 			require("mason-null-ls").setup({
-				ensure_installed = {
-					"black",
-					"buildifier",
-					"gofumpt",
-					"golangci-lint",
-					"gomodifytags",
-					"shfmt",
-					"yamlfmt",
-				},
 				automatic_installation = true,
 			})
 		end,
