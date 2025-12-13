@@ -1,9 +1,5 @@
 return {
 	{
-		"mason-org/mason.nvim",
-		opts = {},
-	},
-	{
 		"mason-org/mason-lspconfig.nvim",
 		dependencies = {
 			{ "mason-org/mason.nvim", opts = {} },
@@ -40,6 +36,7 @@ return {
 
 				lua_ls = {
 					on_attach = function(client, _)
+						-- disable formatting for lua_ls
 						client.server_capabilities.documentFormattingProvider = false
 						client.server_capabilities.documentRangeFormattingProvider = false
 					end,
