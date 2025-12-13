@@ -4,19 +4,41 @@ return {
 		config = function()
 			local comment = require("Comment")
 			comment.setup({
-				-- Use line comments everywhere; no block toggles
+				---LHS of toggle mappings in NORMAL mode
 				toggler = {
-					line = "<leader>/",
+					---Line-comment toggle keymap
+					line = "gcc",
+					---Block-comment toggle keymap
+					block = "gbc",
 				},
+				---LHS of operator-pending mappings in NORMAL and VISUAL mode
 				opleader = {
-					line = "<leader>/",
+					---Line-comment keymap
+					line = "gc",
+					---Block-comment keymap
+					block = "gb",
 				},
+				---LHS of extra mappings
+				extra = {
+					---Add comment on the line above
+					above = "gcO",
+					---Add comment on the line below
+					below = "gco",
+					---Add comment at the end of line
+					eol = "gcA",
+				},
+				---Enable keybindings
+				mappings = {
+					---Operator-pending mapping; `gcc` `gbc` `gc[count]{motion}` `gb[count]{motion}`
+					basic = true,
+					---Extra mapping; `gco`, `gcO`, `gcA`
+					extra = true,
+				},
+				---Function to call before (un)comment
+				pre_hook = nil,
+				---Function to call after (un)comment
+				post_hook = nil,
 				---Ensure visual selections comment linewise instead of blockwise
-				pre_hook = function(ctx)
-					if ctx.ctype == require("Comment.utils").ctype.block then
-						ctx.ctype = require("Comment.utils").ctype.line
-					end
-				end,
 			})
 		end,
 	},
