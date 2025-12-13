@@ -22,72 +22,26 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
-			"hrsh7th/nvim-cmp",
-			"hrsh7th/cmp-nvim-lsp",
 			"b0o/schemastore.nvim",
+			"saghen/blink.cmp",
+			{
+				"folke/lazydev.nvim",
+				opts = {
+					library = {
+						{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+					},
+				},
+			},
 		},
 		config = function()
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			local autoformat_group = vim.api.nvim_create_augroup("LspAutoFormat", { clear = true })
-
-			local function common_on_attach(client, bufnr)
-				local map = function(mode, lhs, rhs, desc)
-					vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
-				end
-
-				-- Core LSP UX bindings
-				map("n", "K", vim.lsp.buf.hover, "Hover")
-				map("n", "<leader>cd", vim.lsp.buf.definition, "Go to definition")
-				map("n", "<leader>cD", vim.lsp.buf.declaration, "Go to declaration")
-				map("n", "<leader>cr", vim.lsp.buf.references, "Go to references")
-				map("n", "<leader>ci", vim.lsp.buf.implementation, "Go to implementation")
-				map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code actions")
-				map("n", "<leader>cs", vim.lsp.buf.signature_help, "Signature help")
-				map("n", "<leader>cf", function()
-					vim.lsp.buf.format({ async = false, bufnr = bufnr })
-				end, "Format buffer")
-			end
+			local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 			local servers = {
 
 				lua_ls = {
-					-- Avoid formatting conflicts and make Lua aware of Neovim runtime
-					on_init = function(client)
-						if client.workspace_folders then
-							local path = client.workspace_folders[1].name
-							if
-								path ~= vim.fn.stdpath("config")
-								and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
-							then
-								return
-							end
-						end
-
-						client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
-							runtime = {
-								version = "LuaJIT",
-								path = {
-									"lua/?.lua",
-									"lua/?/init.lua",
-								},
-							},
-							workspace = {
-								checkThirdParty = false,
-								library = {
-									vim.env.VIMRUNTIME,
-								},
-							},
-						})
-					end,
-					settings = {
-						Lua = {
-							diagnostics = { globals = { "vim" } },
-						},
-					},
-					on_attach = function(client, bufnr)
+					on_attach = function(client, _)
 						client.server_capabilities.documentFormattingProvider = false
 						client.server_capabilities.documentRangeFormattingProvider = false
-						common_on_attach(client, bufnr)
 					end,
 				},
 
@@ -116,9 +70,16 @@ return {
 				},
 			}
 
+			local common_on_attach = function(_, _)
+				-- common on attach function
+			end
+
 			for server, config in pairs(servers) do
 				config.capabilities = capabilities
+
+				-- if on_attach is not defined, use the common on attach function
 				config.on_attach = config.on_attach or common_on_attach
+
 				vim.lsp.config(server, config)
 			end
 
@@ -127,7 +88,7 @@ return {
 
 			-- Global format-on-save (prefers null-ls when available)
 			vim.api.nvim_create_autocmd("BufWritePre", {
-				group = autoformat_group,
+				-- group = autoformat_group,
 				callback = function(ev)
 					local bufnr = ev.buf
 					local formatters = vim.lsp.get_clients({ bufnr = bufnr, method = "textDocument/formatting" })
@@ -194,6 +155,9 @@ return {
 		},
 		config = function()
 			require("mason-null-ls").setup({
+				ensure_installed = {
+					"stylua",
+				},
 				automatic_installation = true,
 			})
 		end,
