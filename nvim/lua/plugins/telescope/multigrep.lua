@@ -2,6 +2,7 @@ local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
 local make_entry = require("telescope.make_entry")
 local conf = require("telescope.config").values
+local sorters = require("telescope.sorters")
 
 local M = {}
 
@@ -27,7 +28,6 @@ local live_multigrep = function(opts)
 				table.insert(args, pieces[2])
 			end
 
-			---@diagnostic disable-next-line: deprecated
 			return vim.tbl_flatten({
 				args,
 				{ "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--smart-case" },
@@ -43,7 +43,8 @@ local live_multigrep = function(opts)
 			prompt_title = "Multi Grep",
 			finder = finder,
 			previewer = conf.grep_previewer(opts),
-			sorter = require("telescope.sorters").empty(),
+			-- sorter = require("telescope.sorters").empty(),
+			sorter = sorters.empty(),
 		})
 		:find()
 end
