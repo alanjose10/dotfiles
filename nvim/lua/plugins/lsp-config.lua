@@ -86,30 +86,46 @@ return {
 			-- Enable all configured servers
 			vim.lsp.enable(vim.tbl_keys(servers))
 
+			local format_group = vim.api.nvim_create_augroup("FormatOnSave", { clear = true })
+
 			-- Global format-on-save (prefers null-ls when available)
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				-- group = autoformat_group,
-				callback = function(ev)
-					local bufnr = ev.buf
-					local formatters = vim.lsp.get_clients({ bufnr = bufnr, method = "textDocument/formatting" })
-					if #formatters == 0 then
-						return
-					end
-					local has_null_ls = false
-					for _, client in ipairs(formatters) do
-						if client.name == "null-ls" then
-							has_null_ls = true
-							break
-						end
-					end
-					vim.lsp.buf.format({
-						bufnr = bufnr,
-						timeout_ms = 3000,
-						filter = function(client)
-							if has_null_ls then
-								return client.name == "null-ls"
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = format_group,
+				callback = function(args)
+					local bufnr = args.buf
+
+					vim.api.nvim_clear_autocmds({ group = format_group, buffer = bufnr })
+
+					vim.api.nvim_create_autocmd("BufWritePre", {
+						buffer = args.buf,
+						callback = function(_)
+							local clients = vim.lsp.get_clients({
+								bufnr = bufnr,
+								method = "textDocument/formatting",
+							})
+
+							if #clients == 0 then
+								return
 							end
-							return true
+
+							-- Prefer null-ls / none-ls if present
+							local prefer = nil
+							for _, c in ipairs(clients) do
+								if c.name == "null-ls" or c.name == "none-ls" then
+									prefer = c.name
+									break
+								end
+							end
+
+							vim.lsp.buf.format({
+								bufnr = bufnr,
+								filter = function(c)
+									if prefer then
+										return c.name == prefer
+									end
+									return true
+								end,
+							})
 						end,
 					})
 				end,

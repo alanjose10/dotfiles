@@ -53,6 +53,8 @@ return {
 
 			vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope explore help" })
 
+			vim.keymap.set("n", "<leader>fm", builtin.keymaps, { desc = "Telescope search keymaps" })
+
 			vim.keymap.set("n", "<leader>ff", function()
 				builtin.find_files({ hidden = true, follow = true })
 			end, { desc = "Telescope find files" })
