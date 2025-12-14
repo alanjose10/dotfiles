@@ -22,6 +22,9 @@ return {
 					find_files = {
 						theme = "ivy",
 					},
+					git_files = {
+						theme = "ivy",
+					},
 				},
 				extensions = {
 					fzf = {},
@@ -58,16 +61,25 @@ return {
 			vim.keymap.set("n", "<leader>ff", function()
 				builtin.find_files({ hidden = true, follow = true })
 			end, { desc = "Telescope find files" })
+
 			vim.keymap.set("n", "<leader>FF", builtin.git_files, { desc = "Telescope find files tracked by git" })
-			vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live grep" })
+
 			vim.keymap.set("n", "<leader>fs", builtin.grep_string, { desc = "Grep string under cursor" })
+
 			vim.keymap.set("n", "<leader><BS>", function()
 				builtin.oldfiles({ only_cwd = true })
 			end, { desc = "Recent files (cwd)" })
+
 			vim.keymap.set("n", "<leader><space>", builtin.buffers, { desc = "Telescope buffers" })
+
 			vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "Workspace diagnostics" })
+
 			vim.keymap.set("n", "<leader>fr", builtin.resume, { desc = "Resume last picker" })
+
 			vim.keymap.set("n", "<leader>fsb", builtin.current_buffer_fuzzy_find, { desc = "Search in buffer" })
+
+			-- Setup multigrep
+			require("plugins.telescope.multigrep").setup()
 		end,
 	},
 	{
