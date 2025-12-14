@@ -2,26 +2,11 @@ return {
 	"akinsho/bufferline.nvim",
 	version = "*",
 	dependencies = "nvim-tree/nvim-web-devicons",
-	-- config = function()
-	-- 	local status_ok, bufferline = pcall(require, "bufferline")
-	-- 	if not status_ok then
-	-- 		return
-	-- 	end
-	-- 	vim.opt.termguicolors = true
-	-- 	bufferline.setup({})
-	-- end,
 	event = "VeryLazy",
 	opts = {
 		options = {
-			-- Show only the filename, not the full path
-			name_formatter = function(buf)
-				return vim.fn.fnamemodify(buf.path, ":t")
-			end,
-
 			diagnostics = "nvim_lsp",
-
 			separator_style = "slant",
-
 			offsets = {
 				{
 					filetype = "neo-tree",
@@ -30,10 +15,8 @@ return {
 					separator = true,
 				},
 			},
-
 			show_buffer_close_icons = false,
 			show_close_icon = false,
-
 			always_show_bufferline = true,
 		},
 	},
