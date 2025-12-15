@@ -8,8 +8,8 @@ map("n", "<leader>w", ":w<CR>", { desc = "Save file" })
 map("n", "<leader>q", ":q<CR>", { desc = "Close file" })
 
 -- Split helpers
-map("n", "<A-%>", ":vsplit<CR>", { desc = "Vertical split" })
-map("n", '<A-">', ":split<CR>", { desc = "Horizontal split" })
+map("n", "<leader>%", ":vsplit<CR>", { desc = "Vertical split" })
+map("n", '<leader>"', ":split<CR>", { desc = "Horizontal split" })
 
 -- Visual search
 map("v", "*", 'y/\\V<C-R>"<CR>', { desc = "Search selection (forward)" })
