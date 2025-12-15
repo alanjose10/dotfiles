@@ -23,3 +23,5 @@ end, { desc = "Open current buffer in new tab and close the current window" })
 -- Navigate quick fix list
 vim.keymap.set("n", "<M-Up>", ":cprev<CR>", { desc = "Go to perveous item in quick fix" })
 vim.keymap.set("n", "<M-Down>", ":cnext<CR>", { desc = "Go to next item in quick fix" })
+
+vim.keymap.set("n", "<leader>tm", ":terminal<CR>", { desc = "Open terminal" })
