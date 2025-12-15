@@ -32,7 +32,6 @@ return {
 		on_attach = function(bufnr)
 			local gs = package.loaded.gitsigns
 
-			-- A is option in mac. Make sure it is mapped to Alt in the terminal
 			vim.keymap.set(
 				"n",
 				"<M-g>",
