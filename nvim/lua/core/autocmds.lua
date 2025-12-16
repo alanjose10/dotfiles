@@ -58,6 +58,8 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 		local shell = vim.env.SHELL
 		if ev.file:sub(-#shell) == shell then
 			local ft = require("core.floaterm")
+			-- Here we need to also chech if the term buffer was opened is the floating window.
+			-- If not, we don't go into insert mode.
 			if ft.is_floaterm_win(vim.api.nvim_get_current_win()) then
 				vim.cmd("startinsert")
 			end
