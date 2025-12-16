@@ -1,15 +1,13 @@
 local M = {}
 
+local FLOATERM_TITLE = "FloatTerm"
+
 local state = {
 	floating = {
 		buf = -1,
 		win = -1,
 	},
 }
-
-function M.is_floaterm_buf(buf)
-	return buf == state.floating.buf
-end
 
 local function create_floating_window(opts)
 	opts = opts or {}
@@ -37,6 +35,7 @@ local function create_floating_window(opts)
 		row = row,
 		style = "minimal",
 		border = "rounded",
+		title = FLOATERM_TITLE,
 	})
 
 	-- window-local opts
@@ -101,5 +100,26 @@ end, {})
 vim.api.nvim_create_user_command("FloaterminalReset", function()
 	M.reset()
 end, {})
+
+function M.is_floaterm_win(win)
+	win = win or vim.api.nvim_get_current_win()
+
+	-- must be a valid window
+	if not vim.api.nvim_win_is_valid(win) then
+		return false
+	end
+
+	local cfg = vim.api.nvim_win_get_config(win)
+	local title = cfg.title
+
+	if
+		type(title) == "table"
+		and type(title[1]) == "table"
+		and type(title[1][1]) == "string"
+		and title[1][1] == FLOATERM_TITLE
+	then
+		return true
+	end
+end
 
 return M

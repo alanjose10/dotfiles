@@ -35,7 +35,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 vim.api.nvim_create_autocmd("TermOpen", {
 	group = group,
 	callback = function(ev)
-		print("term open event")
 		local shell = vim.env.SHELL
 		if ev.file:sub(-#shell) == shell then
 			vim.cmd("startinsert")
@@ -58,7 +57,10 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 	callback = function(ev)
 		local shell = vim.env.SHELL
 		if ev.file:sub(-#shell) == shell then
-			vim.cmd("startinsert")
+			local ft = require("core.floaterm")
+			if ft.is_floaterm_win(vim.api.nvim_get_current_win()) then
+				vim.cmd("startinsert")
+			end
 		end
 	end,
 })
