@@ -2,6 +2,7 @@ local M = {}
 
 local FLOATERM_TITLE = "FloatTerm"
 
+-- init state with invalid buf and win
 local state = {
 	floating = {
 		buf = -1,
@@ -55,7 +56,6 @@ local function ensure_terminal_in_buf(buf)
 
 	-- Make this buffer the current one in the current window, then start terminal
 	vim.api.nvim_set_current_buf(buf)
-
 	vim.cmd("terminal")
 	vim.cmd("startinsert")
 end
