@@ -32,26 +32,33 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 })
 
 -- Automatically go to terminal mode when terminal opens
--- also set options local to terminal and keymapping to exit out of terminal mode.
 vim.api.nvim_create_autocmd("TermOpen", {
 	group = group,
 	callback = function(ev)
-		-- don't show line numbers in terminal
-		vim.opt_local.number = false
-		vim.opt_local.relativenumber = false
-		vim.opt_local.signcolumn = "no"
+		print("term open event")
+		local shell = vim.env.SHELL
+		if ev.file:sub(-#shell) == shell then
+			vim.cmd("startinsert")
+			vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", {
+				desc = "Exit terminal mode",
+				buffer = ev.buf,
+			})
 
-		-- Jump straight into terminal input
-		vim.cmd("startinsert")
+			vim.keymap.set("t", "<Esc>q", "<C-\\><C-n>:bd!<CR>", {
+				desc = "Exit terminal mode and quit terminal",
+				buffer = ev.buf,
+			})
+		end
+	end,
+})
 
-		vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", {
-			desc = "Exit terminal mode",
-			buffer = ev.buf,
-		})
-
-		vim.keymap.set("t", "<Esc>q", "<C-\\><C-n>:bd!<CR>", {
-			desc = "Exit terminal mode and quit terminal",
-			buffer = ev.buf,
-		})
+-- On toggling the terminal back into view, autmatically set it to insert mode
+vim.api.nvim_create_autocmd("BufWinEnter", {
+	group = group,
+	callback = function(ev)
+		local shell = vim.env.SHELL
+		if ev.file:sub(-#shell) == shell then
+			vim.cmd("startinsert")
+		end
 	end,
 })

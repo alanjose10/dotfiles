@@ -25,3 +25,5 @@ vim.keymap.set("n", "<M-Up>", ":cprev<CR>", { desc = "Go to perveous item in qui
 vim.keymap.set("n", "<M-Down>", ":cnext<CR>", { desc = "Go to next item in quick fix" })
 
 vim.keymap.set("n", "<leader>tm", ":terminal<CR>", { desc = "Open terminal" })
+
+require("core.floaterm").setup_keymaps()

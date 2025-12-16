@@ -80,6 +80,13 @@ return {
 
 			-- Setup multigrep
 			require("plugins.telescope.multigrep").setup()
+
+			vim.keymap.set("n", "<leader>fp", function()
+				require("telescope.builtin").find_files({
+					cwd = vim.fn.stdpath("data") .. "/lazy",
+					prompt_title = "Plugin Source",
+				})
+			end, { desc = "Find plugin source" })
 		end,
 	},
 	{
