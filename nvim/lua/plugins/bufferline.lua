@@ -25,7 +25,7 @@ return {
 		{ "<S-l>", "<cmd>BufferLineCycleNext<cr>", desc = "Next buffer" },
 
 		{ "<leader>bp", "<cmd>BufferLinePick<cr>", desc = "Pick buffer" },
-		{ "<leader>bc", "<cmd>bdelete<cr>", desc = "Close buffer" },
+		{ "<leader>bd", "<cmd>bdelete<cr>", desc = "Close buffer" },
 
 		{ "<leader>bo", "<cmd>BufferLineCloseOthers<cr>", desc = "Close other buffers" },
 		{ "<leader>bl", "<cmd>BufferLineCloseLeft<cr>", desc = "Close buffers to the left" },
