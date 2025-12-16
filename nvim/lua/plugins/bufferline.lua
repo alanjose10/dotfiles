@@ -18,6 +18,13 @@ return {
 			show_buffer_close_icons = false,
 			show_close_icon = false,
 			always_show_bufferline = true,
+			custom_filter = function(buf, buf_nums)
+				-- exclude terminal from bufferline tabs
+				if vim.bo[buf].buftype == "terminal" then
+					return false
+				end
+				return true
+			end,
 		},
 	},
 	keys = {
