@@ -3,24 +3,26 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 -- General options
-local opt = vim.opt
 
-opt.background = "dark"
-opt.clipboard = "unnamedplus"
-opt.expandtab = true
-opt.tabstop = 2
-opt.softtabstop = 2
-opt.shiftwidth = 2
-opt.number = true
-opt.relativenumber = true
-opt.ignorecase = true
-opt.smartcase = true
-opt.signcolumn = "yes"
-opt.splitbelow = true
-opt.splitright = true
-opt.swapfile = false
-opt.termguicolors = true
-opt.grepprg = "rg --vimgrep --hidden"
-opt.grepformat = "%f:%l:%c:%m"
-opt.updatetime = 300
-opt.wrap = false
+vim.opt.background = "dark"
+vim.opt.clipboard = "unnamedplus"
+vim.opt.expandtab = true
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.signcolumn = "yes"
+vim.opt.splitbelow = true
+vim.opt.splitright = true
+vim.opt.swapfile = false
+vim.opt.termguicolors = true
+vim.opt.grepprg = "rg --vimgrep --hidden"
+vim.opt.grepformat = "%f:%l:%c:%m"
+vim.opt.updatetime = 300
+vim.opt.wrap = false
+
+-- prevent text from shifting when signs popup
+vim.opt.signcolumn = "yes:1"
