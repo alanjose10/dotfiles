@@ -17,12 +17,16 @@ return {
 			local telescope = require("telescope")
 			local builtin = require("telescope.builtin")
 
-			telescope.setup({
+			---@type telescope.config.Config
+			local opts = {
 				pickers = {
 					find_files = {
 						theme = "ivy",
 					},
 					git_files = {
+						theme = "ivy",
+					},
+					registers = {
 						theme = "ivy",
 					},
 				},
@@ -50,7 +54,8 @@ return {
 					},
 					dynamic_preview_title = true,
 				},
-			})
+			}
+			telescope.setup(opts)
 
 			telescope.load_extension("fzf")
 
@@ -77,6 +82,8 @@ return {
 			vim.keymap.set("n", "<leader>fr", builtin.resume, { desc = "Resume last picker" })
 
 			vim.keymap.set("n", "<leader>fsb", builtin.current_buffer_fuzzy_find, { desc = "Search in buffer" })
+
+			vim.keymap.set("n", "<leader>tr", builtin.registers, { desc = "Telescope registers" })
 
 			-- Setup multigrep
 			require("plugins.telescope.multigrep").setup()
