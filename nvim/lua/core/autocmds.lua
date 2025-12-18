@@ -66,3 +66,49 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 		end
 	end,
 })
+
+vim.api.nvim_create_autocmd("LspAttach", {
+	group = vim.api.nvim_create_augroup("UserLspKeymaps", { clear = true }),
+	callback = function(ev)
+		local buf = ev.buf
+		local map = function(mode, lhs, rhs, desc)
+			vim.keymap.set(mode, lhs, rhs, { buffer = buf, silent = true, desc = desc })
+		end
+
+		-- Navigation
+		map("n", "gd", vim.lsp.buf.definition, "LSP: Go to definition")
+		map("n", "gD", vim.lsp.buf.declaration, "LSP: Go to declaration")
+		map("n", "gi", vim.lsp.buf.implementation, "LSP: Go to implementation")
+		map("n", "gr", vim.lsp.buf.references, "LSP: References")
+		map("n", "gt", vim.lsp.buf.type_definition, "LSP: Type definition")
+
+		-- Hover / signature
+		map("n", "K", vim.lsp.buf.hover, "LSP: Hover")
+		map("n", "<C-k>", vim.lsp.buf.signature_help, "LSP: Signature help")
+
+		-- Actions
+		map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "LSP: Code action")
+		map("n", "<leader>rn", vim.lsp.buf.rename, "LSP: Rename")
+
+		-- Diagnostics
+		map("n", "<leader>e", vim.diagnostic.open_float, "Diag: Line details")
+		map("n", "<leader>q", vim.diagnostic.setloclist, "Diag: To loclist")
+
+		-- Workspace / symbols
+		map("n", "<leader>ws", vim.lsp.buf.workspace_symbol, "LSP: Workspace symbols")
+		map("n", "<leader>ds", vim.lsp.buf.document_symbol, "LSP: Document symbols")
+
+		-- Formatting (guard so it doesn't throw on servers that don't support it)
+		map("n", "<leader>f", function()
+			vim.lsp.buf.format({ async = true })
+		end, "LSP: Format buffer")
+
+		-- Optional: inlay hints toggle (Neovim 0.10+)
+		if vim.lsp.inlay_hint then
+			map("n", "<leader>uh", function()
+				local enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = buf })
+				vim.lsp.inlay_hint.enable(not enabled, { bufnr = buf })
+			end, "LSP: Toggle inlay hints")
+		end
+	end,
+})
