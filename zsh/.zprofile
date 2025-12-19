@@ -13,3 +13,8 @@ function kc () {
   fi
   echo "Current context [ $(kubectl config current-context) ]"
 }
+
+# Source brew if present
+if [ -f "/opt/homebrew/bin/brew" ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
