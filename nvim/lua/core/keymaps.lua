@@ -1,9 +1,25 @@
 -- Clear search highlight
 vim.keymap.set("n", "<leader>h", ":nohlsearch<CR>", { desc = "Clear search highlight" })
 
--- Write / quit
-vim.keymap.set("n", "<leader>w", ":w<CR>", { desc = "Save file" })
-vim.keymap.set("n", "<leader>q", ":q<CR>", { desc = "Close file" })
+-- Smart quit
+-- if buffers > 1: delete current buffer
+-- if last buffer: quit
+vim.keymap.set("n", "<leader>q", function()
+	-- count listed, non-special buffers
+	local listed = vim.fn.getbufinfo({ buflisted = 1 })
+	local n_listed = #listed
+	if n_listed > 1 then
+		vim.cmd("bdelete")
+	else
+		vim.cmd("confirm quit")
+	end
+end, { desc = "Close buffer" })
+
+-- Quit window (only closes the current split)
+vim.keymap.set("n", "<leader>wq", "<cmd>close<CR>", { desc = "Close window" })
+
+-- Quit Neovim (all windows)
+vim.keymap.set("n", "<leader>Q", "<cmd>confirm qall<CR>", { desc = "Quit all (confirm)" })
 
 -- Split helpers
 vim.keymap.set("n", "<leader>%", ":vsplit<CR>", { desc = "Vertical split" })
