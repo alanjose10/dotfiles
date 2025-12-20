@@ -10,6 +10,27 @@ local state = {
 	},
 }
 
+function M.is_floaterm_win(win)
+	win = win or vim.api.nvim_get_current_win()
+
+	-- must be a valid window
+	if not vim.api.nvim_win_is_valid(win) then
+		return false
+	end
+
+	local cfg = vim.api.nvim_win_get_config(win)
+	local title = cfg.title
+
+	if
+		type(title) == "table"
+		and type(title[1]) == "table"
+		and type(title[1][1]) == "string"
+		and title[1][1] == FLOATERM_TITLE
+	then
+		return true
+	end
+end
+
 local function create_floating_window(opts)
 	opts = opts or {}
 	local width = opts.width or math.floor(vim.o.columns * 0.85)
@@ -88,38 +109,11 @@ function M.reset()
 	state.floating.win = -1
 end
 
-function M.setup_keymaps()
-	-- sensible defaults; change if you want
-	vim.keymap.set({ "n", "t" }, "<M-t>", M.toggle, { desc = "Toggle floating terminal" })
-	vim.keymap.set({ "n", "t" }, "<M-S-t>", M.reset, { desc = "Reset floating terminal" })
-end
-
 vim.api.nvim_create_user_command("Floaterminal", function()
 	M.toggle()
 end, {})
 vim.api.nvim_create_user_command("FloaterminalReset", function()
 	M.reset()
 end, {})
-
-function M.is_floaterm_win(win)
-	win = win or vim.api.nvim_get_current_win()
-
-	-- must be a valid window
-	if not vim.api.nvim_win_is_valid(win) then
-		return false
-	end
-
-	local cfg = vim.api.nvim_win_get_config(win)
-	local title = cfg.title
-
-	if
-		type(title) == "table"
-		and type(title[1]) == "table"
-		and type(title[1][1]) == "string"
-		and title[1][1] == FLOATERM_TITLE
-	then
-		return true
-	end
-end
 
 return M

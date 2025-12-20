@@ -42,4 +42,7 @@ vim.keymap.set("n", "<M-Down>", ":cnext<CR>", { desc = "Go to next item in quick
 
 vim.keymap.set("n", "<leader>tm", ":terminal<CR>", { desc = "Open terminal" })
 
-require("core.floaterm").setup_keymaps()
+-- setup floaterm
+local floatterm = require("core.floaterm")
+vim.keymap.set({ "n", "t" }, "<M-t>", floatterm.toggle, { desc = "Toggle floating terminal" })
+vim.keymap.set({ "n", "t" }, "<M-S-t>", floatterm.reset, { desc = "Reset floating terminal" })
