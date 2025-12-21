@@ -21,7 +21,9 @@ return {
 			-- C-k: Toggle signature help (if signature.enabled = true)
 			--
 			-- See :h blink-cmp-config-keymap for defining your own keymap
-			keymap = { preset = "enter" },
+			keymap = {
+				preset = "enter",
+			},
 
 			appearance = {
 				nerd_font_variant = "mono",
@@ -48,6 +50,14 @@ return {
 			--
 			-- See the fuzzy documentation for more information
 			fuzzy = { implementation = "prefer_rust_with_warning" },
+			cmdline = {
+				enabled = true,
+				completion = {
+					menu = {
+						auto_show = true,
+					},
+				},
+			},
 		},
 		opts_extend = { "sources.default" },
 	},
