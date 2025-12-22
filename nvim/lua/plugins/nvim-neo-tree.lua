@@ -1,14 +1,15 @@
 return {
 	"nvim-neo-tree/neo-tree.nvim",
-	cmd = { "Neotree" },
+	cmd = { "Neotree" }, -- lazy load on command
 	branch = "v3.x",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		"MunifTanjim/nui.nvim",
 		"nvim-tree/nvim-web-devicons",
-		"nvim-telescope/telescope.nvim",
 	},
-	lazy = false, -- neo-tree will lazily load itself
+	keys = {
+		{ "<C-n>", ":Neotree left toggle<CR>", desc = "Toggle file tree" },
+	},
 	config = function()
 		require("neo-tree").setup({
 			default_component_configs = {
@@ -50,10 +51,17 @@ return {
 						path = vim.fn.fnamemodify(path, ":h")
 					end
 
-					require("telescope.builtin").find_files({
+					-- Check if telescope is available
+					local ok, telescope = pcall(require, "telescope.builtin")
+					if not ok then
+						vim.notify("Telescope is not available", vim.log.levels.ERROR)
+						return
+					end
+
+					telescope.find_files({
 						cwd = path,
 						hidden = true, -- include hidden files
-						no_ignore = false, -- respect .gitignore = false
+						no_ignore = false, -- respect .gitignore (false = do respect)
 					})
 				end,
 
@@ -66,7 +74,14 @@ return {
 						path = vim.fn.fnamemodify(path, ":h")
 					end
 
-					require("telescope.builtin").live_grep({
+					-- Check if telescope is available
+					local ok, telescope = pcall(require, "telescope.builtin")
+					if not ok then
+						vim.notify("Telescope is not available", vim.log.levels.ERROR)
+						return
+					end
+
+					telescope.live_grep({
 						cwd = path,
 						additional_args = function()
 							return { "--hidden" } -- include hidden files
@@ -122,31 +137,21 @@ return {
 			},
 		})
 
-		-- KEYMAPS
-		-- Toggle Neo-tree (left side)
-		vim.keymap.set("n", "<C-n>", ":Neotree left toggle<CR>", { desc = "Toggle file tree" })
-
 		-- AUTO OPEN NEO-TREE WHEN OPENING NVIM WITH A DIRECTORY
 		vim.api.nvim_create_autocmd("VimEnter", {
 			callback = function(data)
-				-- If nvim was started with a directory
+				-- Only run if nvim was started with a directory argument
 				local directory = vim.fn.isdirectory(data.file) == 1
 				if directory then
-					vim.cmd("Neotree left") -- open neo-tree
-				end
-			end,
-		})
-
-		-- AUTO-REVEAL CURRENT FILE WHEN SWITCHING BUFFERS
-		vim.api.nvim_create_autocmd("BufEnter", {
-			callback = function()
-				-- Only run if Neo-tree is open
-				if vim.fn.exists("#neo-tree#") == 1 then
-					pcall(function()
-						vim.cmd("Neotree reveal")
+					-- Schedule to avoid conflicts with other startup plugins
+					vim.schedule(function()
+						vim.cmd("Neotree left")
 					end)
 				end
 			end,
 		})
+
+		-- Note: Auto-reveal is handled by follow_current_file.enabled = true in config
+		-- No need for additional BufEnter autocmd (causes performance issues)
 	end,
 }
