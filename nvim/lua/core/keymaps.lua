@@ -37,8 +37,14 @@ vim.keymap.set("n", "<leader>tt", function()
 end, { desc = "Open current buffer in new tab and close the current window" })
 
 -- Navigate quick fix list
-vim.keymap.set("n", "<M-Up>", ":cprev<CR>", { desc = "Go to perveous item in quick fix" })
-vim.keymap.set("n", "<M-Down>", ":cnext<CR>", { desc = "Go to next item in quick fix" })
+vim.keymap.set("n", "<M-S-Down>", ":cnext<CR>", { desc = "Next quickfix item" })
+vim.keymap.set("n", "<M-S-Up>", ":cprev<CR>", { desc = "Previous quickfix item" })
+
+-- Window navigation with Alt + arrow keys
+vim.keymap.set("n", "<M-Left>", "<C-w>h", { desc = "Move to left window" })
+vim.keymap.set("n", "<M-Down>", "<C-w>j", { desc = "Move to window below" })
+vim.keymap.set("n", "<M-Up>", "<C-w>k", { desc = "Move to window above" })
+vim.keymap.set("n", "<M-Right>", "<C-w>l", { desc = "Move to right window" })
 
 vim.keymap.set("n", "<leader>tm", ":terminal<CR>", { desc = "Open terminal" })
 
