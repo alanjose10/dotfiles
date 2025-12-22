@@ -42,8 +42,7 @@ return {
       silent = false,
     })
 
-    -- You can add more mini modules here as needed
-    -- For example:
+    -- Other useful mini modules (uncomment to enable):
     -- require("mini.ai").setup() -- Better text objects
     -- require("mini.move").setup() -- Move lines/selections
     -- require("mini.bracketed").setup() -- Navigate brackets/diagnostics
