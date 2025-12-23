@@ -79,3 +79,9 @@ vim.opt.concealcursor = "nc" -- hide concealed text in normal and command mode
 
 -- Smooth scrolling
 vim.opt.smoothscroll = true -- scroll by screen lines when wrap is disabled
+
+-- Folding (for nvim-ufo plugin)
+vim.opt.foldcolumn = "1" -- show fold column with 1 character width
+vim.opt.foldlevel = 99 -- open all folds by default (nvim-ufo will manage this)
+vim.opt.foldlevelstart = 99 -- open all folds when opening a file
+vim.opt.foldenable = true -- enable folding

@@ -18,29 +18,54 @@ return {
   opts = {
     -- Define which formatter to use for each filetype
     formatters_by_ft = {
-      lua = { "stylua" }, -- use stylua for Lua files
-      go = { "gofumpt" }, -- use gofumpt for Go files (stricter than gofmt)
-      -- Add more formatters here as needed:
-      -- python = { "black" },
-      -- javascript = { "prettier" },
+      lua = { "stylua" },
+      go = { "gofumpt" },
+      python = { "ruff_format", "ruff_organize_imports" }, -- ruff is modern, fast Python formatter
+      bash = { "shfmt" },
+      sh = { "shfmt" },
+      json = { "prettier" },
+      jsonc = { "prettier" },
+      yaml = { "prettier" },
+      markdown = { "prettier" },
+      -- Common web formats (if needed)
+      javascript = { "prettier" },
+      typescript = { "prettier" },
+      javascriptreact = { "prettier" },
+      typescriptreact = { "prettier" },
+      css = { "prettier" },
+      html = { "prettier" },
     },
 
-    -- Customize formatter behavior by passing command-line arguments
+    -- Customize formatter behavior
     formatters = {
       stylua = {
         prepend_args = {
-          "--indent-type", -- force stylua to use spaces instead of tabs
+          "--indent-type",
           "Spaces",
-          "--indent-width", -- set indentation width to 2 spaces
+          "--indent-width",
           "2",
+        },
+      },
+      shfmt = {
+        prepend_args = {
+          "-i", "2", -- 2 spaces indentation
+          "-bn", -- binary ops like && and | may start a line
+          "-ci", -- indent switch cases
+          "-sr", -- redirect operators will be followed by a space
+        },
+      },
+      prettier = {
+        prepend_args = {
+          "--tab-width", "2",
+          "--use-tabs", "false",
         },
       },
     },
 
     -- Automatically format on save
     format_on_save = {
-      timeout_ms = 500, -- maximum time to wait for formatting to complete
-      lsp_format = "fallback", -- use LSP formatting if no conform formatter is configured
+      timeout_ms = 500,
+      lsp_format = "fallback",
     },
   },
 }

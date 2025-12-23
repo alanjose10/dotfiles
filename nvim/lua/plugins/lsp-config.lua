@@ -1,5 +1,24 @@
 return {
 	{
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		dependencies = {
+			{ "mason-org/mason.nvim", opts = {} },
+		},
+		opts = {
+			-- Auto-install formatters and linters
+			ensure_installed = {
+				-- Formatters
+				"stylua", -- Lua
+				"gofumpt", -- Go
+				"ruff", -- Python (formatter + linter)
+				"shfmt", -- Bash/shell
+				"prettier", -- JSON, YAML, Markdown, JS, TS, CSS, HTML
+			},
+			auto_update = false,
+			run_on_start = true,
+		},
+	},
+	{
 		"mason-org/mason-lspconfig.nvim",
 		dependencies = {
 			{ "mason-org/mason.nvim", opts = {} },

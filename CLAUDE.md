@@ -117,11 +117,12 @@ Leader key: `<Space>`
 
 ### User Preferences
 
-1. **Always use spaces, never tabs** - Except for Go files (Go standard requires tabs)
-2. **Colemak-DH layout** - When suggesting keymaps, prioritize home row efficiency
-3. **Lazygit for git operations** - Don't add staging/commit keymaps to Neovim
-4. **Inline comments preferred** - User likes well-documented configs
-5. **Format on save** - Expected for all file types
+1. **Lean and lite configuration** - Prefer minimal, essential plugins only. Avoid bloat, unnecessary features, and purely cosmetic plugins. Prioritize performance and simplicity.
+2. **Always use spaces, never tabs** - Except for Go files (Go standard requires tabs)
+3. **Colemak-DH layout** - When suggesting keymaps, prioritize home row efficiency
+4. **Lazygit for git operations** - Don't add staging/commit keymaps to Neovim
+5. **Inline comments preferred** - User likes well-documented configs
+6. **Format on save** - Expected for all file types
 
 ### When Modifying Configs
 
