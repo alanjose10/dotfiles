@@ -138,7 +138,9 @@ return {
 		})
 
 		-- AUTO OPEN NEO-TREE WHEN OPENING NVIM WITH A DIRECTORY
+		local neotree_group = vim.api.nvim_create_augroup("neotree_autoopen", { clear = true })
 		vim.api.nvim_create_autocmd("VimEnter", {
+			group = neotree_group,
 			callback = function(data)
 				-- Only run if nvim was started with a directory argument
 				local directory = vim.fn.isdirectory(data.file) == 1
@@ -149,6 +151,7 @@ return {
 					end)
 				end
 			end,
+			desc = "Auto-open neo-tree when opening a directory",
 		})
 
 		-- Note: Auto-reveal is handled by follow_current_file.enabled = true in config

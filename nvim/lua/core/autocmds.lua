@@ -1,4 +1,6 @@
+-- Create augroups for different concerns
 local group = vim.api.nvim_create_augroup("core_autocmds", { clear = true })
+local lsp_group = vim.api.nvim_create_augroup("lsp_keymaps", { clear = true })
 
 -- Highlight on yanking text
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -68,7 +70,7 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 })
 
 vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("UserLspKeymaps", { clear = true }),
+  group = lsp_group,
   callback = function(ev)
     local buf = ev.buf
     local map = function(mode, lhs, rhs, desc)
