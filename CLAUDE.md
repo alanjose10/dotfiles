@@ -8,11 +8,33 @@ This is a personal dotfiles repository for managing configuration files across m
 
 ## Installation & Setup
 
-Link each of the config file manually using `ln -sfn <src> <dest>` manually as required.
+### Automated Setup (Recommended)
+
+Use the installation script to automatically set up all dependencies:
 
 ```bash
+chmod +x install.sh
+./install.sh
 ```
-Manual setup for external dependencies (tmux plugins):
+
+This will:
+- Install TPM (Tmux Plugin Manager)
+- Install catppuccin theme (pinned to v2.1.3)
+- Link all configuration files to `~/.config/`
+- Bootstrap Neovim plugins via lazy.nvim
+
+### Manual Setup (Alternative)
+
+If you prefer manual setup, link config files using `ln -sfn <src> <dest>`:
+
+```bash
+ln -sfn $(pwd)/nvim ~/.config/nvim
+ln -sfn $(pwd)/tmux/tmux.conf ~/.config/tmux/tmux.conf
+ln -sfn $(pwd)/git/config ~/.gitconfig
+ln -sfn $(pwd)/editorconfig/.editorconfig ~/.editorconfig
+```
+
+Then install tmux plugins manually:
 
 ```bash
 # TPM (Tmux Plugin Manager)
@@ -170,3 +192,47 @@ Leader key: `<Space>`
 1. Add to Mason's `ensure_installed` in `lsp-config.lua`
 2. Configure formatter in `conform.lua`
 3. For LSP, add to `servers` table in `lsp-config.lua`
+
+## Dependency Management
+
+### Update Schedule
+
+**Neovim Plugins:** Monthly
+- Run `:Lazy check` to see available updates
+- Run `:Lazy log` to review changelogs
+- Run `:Lazy update` to install updates
+
+**LSP Servers & Formatters:** Quarterly
+- Run `:Mason` and press `U` to update all
+- Or run `:MasonUpdate` to update individually
+
+**Tmux Plugins:** Semi-annually
+- In tmux, press `<prefix> + U` (e.g., `Ctrl+a U`)
+- Or manually: `cd ~/.config/tmux/plugins/tpm && git pull`
+
+### Checking for Outdated Dependencies
+
+```bash
+# Neovim plugins
+nvim -c "Lazy check"
+
+# Mason packages
+nvim -c "Mason"
+
+# Tmux plugins
+# In tmux: <prefix> + U
+```
+
+### Version Control
+
+Plugin versions are tracked in `nvim/lazy-lock.json` for reproducibility.
+Review lock file changes before committing to understand what updated.
+
+### Current Dependencies
+
+**Neovim Plugins:** 22 plugins (see `nvim/lua/plugins/`)
+**LSP Servers:** lua_ls, jsonls, yamlls, gopls, pyright, bashls, marksman
+**Formatters:** stylua, gofumpt, ruff, shfmt, prettier
+**Tmux Plugins:** tpm, tmux-sensible, tmux-yank
+
+For detailed dependency audit, see `DEPENDENCY_AUDIT.md`
