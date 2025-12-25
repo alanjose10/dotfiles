@@ -1,5 +1,24 @@
 return {
 	{
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		dependencies = {
+			{ "mason-org/mason.nvim", opts = {} },
+		},
+		opts = {
+			-- Auto-install formatters and linters
+			ensure_installed = {
+				-- Formatters
+				"stylua", -- Lua
+				"gofumpt", -- Go
+				"ruff", -- Python (formatter + linter)
+				"shfmt", -- Bash/shell
+				"prettier", -- JSON, YAML, Markdown, JS, TS, CSS, HTML
+			},
+			auto_update = false,
+			run_on_start = true,
+		},
+	},
+	{
 		"mason-org/mason-lspconfig.nvim",
 		dependencies = {
 			{ "mason-org/mason.nvim", opts = {} },
@@ -11,6 +30,10 @@ return {
 					"lua_ls",
 					"jsonls",
 					"yamlls",
+					"gopls",
+					"pyright",
+					"bashls",
+					"marksman",
 				},
 			})
 		end,
@@ -68,6 +91,34 @@ return {
 						},
 					},
 				},
+
+				gopls = {
+					settings = {
+						gopls = {
+							analyses = {
+								unusedparams = true,
+							},
+							staticcheck = true,
+							gofumpt = true,
+						},
+					},
+				},
+
+				pyright = {
+					settings = {
+						python = {
+							analysis = {
+								typeCheckingMode = "basic",
+								autoSearchPaths = true,
+								useLibraryCodeForTypes = true,
+							},
+						},
+					},
+				},
+
+				bashls = {},
+
+				marksman = {},
 			}
 
 			local common_on_attach = function(_, _)
@@ -86,87 +137,8 @@ return {
 			-- Enable all configured servers
 			vim.lsp.enable(vim.tbl_keys(servers))
 
-			local format_group = vim.api.nvim_create_augroup("FormatOnSave", { clear = true })
-
-			-- Global format-on-save (prefers null-ls when available)
-			vim.api.nvim_create_autocmd("LspAttach", {
-				group = format_group,
-				callback = function(args)
-					local bufnr = args.buf
-
-					vim.api.nvim_clear_autocmds({ group = format_group, buffer = bufnr })
-
-					vim.api.nvim_create_autocmd("BufWritePre", {
-						buffer = args.buf,
-						callback = function(_)
-							local clients = vim.lsp.get_clients({
-								bufnr = bufnr,
-								method = "textDocument/formatting",
-							})
-
-							if #clients == 0 then
-								return
-							end
-
-							-- Prefer null-ls / none-ls if present
-							local prefer = nil
-							for _, c in ipairs(clients) do
-								if c.name == "null-ls" or c.name == "none-ls" then
-									prefer = c.name
-									break
-								end
-							end
-
-							vim.lsp.buf.format({
-								bufnr = bufnr,
-								filter = function(c)
-									if prefer then
-										return c.name == prefer
-									end
-									return true
-								end,
-							})
-						end,
-					})
-				end,
-			})
-
-			vim.api.nvim_create_autocmd("CursorHold", {
-				callback = function()
-					vim.diagnostic.open_float(nil, { focus = false })
-				end,
-			})
-		end,
-	},
-	{
-		"nvimtools/none-ls.nvim",
-		dependencies = { "nvim-lua/plenary.nvim" },
-		config = function()
-			local null_ls = require("null-ls")
-			-- null-ls provides formatting/linting; actual format-on-save is handled by the global autocmd above
-			null_ls.setup({
-				sources = {
-					-- Lua
-					null_ls.builtins.formatting.stylua,
-				},
-			})
-
-			vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, { desc = "Format" })
-		end,
-	},
-	{
-		"jay-babu/mason-null-ls.nvim",
-		dependencies = {
-			"nvimtools/none-ls.nvim",
-			"mason-org/mason.nvim",
-		},
-		config = function()
-			require("mason-null-ls").setup({
-				ensure_installed = {
-					"stylua",
-				},
-				automatic_installation = true,
-			})
+			-- Note: Removed CursorHold autocmd for diagnostics to reduce memory usage
+			-- Use K or <leader>d to manually show diagnostics when needed
 		end,
 	},
 }

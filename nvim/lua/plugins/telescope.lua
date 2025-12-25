@@ -1,7 +1,7 @@
 return {
 	{
 		"nvim-telescope/telescope.nvim",
-		cmd = { "Telescope", "TelescopeFindFiles" },
+		cmd = { "Telescope" }, -- lazy load on :Telescope command
 		tag = "v0.1.9",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
@@ -13,9 +13,22 @@ return {
 				end,
 			},
 		},
+		keys = {
+			{ "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help tags" },
+			{ "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Search keymaps" },
+			{ "<leader>ff", function() require("telescope.builtin").find_files({ hidden = true, follow = true }) end, desc = "Find files" },
+			{ "<leader>FF", "<cmd>Telescope git_files<cr>", desc = "Git files" },
+			{ "<leader>fs", "<cmd>Telescope grep_string<cr>", desc = "Grep string under cursor" },
+			{ "<leader><BS>", function() require("telescope.builtin").oldfiles({ only_cwd = true }) end, desc = "Recent files (cwd)" },
+			{ "<leader><space>", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
+			{ "<leader>fd", "<cmd>Telescope diagnostics<cr>", desc = "Workspace diagnostics" },
+			{ "<leader>fr", "<cmd>Telescope resume<cr>", desc = "Resume last picker" },
+			{ "<leader>fsb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Search in buffer" },
+			{ "<leader>tr", "<cmd>Telescope registers<cr>", desc = "Registers" },
+			{ "<leader>fp", function() require("telescope.builtin").find_files({ cwd = vim.fn.stdpath("data") .. "/lazy", prompt_title = "Plugin Source" }) end, desc = "Find plugin source" },
+		},
 		config = function()
 			local telescope = require("telescope")
-			local builtin = require("telescope.builtin")
 
 			---@type telescope.config.Config
 			local opts = {
@@ -57,43 +70,11 @@ return {
 			}
 			telescope.setup(opts)
 
+			-- Load fzf extension for better performance
 			telescope.load_extension("fzf")
 
-			vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope explore help" })
-
-			vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "Telescope search keymaps" })
-
-			vim.keymap.set("n", "<leader>ff", function()
-				builtin.find_files({ hidden = true, follow = true })
-			end, { desc = "Telescope find files" })
-
-			vim.keymap.set("n", "<leader>FF", builtin.git_files, { desc = "Telescope find files tracked by git" })
-
-			vim.keymap.set("n", "<leader>fs", builtin.grep_string, { desc = "Grep string under cursor" })
-
-			vim.keymap.set("n", "<leader><BS>", function()
-				builtin.oldfiles({ only_cwd = true })
-			end, { desc = "Recent files (cwd)" })
-
-			vim.keymap.set("n", "<leader><space>", builtin.buffers, { desc = "Telescope buffers" })
-
-			vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "Workspace diagnostics" })
-
-			vim.keymap.set("n", "<leader>fr", builtin.resume, { desc = "Resume last picker" })
-
-			vim.keymap.set("n", "<leader>fsb", builtin.current_buffer_fuzzy_find, { desc = "Search in buffer" })
-
-			vim.keymap.set("n", "<leader>tr", builtin.registers, { desc = "Telescope registers" })
-
-			-- Setup multigrep
+			-- Setup multigrep custom picker
 			require("plugins.telescope.multigrep").setup()
-
-			vim.keymap.set("n", "<leader>fp", function()
-				require("telescope.builtin").find_files({
-					cwd = vim.fn.stdpath("data") .. "/lazy",
-					prompt_title = "Plugin Source",
-				})
-			end, { desc = "Find plugin source" })
 		end,
 	},
 	{
