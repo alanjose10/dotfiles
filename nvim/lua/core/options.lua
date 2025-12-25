@@ -14,7 +14,6 @@ vim.opt.number = true -- show absolute line numbers
 vim.opt.relativenumber = true -- show relative line numbers for easier navigation
 vim.opt.ignorecase = true -- ignore case in search patterns
 vim.opt.smartcase = true -- override ignorecase if search contains uppercase
-vim.opt.signcolumn = "yes" -- always show sign column to prevent text shifting
 vim.opt.splitbelow = true -- horizontal splits open below current window
 vim.opt.splitright = true -- vertical splits open to the right of current window
 vim.opt.swapfile = false -- disable swap files
