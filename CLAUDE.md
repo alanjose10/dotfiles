@@ -59,10 +59,14 @@ nvim/
 
 ### Key Configuration Principles
 
-**Keyboard Layout:** All keybindings are optimized for Colemak-DH home row (`arstdhneio`), not QWERTY:
+**Keyboard Layout:**
+- Uses **Colemak-DH** layout with home row `arstdhneio` (not QWERTY)
+- Uses **split ortholinear keyboard** with custom symbol layer
+- Arrow keys are on a different layer (used for navigation, not hjkl)
+- Bracket symbols `[]` are on symbols layer (avoid for frequent operations)
 - Flash.nvim labels use Colemak-DH order
-- User navigates with arrow keys (different layer), not hjkl
 - No letter keys are excluded from flash labels
+- Prefer `<leader>` prefix or letter-based keybindings over symbols
 
 **Git Workflow:**
 - Uses lazygit for staging, commits, stash (via `<leader>gg`)
@@ -120,9 +124,10 @@ Leader key: `<Space>`
 1. **Lean and lite configuration** - Prefer minimal, essential plugins only. Avoid bloat, unnecessary features, and purely cosmetic plugins. Prioritize performance and simplicity.
 2. **Always use spaces, never tabs** - Except for Go files (Go standard requires tabs)
 3. **Colemak-DH layout** - When suggesting keymaps, prioritize home row efficiency
-4. **Lazygit for git operations** - Don't add staging/commit keymaps to Neovim
-5. **Inline comments preferred** - User likes well-documented configs
-6. **Format on save** - Expected for all file types
+4. **Split ortholinear keyboard with custom symbol layer** - Avoid frequent use of bracket symbols `[]`, prefer `<leader>` prefix or letter-based keybindings
+5. **Lazygit for git operations** - Don't add staging/commit keymaps to Neovim
+6. **Inline comments preferred** - User likes well-documented configs
+7. **Format on save** - Expected for all file types
 
 ### When Modifying Configs
 

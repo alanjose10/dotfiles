@@ -137,11 +137,8 @@ return {
 			-- Enable all configured servers
 			vim.lsp.enable(vim.tbl_keys(servers))
 
-			vim.api.nvim_create_autocmd("CursorHold", {
-				callback = function()
-					vim.diagnostic.open_float(nil, { focus = false })
-				end,
-			})
+			-- Note: Removed CursorHold autocmd for diagnostics to reduce memory usage
+			-- Use K or <leader>d to manually show diagnostics when needed
 		end,
 	},
 }
