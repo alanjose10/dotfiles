@@ -17,7 +17,7 @@ vim.api.nvim_create_autocmd("VimLeave", {
 -- When changing directory, rename the tmux window to "$cwd:nvim"
 vim.api.nvim_create_autocmd("DirChanged", {
 	callback = function()
-		local cwd = vim.v.event.cwd or vim.loop.cwd()
+		local cwd = vim.v.event.cwd or vim.uv.cwd()
 		local name = vim.fs.basename(cwd or "")
 		vim.system({ "tmux", "rename-window", name .. ":nvim" })
 	end,
