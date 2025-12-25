@@ -2,7 +2,7 @@
 return {
   "nvim-treesitter/nvim-treesitter",
   branch = "master",
-  lazy = false, -- load immediately (needed for highlighting)
+  event = { "BufReadPost", "BufNewFile" },
   build = ":TSUpdate", -- automatically update parsers on install/update
   config = function()
     local config = require("nvim-treesitter.configs")
