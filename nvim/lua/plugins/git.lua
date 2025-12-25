@@ -9,8 +9,9 @@ return {
     event = { "BufReadPre", "BufNewFile" },
 
     opts = {
-      -- Show blame for current line inline by default
-      current_line_blame = true,
+      -- Inline blame disabled by default to reduce memory/CPU usage
+      -- Toggle with <leader>gt when needed
+      current_line_blame = false,
       current_line_blame_opts = {
         delay = 300, -- delay before showing blame (ms)
         virt_text_pos = "eol", -- show at end of line
