@@ -121,24 +121,55 @@ return {
 				marksman = {},
 			}
 
-			local common_on_attach = function(_, _)
-				-- common on attach function
-			end
-
 			for server, config in pairs(servers) do
 				config.capabilities = capabilities
-
-				-- if on_attach is not defined, use the common on attach function
-				config.on_attach = config.on_attach or common_on_attach
-
 				vim.lsp.config(server, config)
 			end
 
 			-- Enable all configured servers
 			vim.lsp.enable(vim.tbl_keys(servers))
 
+			-- Setup LSP keymaps on attach (using LspAttach autocmd for new API)
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("lsp_keymaps", { clear = true }),
+				callback = function(event)
+					local bufnr = event.buf
+					local function map(mode, lhs, rhs, desc)
+						vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, silent = true, desc = desc })
+					end
+
+					-- Navigation
+					map("n", "<leader>cd", vim.lsp.buf.definition, "Go to definition")
+					map("n", "<leader>cD", vim.lsp.buf.declaration, "Go to declaration")
+					map("n", "<leader>ci", vim.lsp.buf.implementation, "Go to implementation")
+					map("n", "<leader>ct", vim.lsp.buf.type_definition, "Go to type definition")
+					map("n", "<leader>cr", vim.lsp.buf.references, "Find references")
+
+					-- Code actions
+					map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code actions")
+					map("n", "<leader>cn", vim.lsp.buf.rename, "Rename symbol")
+
+					-- Documentation
+					map("n", "K", vim.lsp.buf.hover, "Hover documentation")
+					map("n", "<leader>cs", vim.lsp.buf.signature_help, "Signature help")
+
+					-- Diagnostics navigation (using ] and [ for next/prev pattern)
+					map("n", "]d", vim.diagnostic.goto_next, "Next diagnostic")
+					map("n", "[d", vim.diagnostic.goto_prev, "Previous diagnostic")
+					map("n", "<leader>ce", vim.diagnostic.open_float, "Show diagnostic")
+
+					-- Inlay hints toggle (Neovim 0.10+)
+					if vim.lsp.inlay_hint then
+						map("n", "<leader>ch", function()
+							local enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
+							vim.lsp.inlay_hint.enable(not enabled, { bufnr = bufnr })
+						end, "Toggle inlay hints")
+					end
+				end,
+			})
+
 			-- Note: Removed CursorHold autocmd for diagnostics to reduce memory usage
-			-- Use K or <leader>d to manually show diagnostics when needed
+			-- Use <leader>ce to manually show diagnostics when needed
 		end,
 	},
 }

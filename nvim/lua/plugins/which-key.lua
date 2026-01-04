@@ -28,7 +28,7 @@ return {
       -- Leader key groups
       { "<leader>f", group = "Find (Telescope)" },
       { "<leader>g", group = "Git" },
-      { "<leader>c", group = "Code" },
+      { "<leader>c", group = "Code (LSP)" },
       { "<leader>t", group = "Toggle/Terminal" },
       { "<leader>w", group = "Window" },
       { "<leader>x", group = "Diagnostics (Trouble)" },
