@@ -1,15 +1,14 @@
+# Helper function to safely add directories to PATH (avoids duplicates)
+add_to_path() {
+  if [[ -d "$1" ]] && [[ ":$PATH:" != *":$1:"* ]]; then
+    export PATH="$1:$PATH"
+  fi
+}
+
 # Add user binaries to PATH (prepend for higher priority)
-if [ -d "$HOME/.local/bin" ]; then
-  export PATH="$HOME/.local/bin:$PATH"
-fi
-
-if [ -d "$HOME/go/bin" ]; then
-  export PATH="$HOME/go/bin:$PATH"
-fi
-
-if [ -d "$HOME/bin" ]; then
-  export PATH="$HOME/bin:$PATH"
-fi
+add_to_path "$HOME/.local/bin"
+add_to_path "$HOME/go/bin"
+add_to_path "$HOME/bin"
 
 autoload -Uz compinit
 compinit
