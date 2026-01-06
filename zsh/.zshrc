@@ -1,14 +1,14 @@
-# Created by `pipx` on 2025-10-22 23:10:33
-export PATH="$PATH:~/.local/bin"
-
-# add to path if ~/go/bin exists
-if [ -d "$HOME/go/bin" ]; then
-    export PATH="$PATH:$HOME/go/bin"
+# Add user binaries to PATH (prepend for higher priority)
+if [ -d "$HOME/.local/bin" ]; then
+  export PATH="$HOME/.local/bin:$PATH"
 fi
 
-# add to path if ~/bin exists
+if [ -d "$HOME/go/bin" ]; then
+  export PATH="$HOME/go/bin:$PATH"
+fi
+
 if [ -d "$HOME/bin" ]; then
-    export PATH="$PATH:$HOME/bin"
+  export PATH="$HOME/bin:$PATH"
 fi
 
 autoload -Uz compinit
@@ -26,14 +26,32 @@ fi
 
 
 
-# init kubeclt
+# kubectl namespace switcher - lists namespaces and optionally switches to one
+kn() {
+  kubectl get ns ; echo
+  if [[ "$#" -eq 1 ]]; then
+    kubectl config set-context --current --namespace $1 ; echo
+  fi
+  echo "Current namespace [ $(kubectl config view --minify | grep namespace | cut -d " " -f6) ]"
+}
+
+# kubectl context switcher - lists contexts and optionally switches to one
+kc() {
+  kubectl config get-contexts -o name ; echo
+  if [[ "$#" -eq 1 ]]; then
+    kubectl config use-context $1 ; echo
+  fi
+  echo "Current context [ $(kubectl config current-context) ]"
+}
+
+# init kubectl
 if command -v kubectl >/dev/null 2>&1; then
   source <(kubectl completion zsh)
   alias k=kubectl
   compdef k=kubectl
 
   export KUBECONFIG=~/.kube/config
-  
+
 fi
 
 # init fzf
@@ -97,10 +115,14 @@ if [[ $(uname) == "Linux" ]]; then
   if command -v plz >/dev/null 2>&1; then
     source <(plz --completion_script)
   fi
-    
-  for file in ~/.kube/configs/*.yaml; do
-    export KUBECONFIG=$KUBECONFIG:$file
-  done
+
+  # Build KUBECONFIG from all yaml files in ~/.kube/configs/
+  if [[ -d ~/.kube/configs ]]; then
+    local configs=(~/.kube/configs/*.yaml(N))
+    if [[ ${#configs[@]} -gt 0 ]]; then
+      export KUBECONFIG="$KUBECONFIG:${(j.:.)configs}"
+    fi
+  fi
 
   # Tracing in SATs
   jaeger_deploy() {
@@ -126,8 +148,4 @@ if [[ $(uname) == "Linux" ]]; then
     jaeger_upload "$filepath"
   }
 
-fi
-
-if [ -d "$HOME/.local/bin" ]; then
-  export PATH="$PATH:$HOME/.local/bin"
 fi
