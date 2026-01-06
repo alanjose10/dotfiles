@@ -15,8 +15,24 @@ autoload -Uz compinit
 compinit
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Lazy load nvm - only initialize when used (saves 200-500ms on startup)
+nvm() {
+  unset -f nvm
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+  nvm "$@"
+}
+# Also lazy load node and npm to trigger nvm initialization
+node() {
+  unset -f node
+  nvm > /dev/null 2>&1
+  node "$@"
+}
+npm() {
+  unset -f npm
+  nvm > /dev/null 2>&1
+  npm "$@"
+}
 
 
 # init zoxide
