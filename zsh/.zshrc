@@ -10,6 +10,15 @@ add_to_path "$HOME/.local/bin"
 add_to_path "$HOME/go/bin"
 add_to_path "$HOME/bin"
 
+# History configuration
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt SHARE_HISTORY          # Share history across terminals
+setopt HIST_IGNORE_ALL_DUPS   # Don't save duplicates
+setopt HIST_FIND_NO_DUPS      # Don't show duplicates in search
+setopt HIST_IGNORE_SPACE      # Don't save commands starting with space
+
 autoload -Uz compinit
 # Only regenerate completion dump once per day for faster startup
 if [[ -n ${HOME}/.zcompdump(#qN.mh+24) ]]; then
