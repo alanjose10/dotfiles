@@ -40,6 +40,14 @@ if command -v zoxide >/dev/null 2>&1; then
   eval "$(zoxide init zsh)"
 fi
 
+# Common aliases
+alias lg='lazygit'
+alias vim='nvim'
+alias vi='nvim'
+if command -v bat >/dev/null 2>&1; then
+  alias cat='bat'
+fi
+
 
 
 # kubectl namespace switcher - lists namespaces and optionally switches to one
