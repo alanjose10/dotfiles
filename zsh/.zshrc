@@ -11,7 +11,12 @@ add_to_path "$HOME/go/bin"
 add_to_path "$HOME/bin"
 
 autoload -Uz compinit
-compinit
+# Only regenerate completion dump once per day for faster startup
+if [[ -n ${HOME}/.zcompdump(#qN.mh+24) ]]; then
+  compinit
+else
+  compinit -C
+fi
 
 export NVM_DIR="$HOME/.nvm"
 # Lazy load nvm - only initialize when used (saves 200-500ms on startup)
