@@ -103,32 +103,76 @@ PROMPT='%F{green}%*%f %F{blue}%~%f %F{red}${vcs_info_msg_0_}%f
 
 
 
-# open nvim in a new window inside tmux
-# TODO: add features
-# - specify directory as argument (default cwd)
-# - make name shorter
-# - choose session to use if multiple found
-start-nvim() {
-    # Current directory and its basename
-    local dir session
-    dir="$(pwd)"
-    session="$(basename "$dir")"
+# Open nvim in a new tmux window
+v() {
+    # Show help if requested
+    if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+        cat <<EOF
+Usage: v [directory] [session-name]
 
-    # If we're inside tmux already
-    if [ -n "$TMUX" ]; then
-        tmux new-window -c "$dir" "nvim"
-    else
-        # If session doesn't exist, create it
-        if ! tmux has-session -t "$session" 2>/dev/null; then
-            tmux new-session -d -s "$session" -c "$dir"
-        fi
+Open nvim in a new tmux window with the given directory.
 
-        # Create a new window running nvim (first window may already exist)
-        tmux new-window -t "$session:" -c "$dir" "nvim"
+Arguments:
+  directory      Target directory (default: current directory)
+  session-name   Custom session name (default: shortened directory basename)
 
-        # Attach to the session
-        tmux attach-session -t "$session"
+Examples:
+  v                    # Open nvim in current directory
+  v ~/projects/foo     # Open nvim in ~/projects/foo
+  v . my-session       # Open nvim in current directory with custom session name
+
+Window naming:
+  Windows are named "[vim] <dirname>" for easy identification
+EOF
+        return 0
     fi
+
+    local dir session base_session suffix window_name
+
+    # Determine target directory
+    if [[ -n "$1" ]]; then
+        dir="$(cd "$1" 2>/dev/null && pwd)" || {
+            echo "Error: Directory '$1' not found" >&2
+            return 1
+        }
+    else
+        dir="$(pwd)"
+    fi
+
+    # Set window name as "[vim] dirname"
+    window_name="[vim] $(basename "$dir")"
+
+    # Determine session name (custom or derived from directory)
+    if [[ -n "$2" ]]; then
+        session="$2"
+    else
+        base_session="$(basename "$dir")"
+        # Truncate to 20 chars max for shorter names
+        if [[ ${#base_session} -gt 20 ]]; then
+            session="${base_session:0:17}..."
+        else
+            session="$base_session"
+        fi
+    fi
+
+    # If already inside tmux, just create a new window
+    if [[ -n "$TMUX" ]]; then
+        tmux new-window -n "$window_name" -c "$dir" "nvim"
+        return 0
+    fi
+
+    # Handle session name conflicts by appending a number
+    base_session="$session"
+    suffix=1
+    while tmux has-session -t "$session" 2>/dev/null; do
+        session="${base_session}-${suffix}"
+        ((suffix++))
+    done
+
+    # Create new session with nvim window
+    tmux new-session -d -s "$session" -n "$window_name" -c "$dir"
+    tmux send-keys -t "$session" "nvim" C-m
+    tmux attach-session -t "$session"
 }
 
 
