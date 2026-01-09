@@ -20,7 +20,7 @@ vim.opt.swapfile = false -- disable swap files
 vim.opt.termguicolors = true -- enable 24-bit RGB colors in the terminal
 vim.opt.grepprg = "rg --vimgrep --hidden" -- use ripgrep for :grep command
 vim.opt.grepformat = "%f:%l:%c:%m" -- format for parsing grep output
-vim.opt.updatetime = 300 -- faster completion and CursorHold events (default 4000ms)
+vim.opt.updatetime = 600 -- balanced: faster than default 4000ms but avoids excessive events in large repos
 vim.opt.wrap = false -- disable line wrapping
 
 -- prevent text from shifting when signs popup
