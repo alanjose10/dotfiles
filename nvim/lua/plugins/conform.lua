@@ -64,7 +64,7 @@ return {
 
     -- Automatically format on save
     format_on_save = {
-      timeout_ms = 500,
+      timeout_ms = 1000, -- increased for large files; avoids frequent LSP fallbacks
       lsp_format = "fallback",
     },
   },
