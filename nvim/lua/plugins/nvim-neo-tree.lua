@@ -33,7 +33,7 @@ return {
 				follow_current_file = {
 					enabled = true, -- auto-reveal when switching buffers
 				},
-				use_libuv_file_watcher = true,
+				use_libuv_file_watcher = false, -- disabled for performance; press R to refresh manually
 				filtered_items = {
 					visible = true,
 					hide_dotfiles = false,
