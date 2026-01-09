@@ -39,12 +39,20 @@ end, { desc = "Open current buffer in new tab and close the current window" })
 -- Navigate quick fix list
 vim.keymap.set("n", "<M-S-Down>", ":cnext<CR>", { desc = "Next quickfix item" })
 vim.keymap.set("n", "<M-S-Up>", ":cprev<CR>", { desc = "Previous quickfix item" })
+-- Fix for Linux terminals (Alt+Shift+Arrow sends \e[1;4A/B)
+vim.keymap.set("n", "<Esc>[1;4B", ":cnext<CR>", { desc = "Next quickfix item" })
+vim.keymap.set("n", "<Esc>[1;4A", ":cprev<CR>", { desc = "Previous quickfix item" })
 
 -- Window navigation with Alt + arrow keys
 vim.keymap.set("n", "<M-Left>", "<C-w>h", { desc = "Move to left window" })
 vim.keymap.set("n", "<M-Down>", "<C-w>j", { desc = "Move to window below" })
 vim.keymap.set("n", "<M-Up>", "<C-w>k", { desc = "Move to window above" })
 vim.keymap.set("n", "<M-Right>", "<C-w>l", { desc = "Move to right window" })
+
+-- Fix for Linux terminals that don't recognize <M-Arrow> properly
+-- Ubuntu terminals send ESC+letter sequences for Alt+Arrow keys
+vim.keymap.set("n", "<Esc>b", "<C-w>h", { desc = "Move to left window" })  -- Alt+Left
+vim.keymap.set("n", "<Esc>f", "<C-w>l", { desc = "Move to right window" }) -- Alt+Right
 
 vim.keymap.set("n", "<leader>tm", ":terminal<CR>", { desc = "Open terminal" })
 
