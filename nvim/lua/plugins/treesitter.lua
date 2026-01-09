@@ -34,6 +34,7 @@ return {
       auto_install = true, -- automatically install parsers for opened files
       highlight = {
         enable = true, -- enable treesitter-based syntax highlighting
+        additional_vim_regex_highlighting = false, -- disable vim regex highlighting to avoid conflicts
       },
       indent = {
         enable = true, -- enable treesitter-based indentation
