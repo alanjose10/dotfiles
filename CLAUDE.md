@@ -40,7 +40,6 @@ nvim/
 │   │   ├── autocmds.lua  # Autocommands
 │   │   ├── filetypes.lua # Filetype detection
 │   │   ├── tmux.lua      # Tmux integration
-│   │   ├── floaterm.lua  # Floating terminal setup
 │   │   └── popup-menu.lua # Custom popup menu
 │   └── plugins/          # Plugin specs (auto-imported by lazy.nvim)
 │       ├── lsp-config.lua

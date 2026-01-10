@@ -47,8 +47,3 @@ vim.keymap.set("n", "<M-Up>", "<C-w>k", { desc = "Move to window above" })
 vim.keymap.set("n", "<M-Right>", "<C-w>l", { desc = "Move to right window" })
 
 vim.keymap.set("n", "<leader>tm", ":terminal<CR>", { desc = "Open terminal" })
-
--- setup floaterm
-local floatterm = require("core.floaterm")
-vim.keymap.set({ "n", "t" }, "<M-t>", floatterm.toggle, { desc = "Toggle floating terminal" })
-vim.keymap.set({ "n", "t" }, "<M-S-t>", floatterm.reset, { desc = "Reset floating terminal" })
