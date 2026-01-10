@@ -14,8 +14,8 @@ return {
       },
     },
     keys = {
-      { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help tags" },
-      { "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Search keymaps" },
+      { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Telescope Help tags" },
+      { "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Telescope Search keymaps" },
       {
         "<leader>ff",
         function()
@@ -30,22 +30,20 @@ return {
         function()
           require("telescope.builtin").oldfiles({ only_cwd = true })
         end,
-        desc = "Recent files (cwd)",
+        desc = "Telescope Recent files (cwd)",
       },
       { "<leader><space>", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
       { "<leader>fd", "<cmd>Telescope diagnostics<cr>", desc = "Workspace diagnostics" },
       { "<leader>fr", "<cmd>Telescope resume<cr>", desc = "Resume last picker" },
-      { "<leader>fsb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Search in buffer" },
+      { "<leader>fb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Search in buffer" },
       { "<leader>tr", "<cmd>Telescope registers<cr>", desc = "Registers" },
+      -- lsp symbols in buffer
       {
-        "<leader>fp",
+        "<leader>ss",
         function()
-          require("telescope.builtin").find_files({
-            cwd = vim.fn.stdpath("data") .. "/lazy",
-            prompt_title = "Plugin Source",
-          })
+          require("telescope.builtin").lsp_document_symbols({})
         end,
-        desc = "Find plugin source",
+        desc = "Telescope Goto Symbol",
       },
     },
     config = function()
