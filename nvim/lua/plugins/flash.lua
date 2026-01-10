@@ -46,6 +46,7 @@ return {
       -- Search mode: Integrates with / and ? searches
       search = {
         enabled = true, -- enable flash in regular search (use <c-s> to toggle)
+        multi_window = false, -- disable multi-window to avoid "Invalid window id" errors
       },
 
       -- Treesitter mode: Jump to code structures
