@@ -9,7 +9,7 @@ return {
       separator_style = "slant",
       offsets = {
         {
-          filetype = "neo-tree",
+          filetype = "snacks_layout_box", -- snacks explorer filetype
           text = "File Explorer",
           highlight = "Directory",
           separator = true,
