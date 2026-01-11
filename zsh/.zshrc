@@ -116,7 +116,7 @@ ts() {
     # Format: session_name (windows) [attached]
     session=$(tmux list-sessions -F "#{session_name} (#{session_windows} windows)#{?session_attached, [attached],}" 2>/dev/null | \
         fzf --height 40% --reverse \
-            --header "enter: attach, ctrl-x: kill" \
+            --header "enter: attach, ctrl-x: kill, esc: exit" \
             --preview "tmux list-windows -t {1}" \
             --preview-window right:50% \
             --bind "ctrl-x:execute-silent(tmux kill-session -t {1})+reload(tmux list-sessions -F '#{session_name} (#{session_windows} windows)#{?session_attached, [attached],}' 2>/dev/null || echo '')")
