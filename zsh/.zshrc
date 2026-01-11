@@ -103,6 +103,35 @@ PROMPT='%F{green}%*%f %F{blue}%~%f %F{red}${vcs_info_msg_0_}%f
 
 
 
+# Tmux session switcher using fzf
+# ctrl-x to kill a session, enter to attach/switch
+ts() {
+    # Check if any sessions exist
+    if ! tmux list-sessions &>/dev/null; then
+        echo "No tmux sessions"
+        return 1
+    fi
+
+    local session
+    # Format: session_name (windows) [attached]
+    session=$(tmux list-sessions -F "#{session_name} (#{session_windows} windows)#{?session_attached, [attached],}" 2>/dev/null | \
+        fzf --height 40% --reverse \
+            --header "enter: attach, ctrl-x: kill" \
+            --preview "tmux list-windows -t {1}" \
+            --preview-window right:50% \
+            --bind "ctrl-x:execute-silent(tmux kill-session -t {1})+reload(tmux list-sessions -F '#{session_name} (#{session_windows} windows)#{?session_attached, [attached],}' 2>/dev/null || echo '')")
+
+    # Extract just the session name (first word)
+    session="${session%% *}"
+    [[ -z "$session" ]] && return
+
+    if [[ -n "$TMUX" ]]; then
+        tmux switch-client -t "$session"
+    else
+        tmux attach-session -t "$session"
+    fi
+}
+
 # Open nvim in a new tmux window
 v() {
     # Show help if requested
