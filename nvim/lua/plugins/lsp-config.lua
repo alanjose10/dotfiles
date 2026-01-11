@@ -130,6 +130,7 @@ return {
 			vim.lsp.enable(vim.tbl_keys(servers))
 
 			-- Setup LSP keymaps on attach (using LspAttach autocmd for new API)
+			-- Note: Navigation keymaps (gd, gr, gI, gy, gD) are handled by snacks.picker
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("lsp_keymaps", { clear = true }),
 				callback = function(event)
@@ -137,13 +138,6 @@ return {
 					local function map(mode, lhs, rhs, desc)
 						vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, silent = true, desc = desc })
 					end
-
-					-- Navigation
-					map("n", "<leader>cd", vim.lsp.buf.definition, "Go to definition")
-					map("n", "<leader>cD", vim.lsp.buf.declaration, "Go to declaration")
-					map("n", "<leader>ci", vim.lsp.buf.implementation, "Go to implementation")
-					map("n", "<leader>ct", vim.lsp.buf.type_definition, "Go to type definition")
-					map("n", "<leader>cr", vim.lsp.buf.references, "Find references")
 
 					-- Code actions
 					map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code actions")
@@ -153,18 +147,10 @@ return {
 					map("n", "K", vim.lsp.buf.hover, "Hover documentation")
 					map("n", "<leader>cs", vim.lsp.buf.signature_help, "Signature help")
 
-					-- Diagnostics navigation (using ] and [ for next/prev pattern)
+					-- Diagnostics navigation
 					map("n", "]d", vim.diagnostic.goto_next, "Next diagnostic")
 					map("n", "[d", vim.diagnostic.goto_prev, "Previous diagnostic")
 					map("n", "<leader>ce", vim.diagnostic.open_float, "Show diagnostic")
-
-					-- Inlay hints toggle (Neovim 0.10+)
-					if vim.lsp.inlay_hint then
-						map("n", "<leader>ch", function()
-							local enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
-							vim.lsp.inlay_hint.enable(not enabled, { bufnr = bufnr })
-						end, "Toggle inlay hints")
-					end
 				end,
 			})
 
