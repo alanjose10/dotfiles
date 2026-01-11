@@ -1,5 +1,6 @@
 return {
   "folke/snacks.nvim",
+  enabled = true,
   priority = 1000,
   lazy = false,
   ---@type snacks.Config
@@ -16,6 +17,15 @@ return {
       timeout = 3000,
     },
     picker = {
+      exclude = {
+        ".git/",
+        "bazel%-bin",
+        "bazel%-out",
+        "bazel%-testlogs",
+        "plz%-out",
+        "node_modules",
+        "%.cache",
+      },
       enabled = true,
       sources = {
         explorer = {
@@ -96,7 +106,10 @@ return {
     {
       "<leader>ff",
       function()
-        Snacks.picker.files({ hidden = true, follow = true })
+        Snacks.picker.files({
+          hidden = true,
+          follow = true,
+        })
       end,
       desc = "Find Files",
     },
@@ -113,6 +126,13 @@ return {
         Snacks.picker.projects()
       end,
       desc = "Projects",
+    },
+    {
+      "<leader>fz",
+      function()
+        Snacks.picker.zoxide()
+      end,
+      desc = "Open Zoxide Projects",
     },
     {
       "<leader>fr",
@@ -142,14 +162,16 @@ return {
     {
       "<leader>sg",
       function()
-        Snacks.picker.grep({ hidden = true })
+        Snacks.picker.grep({
+          hidden = true,
+        })
       end,
       desc = "Grep",
     },
     {
       "<leader>sw",
       function()
-        Snacks.picker.grep_word()
+        Snacks.picker.grep_word({})
       end,
       desc = "Grep Word",
       mode = { "n", "x" },
