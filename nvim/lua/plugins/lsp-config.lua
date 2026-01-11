@@ -95,11 +95,21 @@ return {
 				gopls = {
 					settings = {
 						gopls = {
+							-- Exclude build output directories (critical for large monorepos)
+							directoryFilters = {
+								"-plz-out",
+								"-bazel-bin",
+								"-bazel-out",
+								"-bazel-testlogs",
+								"-node_modules",
+								"-.git",
+							},
 							analyses = {
 								unusedparams = true,
 							},
-							staticcheck = true,
+							staticcheck = false, -- disable for large repos (run manually or in CI)
 							gofumpt = true,
+							expandWorkspaceToModule = false, -- don't expand to entire module
 						},
 					},
 				},
