@@ -33,8 +33,8 @@ return {
           win = {
             list = {
               keys = {
-                ['"'] = { "edit_vsplit", mode = { "n", "i" } }, -- vertical split
-                ["%"] = { "edit_split", mode = { "n", "i" } }, -- horizontal split
+                ["%"] = { "edit_vsplit", mode = { "n", "i" } }, -- vertical split
+                ['"'] = { "edit_split", mode = { "n", "i" } }, -- horizontal split
               },
             },
           },
