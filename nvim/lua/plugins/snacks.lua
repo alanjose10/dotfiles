@@ -85,13 +85,7 @@ return {
     -----------------------------------------------------------------------
     -- Find (<leader>f)
     -----------------------------------------------------------------------
-    {
-      "<leader>fb",
-      function()
-        Snacks.picker.lines()
-      end,
-      desc = "Buffer Lines",
-    },
+
     {
       "<leader>fc",
       function()
@@ -138,6 +132,13 @@ return {
     -----------------------------------------------------------------------
     -- Search/Grep (<leader>s)
     -----------------------------------------------------------------------
+    {
+      "<leader>sb",
+      function()
+        Snacks.picker.lines()
+      end,
+      desc = "Buffer Lines",
+    },
     {
       "<leader>sg",
       function()
