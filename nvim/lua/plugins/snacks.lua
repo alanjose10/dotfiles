@@ -19,8 +19,15 @@ return {
       enabled = true,
       sources = {
         explorer = {
-          -- show hidden files by default
-          hidden = true,
+          hidden = true, -- show hidden files by default
+          win = {
+            list = {
+              keys = {
+                ['"'] = { "edit_vsplit", mode = { "n", "i" } }, -- vertical split
+                ["%"] = { "edit_split", mode = { "n", "i" } }, -- horizontal split
+              },
+            },
+          },
         },
       },
     },
