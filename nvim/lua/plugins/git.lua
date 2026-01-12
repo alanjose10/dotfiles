@@ -1,6 +1,7 @@
 return {
   {
     "lewis6991/gitsigns.nvim",
+    enabled = false,
 
     -- Plugin loads only if Git is installed
     enabled = vim.fn.executable("git") == 1,
@@ -106,6 +107,7 @@ return {
   },
   {
     "sindrets/diffview.nvim",
+    enabled = false,
     dependencies = { "nvim-lua/plenary.nvim" },
     cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewFileHistory" }, -- lazy load on command
     keys = {
