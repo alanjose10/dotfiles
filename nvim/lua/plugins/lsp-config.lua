@@ -144,11 +144,11 @@ return {
           end
 
           -- Navigation
-					map("n", "<leader>gd", vim.lsp.buf.definition, "Go to definition")
-					map("n", "<leader>gD", vim.lsp.buf.declaration, "Go to declaration")
-					map("n", "<leader>gi", vim.lsp.buf.implementation, "Go to implementation")
-					map("n", "<leader>gt", vim.lsp.buf.type_definition, "Go to type definition")
-					map("n", "<leader>gr", vim.lsp.buf.references, "Find references")
+					map("n", "gd", vim.lsp.buf.definition, "Go to definition")
+					map("n", "gD", vim.lsp.buf.declaration, "Go to declaration")
+					map("n", "gI", vim.lsp.buf.implementation, "Go to implementation")
+					map("n", "gy", vim.lsp.buf.type_definition, "Go to type definition")
+					map("n", "gr", vim.lsp.buf.references, "Find references")
 
           -- Code actions
           map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code actions")
