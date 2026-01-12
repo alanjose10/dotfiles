@@ -2,7 +2,7 @@
 return {
   "nvim-treesitter/nvim-treesitter",
   branch = "master",
-  event = "BufReadPost", -- lazy load when opening a file (improves startup in large repos)
+  lazy = false,
   build = ":TSUpdate", -- automatically update parsers on install/update
   config = function()
     local config = require("nvim-treesitter.configs")
