@@ -56,7 +56,7 @@ return {
       },
     },
     config = function()
-      local capabilities = require("blink.cmp").get_lsp_capabilities()
+      -- local capabilities = require("blink.cmp").get_lsp_capabilities()
 
       local servers = {
 
@@ -125,10 +125,10 @@ return {
         marksman = {},
       }
 
-      for server, config in pairs(servers) do
-        config.capabilities = capabilities
-        vim.lsp.config(server, config)
-      end
+      -- for server, config in pairs(servers) do
+      --   config.capabilities = capabilities
+      --   vim.lsp.config(server, config)
+      -- end
 
       -- Enable all configured servers
       vim.lsp.enable(vim.tbl_keys(servers))
