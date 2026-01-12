@@ -9,7 +9,8 @@ return {
       ensure_installed = {
         -- Formatters
         "stylua", -- Lua
-        "gofumpt", -- Go
+        "goimports", -- Go
+        "gofmt", -- Go
         "ruff", -- Python (formatter + linter)
         "shfmt", -- Bash/shell
         "prettier", -- JSON, YAML, Markdown, JS, TS, CSS, HTML

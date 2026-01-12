@@ -19,7 +19,7 @@ return {
     -- Define which formatter to use for each filetype
     formatters_by_ft = {
       lua = { "stylua" },
-      go = { "gofumpt" },
+      go = { "goimports", "gofmt" },
       python = { "ruff_format", "ruff_organize_imports" }, -- ruff is modern, fast Python formatter
       bash = { "shfmt" },
       sh = { "shfmt" },
