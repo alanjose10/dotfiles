@@ -18,7 +18,7 @@ return {
     },
     picker = {
       exclude = {
-        ".git/",
+        ".git",
         "bazel%-bin",
         "bazel%-out",
         "bazel%-testlogs",

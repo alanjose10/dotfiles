@@ -52,6 +52,3 @@ ehthumbs.db
 
 # tmux
 tmux/plugins
-
-# nvim
-nvim/lazy-lock.json

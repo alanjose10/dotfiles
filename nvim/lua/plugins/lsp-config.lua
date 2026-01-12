@@ -104,10 +104,6 @@ return {
                 "-node_modules",
                 "-.git",
               },
-              analyses = {
-                unusedparams = true,
-              },
-              gofumpt = true,
             },
           },
         },
