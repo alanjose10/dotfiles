@@ -98,11 +98,6 @@ return {
               -- Exclude build output directories (critical for large monorepos)
               directoryFilters = {
                 "-plz-out",
-                "-bazel-bin",
-                "-bazel-out",
-                "-bazel-testlogs",
-                "-node_modules",
-                "-.git",
               },
             },
           },
