@@ -1,6 +1,6 @@
 return {
   {
-    enabled = false,
+    enabled = true,
     "nvim-telescope/telescope.nvim",
     cmd = { "Telescope" }, -- lazy load on :Telescope command
     tag = "v0.1.9",
@@ -102,7 +102,7 @@ return {
   },
   {
     "nvim-telescope/telescope-ui-select.nvim",
-    enabled = false,
+    enabled = true,
     config = function()
       require("telescope").setup({
         extensions = {
