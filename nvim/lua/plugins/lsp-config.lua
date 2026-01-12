@@ -143,6 +143,13 @@ return {
             vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, silent = true, desc = desc })
           end
 
+          -- Navigation
+					map("n", "<leader>gd", vim.lsp.buf.definition, "Go to definition")
+					map("n", "<leader>gD", vim.lsp.buf.declaration, "Go to declaration")
+					map("n", "<leader>gi", vim.lsp.buf.implementation, "Go to implementation")
+					map("n", "<leader>gt", vim.lsp.buf.type_definition, "Go to type definition")
+					map("n", "<leader>gr", vim.lsp.buf.references, "Find references")
+
           -- Code actions
           map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code actions")
           map("n", "<leader>cn", vim.lsp.buf.rename, "Rename symbol")

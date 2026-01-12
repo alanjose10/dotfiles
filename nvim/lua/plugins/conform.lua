@@ -1,5 +1,6 @@
 return {
   "stevearc/conform.nvim", -- modern formatting plugin for Neovim
+  enabled = false,
   event = { "BufWritePre" }, -- load plugin just before saving (for format-on-save)
   cmd = { "ConformInfo" }, -- also load when running :ConformInfo command
 
