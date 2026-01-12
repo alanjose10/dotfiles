@@ -10,7 +10,6 @@ return {
         -- Formatters
         "stylua", -- Lua
         "goimports", -- Go
-        "gofmt", -- Go
         "ruff", -- Python (formatter + linter)
         "shfmt", -- Bash/shell
         "prettier", -- JSON, YAML, Markdown, JS, TS, CSS, HTML
