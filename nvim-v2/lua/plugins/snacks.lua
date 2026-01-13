@@ -178,6 +178,7 @@ return {
 			desc = "Colorschemes",
 		},
 
+		-- GIT
 		-- Opens Lazygit in a floating window
 		{
 			"<leader>gg",
@@ -185,6 +186,23 @@ return {
 				Snacks.lazygit()
 			end,
 			desc = "Lazygit",
+		},
+		-- Shows every commit that touched the current file.
+		{
+			"<leader>gf",
+			function()
+				Snacks.picker.git_log_file()
+			end,
+			desc = "Git Log (File)",
+		},
+
+		-- Git blame line in popup
+		{
+			"<leader>gb",
+			function()
+				Snacks.git.blame_line()
+			end,
+			desc = "Git Blame Line",
 		},
 
 		{
