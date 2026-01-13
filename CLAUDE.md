@@ -8,11 +8,24 @@ This is a personal dotfiles repository for managing configuration files across m
 
 ## Installation & Setup
 
-Link each of the config file manually using `ln -sfn <src> <dest>` manually as required.
+Link config files manually using `ln -sfn <src> <dest>`:
 
 ```bash
+# Neovim
+ln -sfn ~/dotfiles/nvim ~/.config/nvim
+
+# Tmux
+ln -sfn ~/dotfiles/tmux/tmux.conf ~/.config/tmux/tmux.conf
+
+# Zsh
+ln -sfn ~/dotfiles/zsh/.zshrc ~/.zshrc
+ln -sfn ~/dotfiles/zsh/.zprofile ~/.zprofile
+
+# Kitty
+ln -sfn ~/dotfiles/kitty ~/.config/kitty
 ```
-Manual setup for external dependencies (tmux plugins):
+
+Manual setup for tmux plugins:
 
 ```bash
 # TPM (Tmux Plugin Manager)
@@ -25,36 +38,35 @@ git clone -b v2.1.3 https://github.com/catppuccin/tmux.git ~/.config/tmux/plugin
 
 ## Neovim Configuration Architecture
 
-### Structure
+The active config is in `nvim/` (the `nvim-old/` directory contains a previous version for reference).
 
-The Neovim config follows a modular Lua-based architecture using lazy.nvim as the plugin manager:
+### Structure
 
 ```
 nvim/
 ├── init.lua              # Entry point: bootstraps lazy.nvim, loads core/, imports plugins/
-├── lua/
-│   ├── core/             # Core configuration (loaded before plugins)
-│   │   ├── init.lua      # Loads all core modules in order
-│   │   ├── options.lua   # Vim options (tabs, UI, clipboard, etc.)
-│   │   ├── keymaps.lua   # Global keymaps
-│   │   ├── autocmds.lua  # Autocommands
-│   │   ├── filetypes.lua # Filetype detection
-│   │   ├── tmux.lua      # Tmux integration
-│   │   └── popup-menu.lua # Custom popup menu
-│   └── plugins/          # Plugin specs (auto-imported by lazy.nvim)
-│       ├── lsp-config.lua
-│       ├── conform.lua
-│       ├── git.lua       # Contains both gitsigns & diffview
-│       ├── flash.lua
-│       └── [~20 plugin files]
+├── lazy-lock.json     # Plugin version lockfile
+└── lua/
+    ├── core/             # Core configuration (loaded before plugins)
+    │   ├── options.lua   # Vim options (tabs, UI, clipboard, etc.)
+    │   ├── keymaps.lua   # Global keymaps (window nav, buffer nav, line moving)
+    │   └── autocmds.lua  # Autocommands
+    └── plugins/          # Plugin specs (auto-imported by lazy.nvim)
+        ├── lspconfig.lua # LSP + Mason setup
+        ├── conform.lua   # Formatting (format-on-save)
+        ├── snacks.lua    # File picker, explorer, lazygit, git blame
+        ├── gitsigns.lua  # Git gutter signs
+        ├── flash.lua     # Fast navigation (Colemak-optimized)
+        ├── blink.cmp.lua # Autocompletion
+        ├── treesitter.lua
+        └── [other plugins]
 ```
 
 ### Plugin Loading Flow
 
-1. `init.lua` bootstraps lazy.nvim
-2. Loads `core/` modules sequentially via `require("core")`
-3. lazy.nvim auto-imports all specs from `plugins/` directory
-4. Each plugin file in `plugins/` returns a table (or array of tables) with plugin specs
+1. `init.lua` sets leader keys, loads `core/` modules, bootstraps lazy.nvim
+2. lazy.nvim auto-imports all specs from `plugins/` directory
+3. Uses separate data directory (`lazy/`) and lockfile to avoid conflicts with old config
 
 ### Key Configuration Principles
 
@@ -69,8 +81,8 @@ nvim/
 
 **Git Workflow:**
 - Uses lazygit for staging, commits, stash (via `<leader>gg`)
-- Uses Neovim plugins (gitsigns, diffview) for viewing blame and diffs only
-- Inline git blame enabled by default in Neovim
+- Uses gitsigns for gutter signs, inline blame toggle (`<leader>ub`)
+- Snacks.nvim for git blame popup (`<leader>gb`) and file history (`<leader>gf`)
 - All git keymaps use `<leader>g` prefix
 
 **Formatting:**
@@ -89,32 +101,50 @@ nvim/
 
 Leader key: `<Space>`
 
+**File Navigation (snacks.picker):**
+- `<leader><space>` - Smart find files
+- `<leader>/` - Grep project
+- `<leader>,` - List buffers
+- `<leader>e` - File explorer
+- `<leader>fr` - Recent files (cwd)
+- `<leader>fc` - Find config file
+- `<leader>fp` - Projects
+
+**Search (`<leader>s`):**
+- `<leader>sw` - Grep word under cursor
+- `<leader>sb` - Search buffer lines
+- `<leader>sh` - Help pages
+- `<leader>sk` - Keymaps
+- `<leader>sc` - Command history
+
 **Git (`<leader>g`):**
-- `<leader>gb` - Blame line (popup)
-- `<leader>gB` - Blame file
-- `<leader>gd` - Diff this file
-- `<leader>gp` - Preview hunk
-- `<leader>gv` - Open diffview
 - `<leader>gg` - Open lazygit
-- `]h` / `[h` - Navigate hunks
+- `<leader>gb` - Blame line (popup)
+- `<leader>gf` - Git log for file
+- `<leader>ub` - Toggle inline blame
+
+**LSP:**
+- `gd` / `gD` - Go to definition/declaration
+- `gI` / `gy` - Go to implementation/type definition
+- `gr` - Find references
+- `K` - Hover documentation
+- `<leader>ca` - Code actions
+- `<leader>cn` - Rename symbol
+- `<leader>ce` - Show diagnostic
+- `]d` / `[d` - Next/prev diagnostic
 
 **Flash navigation (Colemak-optimized):**
 - `s` - Flash jump (type 2 chars)
 - `S` - Treesitter jump
-- Enhanced `f/F/t/T` work across lines
-
-**Treesitter selection:**
-- `<CR>` - Start/expand selection
-- `<BS>` - Shrink selection
-- `<Tab>` - Expand to outer scope
 
 **Formatting:**
-- `<leader>cf` - Manual format
+- `<leader>cf` - Manual format (auto format-on-save enabled)
 
-**Mini.surround (`gs` prefix):**
-- `gsa` - Add surrounding
-- `gsd` - Delete surrounding
-- `gsr` - Replace surrounding
+**Window/Buffer Navigation (core keymaps):**
+- `<A-Arrow>` - Move between windows
+- `<C-Arrow>` - Resize windows
+- `<S-h>` / `<S-l>` - Previous/next buffer
+- `<leader>bd` - Delete buffer
 
 ## Important Context
 
@@ -134,7 +164,7 @@ Leader key: `<Space>`
 - Each file in `plugins/` should return a plugin spec or array of specs
 - Use `keys = {}` table for lazy-loaded keymaps (makes them available immediately)
 - Add inline comments explaining each option
-- Group related plugins in the same file (e.g., gitsigns + diffview in `git.lua`)
+- Group related plugins in the same file when appropriate
 
 **Options:**
 - Global options go in `core/options.lua`
@@ -166,6 +196,31 @@ Leader key: `<Space>`
 4. Add descriptive `desc` field
 
 **LSP/Formatter setup:**
-1. Add to Mason's `ensure_installed` in `lsp-config.lua`
+1. Add to Mason's `ensure_installed` in `lspconfig.lua`
 2. Configure formatter in `conform.lua`
-3. For LSP, add to `servers` table in `lsp-config.lua`
+3. For LSP, add to `servers` table in `lspconfig.lua`
+
+## Other Configurations
+
+### Tmux
+
+Prefix key: `C-a` (instead of default `C-b`)
+
+Key bindings:
+- `C-a Space` - Enter copy mode (vi-mode)
+- `C-a p` / `C-a n` - Previous/next window
+- `C-a r` - Reload config
+
+Uses Catppuccin theme and TPM for plugin management.
+
+### Zsh
+
+Custom shell functions:
+- `v [dir] [session]` - Open nvim in a new tmux window/session
+- `ts` - Tmux session switcher with fzf (ctrl-x to kill, enter to attach)
+- `kn [namespace]` - kubectl namespace switcher
+- `kc [context]` - kubectl context switcher
+
+Aliases: `lg` (lazygit), `vim`/`vi` (nvim), `k` (kubectl)
+
+Uses zoxide for directory jumping (`z` command).

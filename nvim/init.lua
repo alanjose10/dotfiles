@@ -11,7 +11,7 @@ require("core.keymaps")
 require("core.autocmds")
 
 -- Bootstrap lazy.nvim
-local lazypath = vim.fn.stdpath("data") .. "/lazy-v2/lazy.nvim"
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
@@ -26,8 +26,8 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Setup lazy.nvim (plugins directory is empty by default)
 require("lazy").setup("plugins", {
-	root = vim.fn.stdpath("data") .. "/lazy-v2", -- separate plugin directory
-	lockfile = vim.fn.stdpath("config") .. "/lazy-lock-v2.json",
+	root = vim.fn.stdpath("data") .. "/lazy", -- separate plugin directory
+	lockfile = vim.fn.stdpath("config") .. "/lazy-lock.json",
 	install = {
 		colorscheme = { "default" },
 	},
