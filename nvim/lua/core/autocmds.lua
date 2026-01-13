@@ -1,53 +1,47 @@
--- Create augroups for different concerns
-local group = vim.api.nvim_create_augroup("core_autocmds", { clear = true })
+-- Minimal autocommands
 
--- Highlight on yanking text
-vim.api.nvim_create_autocmd("TextYankPost", {
-  group = group,
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-  desc = "Highlight on yank",
+local autocmd = vim.api.nvim_create_autocmd
+local augroup = vim.api.nvim_create_augroup
+
+-- Highlight on yank
+autocmd("TextYankPost", {
+	group = augroup("highlight_yank", { clear = true }),
+	callback = function()
+		vim.highlight.on_yank({ timeout = 200 })
+	end,
 })
 
--- Restore cursor position when reopening a file
-vim.api.nvim_create_autocmd("BufReadPost", {
-  group = group,
-  callback = function(event)
-    -- Don't apply to gitcommit, gitrebase, or special buffers
-    if vim.tbl_contains({ "gitcommit", "gitrebase", "svn" }, vim.bo[event.buf].filetype) then
-      return
-    end
-
-    -- Get the cursor mark
-    local mark = vim.api.nvim_buf_get_mark(event.buf, '"')
-    local line_count = vim.api.nvim_buf_line_count(event.buf)
-
-    -- Check that the mark is within the file
-    if mark[1] > 0 and mark[1] <= line_count then
-      -- Protected call to avoid errors on weird buffers
-      pcall(vim.api.nvim_win_set_cursor, 0, mark)
-    end
-  end,
-  desc = "Restore cursor position after reopening file",
+-- Remove trailing whitespace on save
+autocmd("BufWritePre", {
+	group = augroup("trim_whitespace", { clear = true }),
+	pattern = "*",
+	callback = function()
+		local pos = vim.api.nvim_win_get_cursor(0)
+		vim.cmd([[%s/\s\+$//e]])
+		vim.api.nvim_win_set_cursor(0, pos)
+	end,
 })
 
--- Automatically go to terminal mode when terminal opens
-vim.api.nvim_create_autocmd("TermOpen", {
-  group = group,
-  callback = function(ev)
-    local shell = vim.env.SHELL
-    if ev.file:sub(-#shell) == shell then
-      vim.cmd("startinsert")
-      vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", {
-        desc = "Exit terminal mode",
-        buffer = ev.buf,
-      })
+-- Return to last edit position
+autocmd("BufReadPost", {
+	group = augroup("last_position", { clear = true }),
+	callback = function()
+		local mark = vim.api.nvim_buf_get_mark(0, '"')
+		local line = mark[1]
+		local col = mark[2]
+		if line > 0 and line <= vim.api.nvim_buf_line_count(0) then
+			vim.api.nvim_win_set_cursor(0, { line, col })
+		end
+	end,
+})
 
-      vim.keymap.set("t", "<Esc>q", "<C-\\><C-n>:bd!<CR>", {
-        desc = "Exit terminal mode and quit terminal",
-        buffer = ev.buf,
-      })
-    end
-  end,
+-- Filetype-specific settings
+autocmd("FileType", {
+	group = augroup("filetype_settings", { clear = true }),
+	pattern = { "go" },
+	callback = function()
+		vim.opt_local.expandtab = false -- Go uses tabs
+		vim.opt_local.tabstop = 4
+		vim.opt_local.shiftwidth = 4
+	end,
 })

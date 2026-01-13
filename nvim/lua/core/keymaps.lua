@@ -1,49 +1,41 @@
+-- Essential keymaps
+
+local map = vim.keymap.set
+
 -- Clear search highlight
-vim.keymap.set("n", "<leader>h", ":nohlsearch<CR>", { desc = "Clear search highlight" })
+map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlight" })
 
--- Smart quit
--- if buffers > 1: delete current buffer
--- if last buffer: quit
-vim.keymap.set("n", "<leader>q", function()
-  -- count listed, non-special buffers
-  local listed = vim.fn.getbufinfo({ buflisted = 1 })
-  local n_listed = #listed
-  if n_listed > 0 then
-    vim.cmd("bdelete")
-    -- else
-    -- vim.cmd("confirm quit")
-  end
-end, { desc = "Close buffer" })
+-- Window navigation
+map("n", "<A-Left>", "<C-w>h", { desc = "Move to left window" })
+map("n", "<A-Down>", "<C-w>j", { desc = "Move to window below" })
+map("n", "<A-Up>", "<C-w>k", { desc = "Move to window above" })
+map("n", "<A-Right>", "<C-w>l", { desc = "Move to right window" })
 
--- Quit window (only closes the current split)
-vim.keymap.set("n", "<leader>wq", "<cmd>close<CR>", { desc = "Close window" })
+-- Resize windows
+map("n", "<C-Up>", "<cmd>resize +2<CR>", { desc = "Increase window height" })
+map("n", "<C-Down>", "<cmd>resize -2<CR>", { desc = "Decrease window height" })
+map("n", "<C-Left>", "<cmd>vertical resize -2<CR>", { desc = "Decrease window width" })
+map("n", "<C-Right>", "<cmd>vertical resize +2<CR>", { desc = "Increase window width" })
 
--- Quit Neovim (all windows)
-vim.keymap.set("n", "<leader>Q", "<cmd>confirm qall<CR>", { desc = "Quit all (confirm)" })
+-- Buffer navigation
+map("n", "<S-h>", "<cmd>bprevious<CR>", { desc = "Previous buffer" })
+map("n", "<S-l>", "<cmd>bnext<CR>", { desc = "Next buffer" })
+map("n", "<leader>bd", "<cmd>bdelete<CR>", { desc = "Delete buffer" })
 
--- Split helpers
-vim.keymap.set("n", "<leader>%", ":vsplit<CR>", { desc = "Vertical split" })
-vim.keymap.set("n", '<leader>"', ":split<CR>", { desc = "Horizontal split" })
+-- Better indenting (stay in visual mode)
+map("v", "<", "<gv", { desc = "Indent left" })
+map("v", ">", ">gv", { desc = "Indent right" })
 
--- Visual search
-vim.keymap.set("v", "*", 'y/\\V<C-R>"<CR>', { desc = "Search selection (forward)" })
-vim.keymap.set("v", "#", 'y?\\V<C-R>"<CR>', { desc = "Search selection (backward)" })
-
--- Open current buffer in new tab and close current window
-vim.keymap.set("n", "<leader>tt", function()
-  local original_win = vim.api.nvim_get_current_win()
-  vim.cmd("tab split")
-  vim.api.nvim_win_close(original_win, false)
-end, { desc = "Open current buffer in new tab and close the current window" })
+-- Move lines
+map("n", "<A-S-Down>", "<cmd>m .+1<CR>==", { desc = "Move line down" })
+map("n", "<A-S-Up>", "<cmd>m .-2<CR>==", { desc = "Move line up" })
+map("v", "<A-S-Down>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
+map("v", "<A-S-Left>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
 -- Navigate quick fix list
-vim.keymap.set("n", "<M-S-Down>", ":cnext<CR>", { desc = "Next quickfix item" })
-vim.keymap.set("n", "<M-S-Up>", ":cprev<CR>", { desc = "Previous quickfix item" })
+map("n", "<M-S-Right>", ":cnext<CR>", { desc = "Quickfix: Next item" })
+map("n", "<M-S-Left>", ":cprev<CR>", { desc = "Quickfix: Previous item" })
 
--- Window navigation with Alt + arrow keys
-vim.keymap.set("n", "<M-Left>", "<C-w>h", { desc = "Move to left window" })
-vim.keymap.set("n", "<M-Down>", "<C-w>j", { desc = "Move to window below" })
-vim.keymap.set("n", "<M-Up>", "<C-w>k", { desc = "Move to window above" })
-vim.keymap.set("n", "<M-Right>", "<C-w>l", { desc = "Move to right window" })
-
-vim.keymap.set("n", "<leader>tm", ":terminal<CR>", { desc = "Open terminal" })
+map("n", "<leader>us", function()
+	vim.opt.spell = not (vim.opt.spell:get())
+end, { desc = "Toggle Spell Check" })

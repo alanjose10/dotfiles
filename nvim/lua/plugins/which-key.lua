@@ -1,43 +1,28 @@
--- which-key.nvim - Shows available keybindings in popup
--- Press any leader key and wait to see available options
 return {
-  "folke/which-key.nvim",
-  event = "VeryLazy",
-  dependencies = {
-    "echasnovski/mini.icons",
-  },
-  opts = {
-    preset = "modern", -- modern, classic, or helix
-    delay = 300, -- delay before showing popup (ms)
-    win = {
-      border = "rounded", -- border style
-      padding = { 1, 2 }, -- padding [top/bottom, right/left]
-    },
-    icons = {
-      breadcrumb = "»",
-      separator = "➜",
-      group = "+",
-    },
-  },
-  config = function(_, opts)
-    local wk = require("which-key")
-    wk.setup(opts)
-
-    -- Register only group names (keymaps auto-discovered from plugins)
-    wk.add({
-      -- Leader key groups
-      { "<leader>f", group = "Find (Telescope)" },
-      { "<leader>g", group = "Git" },
-      { "<leader>c", group = "Code (LSP)" },
-      { "<leader>t", group = "Toggle/Terminal" },
-      { "<leader>w", group = "Window" },
-      { "<leader>x", group = "Diagnostics (Trouble)" },
-
-      -- Other prefix groups
-      { "gs", group = "Surround" },
-      { "]", group = "Next" },
-      { "[", group = "Previous" },
-      { "z", group = "Fold" },
-    })
-  end,
+	"folke/which-key.nvim",
+	event = "VeryLazy",
+	opts = {
+		preset = "helix", -- "classic", "modern", or "helix" (vertical list)
+		-- Delay before the menu opens (in milliseconds)
+		delay = function(ctx)
+			return ctx.plugin and 0 or 400
+		end,
+		spec = {
+			-- You can manually group keymaps here if you want nice labels
+			{ "<leader>f", group = "file/find" },
+			{ "<leader>g", group = "git" },
+			{ "<leader>c", group = "code" },
+			{ "<leader>s", group = "search" },
+			{ "<leader>u", group = "ui/toggle" },
+		},
+	},
+	keys = {
+		{
+			"<leader>?",
+			function()
+				require("which-key").show({ global = false })
+			end,
+			desc = "Buffer Keymaps (Which Key)",
+		},
+	},
 }
