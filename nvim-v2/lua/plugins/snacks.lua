@@ -6,7 +6,9 @@ return {
   opts = {
     opts = {
     bigfile = {
+        enabled = false,
       notify = true,
+      line_length = 10000,
     },
   },
     explorer = {
@@ -29,7 +31,16 @@ return {
         follow_file = true,
           -- your explorer picker configuration comes here
           -- or leave it empty to use the default settings
+        win = {
+          list = {
+              keys = {
+                ["%"] = { "edit_vsplit", mode = { "n", "i" } }, -- vertical split
+                ['"'] = { "edit_split", mode = { "n", "i" } }, -- horizontal split
+              },
+            },
         },
+        },
+
       },
     },
         lazygit = {
@@ -79,5 +90,7 @@ return {
 
 -- Opens Lazygit in a floating window
     { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit" },
+
+    { "<leader>fq", function() Snacks.picker.qflist() end, desc = "Quickfix List" },
   },
 }
