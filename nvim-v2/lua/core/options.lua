@@ -36,7 +36,7 @@ vim.opt.mouse = "a"
 vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.undofile = true
-vim.opt.undodir = vim.fn.stdpath("data") .. "/undo-v2"
+vim.opt.undodir = vim.fn.stdpath("data") .. "/undo"
 vim.opt.confirm = true -- ask for confirmation
 vim.opt.spell = true
 
