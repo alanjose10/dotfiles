@@ -16,11 +16,8 @@ return {
 	opts = {
 		-- Define which formatter to use for each filetype
 		formatters_by_ft = {
-			lua = {
-				-- brew install stylua
-				-- cargo install stylua
-				"stylua",
-			},
+			lua = { "stylua" },
+			go = { "goimports", "gofumpt" }, -- imports first, then gofumpt
 		},
 		-- Auto-format on save
 		format_on_save = {

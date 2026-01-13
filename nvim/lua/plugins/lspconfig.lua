@@ -5,10 +5,10 @@ return {
 			{ "mason-org/mason.nvim", opts = {} },
 		},
 		opts = {
-			-- Auto-install formatters and linters
 			ensure_installed = {
-				-- Formatters
-				"stylua", -- Lua
+				"stylua",
+				"goimports",
+				"gofumpt",
 			},
 			auto_update = false,
 			run_on_start = true,
@@ -24,6 +24,7 @@ return {
 			require("mason-lspconfig").setup({
 				ensure_installed = {
 					"lua_ls",
+					"gopls",
 				},
 			})
 		end,
@@ -31,76 +32,34 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
-			"b0o/schemastore.nvim",
 			"saghen/blink.cmp",
-			{
-				"folke/lazydev.nvim",
-				ft = "lua", -- only load on lua files
-				opts = {
-					library = {
-						-- See the configuration section for more details
-						-- Load luvit types when the `vim.uv` word is found
-						{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
-					},
-				},
-			},
+			{ "folke/lazydev.nvim", ft = "lua", opts = {} },
 		},
 		config = function()
-			local capabilities = require("blink.cmp").get_lsp_capabilities()
-
-			local servers = {
-
-				lua_ls = {
-					on_attach = function(client, _)
-						-- disable formatting for lua_ls
-						client.server_capabilities.documentFormattingProvider = false
-						client.server_capabilities.documentRangeFormattingProvider = false
-					end,
-				},
-			}
-
-			for server, config in pairs(servers) do
-				config.capabilities = capabilities
-				vim.lsp.config(server, config)
-				vim.lsp.enable(server)
-			end
-
-			-- Enable all configured servers
-
-			-- Setup LSP keymaps on attach (using LspAttach autocmd for new API)
-			-- Note: Navigation keymaps (gd, gr, gI, gy, gD) are handled by snacks.picker
-			vim.api.nvim_create_autocmd("LspAttach", {
-				group = vim.api.nvim_create_augroup("lsp_keymaps", { clear = true }),
-				callback = function(event)
-					local bufnr = event.buf
-					local function map(mode, lhs, rhs, desc)
-						vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, silent = true, desc = desc })
-					end
-
-					-- Navigation
-					map("n", "gd", vim.lsp.buf.definition, "Go to definition")
-					map("n", "gD", vim.lsp.buf.declaration, "Go to declaration")
-					map("n", "gI", vim.lsp.buf.implementation, "Go to implementation")
-					map("n", "gy", vim.lsp.buf.type_definition, "Go to type definition")
-					map("n", "gr", vim.lsp.buf.references, "Find references")
-
-					-- Code actions
-					map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code actions")
-					map("n", "<leader>cn", vim.lsp.buf.rename, "Rename symbol")
-
-					-- Documentation
-					map("n", "K", vim.lsp.buf.hover, "Hover documentation")
-					map("n", "<leader>cs", vim.lsp.buf.signature_help, "Signature help")
-
-					-- Diagnostics navigation
-					map("n", "]d", vim.diagnostic.goto_next, "Next diagnostic")
-					map("n", "[d", vim.diagnostic.goto_prev, "Previous diagnostic")
-					map("n", "<leader>ce", vim.diagnostic.open_float, "Show diagnostic")
-				end,
+			-- Add blink.cmp capabilities to all servers
+			vim.lsp.config("*", {
+				capabilities = require("blink.cmp").get_lsp_capabilities(),
 			})
 
-			-- Note: Removed CursorHold autocmd for diagnostics to reduce memory usage
-			-- Use <leader>ce to manually show diagnostics when needed
+			-- Enable servers (configs loaded from lsp/ directory)
+			vim.lsp.enable({ "lua_ls", "gopls" })
+
+			-- Keymaps on attach (navigation handled by snacks.nvim pickers)
+			vim.api.nvim_create_autocmd("LspAttach", {
+				callback = function(ev)
+					local map = function(mode, lhs, rhs, desc)
+						vim.keymap.set(mode, lhs, rhs, { buffer = ev.buf, desc = desc })
+					end
+					-- Hover & Actions
+					map("n", "K", vim.lsp.buf.hover, "Hover")
+					map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code action")
+					map("n", "<leader>cn", vim.lsp.buf.rename, "Rename")
+					-- Diagnostics
+					map("n", "<leader>ce", vim.diagnostic.open_float, "Show diagnostic")
+					map("n", "]d", vim.diagnostic.goto_next, "Next diagnostic")
+					map("n", "[d", vim.diagnostic.goto_prev, "Prev diagnostic")
+				end,
+			})
 		end,
 	},
 }
