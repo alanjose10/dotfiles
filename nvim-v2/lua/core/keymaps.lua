@@ -35,3 +35,7 @@ map("v", "<A-S-Left>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 -- Navigate quick fix list
 map("n", "<M-S-Right>", ":cnext<CR>", { desc = "Quickfix: Next item" })
 map("n", "<M-S-Left>", ":cprev<CR>", { desc = "Quickfix: Previous item" })
+
+map("n", "<leader>us", function()
+	vim.opt.spell = not (vim.opt.spell:get())
+end, { desc = "Toggle Spell Check" })
