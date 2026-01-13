@@ -52,3 +52,4 @@ ehthumbs.db
 
 # tmux
 tmux/plugins
+nvim-v2/spell
