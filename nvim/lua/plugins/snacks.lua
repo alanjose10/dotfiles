@@ -106,12 +106,25 @@ return {
 						picker:close()
 						if item.file then
 							vim.fn.chdir(item.file) -- Change directory
-							Snacks.explorer() -- Open Explorer
 						end
 					end,
 				})
 			end,
 			desc = "Projects",
+		},
+		{
+			"<leader>fz",
+			function()
+				Snacks.picker.zoxide({
+					confirm = function(picker, item)
+						picker:close()
+						if item.file then
+							vim.fn.chdir(item.file) -- Change directory
+						end
+					end,
+				})
+			end,
+			desc = "Zoxide",
 		},
 
 		{
@@ -196,7 +209,7 @@ return {
 			desc = "Git Log (File)",
 		},
 
-		-- Git blame line in popup
+		-- Git blame line in pop-up
 		{
 			"<leader>gb",
 			function()
@@ -223,10 +236,40 @@ return {
 		},
 
 		-- LSP Navigation (using snacks pickers for preview + filtering)
-		{ "gd", function() Snacks.picker.lsp_definitions() end, desc = "Go to definition" },
-		{ "gr", function() Snacks.picker.lsp_references() end, desc = "Find references" },
-		{ "gI", function() Snacks.picker.lsp_implementations() end, desc = "Go to implementation" },
-		{ "gy", function() Snacks.picker.lsp_type_definitions() end, desc = "Go to type definition" },
-		{ "<leader>ss", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
+		{
+			"gd",
+			function()
+				Snacks.picker.lsp_definitions()
+			end,
+			desc = "Go to definition",
+		},
+		{
+			"gr",
+			function()
+				Snacks.picker.lsp_references()
+			end,
+			desc = "Find references",
+		},
+		{
+			"gI",
+			function()
+				Snacks.picker.lsp_implementations()
+			end,
+			desc = "Go to implementation",
+		},
+		{
+			"gy",
+			function()
+				Snacks.picker.lsp_type_definitions()
+			end,
+			desc = "Go to type definition",
+		},
+		{
+			"<leader>ss",
+			function()
+				Snacks.picker.lsp_symbols()
+			end,
+			desc = "LSP Symbols",
+		},
 	},
 }
