@@ -24,6 +24,7 @@ vim.opt.cursorline = true
 vim.opt.wrap = false
 vim.opt.scrolloff = 8
 vim.opt.sidescrolloff = 8
+vim.opt.smoothscroll = true
 
 -- Splits
 vim.opt.splitbelow = true
@@ -36,6 +37,7 @@ vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.undofile = true
 vim.opt.undodir = vim.fn.stdpath("data") .. "/undo-v2"
+vim.opt.confirm = true -- ask for confirmation
 
 -- Performance
 vim.opt.updatetime = 250
