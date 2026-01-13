@@ -32,18 +32,17 @@ return {
 					follow_file = true,
 					-- your explorer picker configuration comes here
 					-- or leave it empty to use the default settings
-					win = {
-						list = {
-							keys = {
-								["%"] = { "edit_vsplit", mode = { "n", "i" } }, -- vertical split
-								['"'] = { "edit_split", mode = { "n", "i" } }, -- horizontal split
-							},
-						},
-					},
 				},
 			},
 		},
 		lazygit = {},
+		indent = {
+			enabled = true,
+			animate = { enabled = false },
+		},
+		scroll = {
+			enabled = true,
+		},
 		-- disable other stuff
 		dashboard = { enabled = false },
 		notifier = { enabled = false },
@@ -87,9 +86,9 @@ return {
 		{
 			"<leader>fr",
 			function()
-				Snacks.picker.recent()
+				Snacks.picker.recent({ filter = { cwd = true } })
 			end,
-			desc = "Recent Files",
+			desc = "Recent Files (CDW)",
 		},
 
 		{
@@ -98,6 +97,21 @@ return {
 				Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
 			end,
 			desc = "Find Config File",
+		},
+		{
+			"<leader>fp",
+			function()
+				Snacks.picker.projects({
+					confirm = function(picker, item)
+						picker:close()
+						if item.file then
+							vim.fn.chdir(item.file) -- Change directory
+							Snacks.explorer() -- Open Explorer
+						end
+					end,
+				})
+			end,
+			desc = "Projects",
 		},
 
 		{
