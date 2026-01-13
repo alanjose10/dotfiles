@@ -47,3 +47,8 @@ vim.opt.timeoutlen = 300
 -- Completion
 vim.opt.completeopt = "menu,menuone,noselect"
 vim.opt.pumheight = 10
+
+-- Command Line Completion
+vim.opt.wildmenu = true
+vim.opt.wildoptions = "pum" -- "pum" stands for Popup Menu
+vim.opt.wildmode = "longest:full,full" -- Command-line completion mode
