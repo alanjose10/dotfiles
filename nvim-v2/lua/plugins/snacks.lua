@@ -32,6 +32,9 @@ return {
         },
       },
     },
+        lazygit = {
+
+    },
     -- disable other stuff
     dashboard = { enabled = false },
     notifier = { enabled = false },
@@ -72,5 +75,9 @@ return {
 
     -- UI
     { "<leader>uC", function() Snacks.picker.colorschemes() end, desc = "Colorschemes" },
+
+
+-- Opens Lazygit in a floating window
+    { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit" },
   },
 }
