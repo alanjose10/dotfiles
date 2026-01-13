@@ -2,7 +2,7 @@ return {
   "nvim-treesitter/nvim-treesitter",
   branch = "master",
   build = ":TSUpdate",
-  event = { "BufReadPost", "BufNewFile" }, -- Lazy load: only load when opening a file
+  lazy = false,
   cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
   opts = {
     auto_install = true,
