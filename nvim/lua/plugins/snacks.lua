@@ -225,6 +225,17 @@ return {
 			end,
 			desc = "Quickfix List",
 		},
+		-- List marks
+		-- add marks: m followed by a char
+		-- jump to mark: '<char> followed
+		-- jump to exact mark col: `<char> followed by
+		{
+			"<leader>fm",
+			function()
+				Snacks.picker.marks()
+			end,
+			desc = "Marks",
+		},
 
 		-- Replaces the native 'z=' with a nice picker
 		{
