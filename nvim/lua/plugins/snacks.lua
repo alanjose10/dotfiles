@@ -54,7 +54,7 @@ return {
 		{
 			"<leader><space>",
 			function()
-				Snacks.picker.smart()
+				Snacks.picker.smart({ hidden = true })
 			end,
 			desc = "Smart Find Files",
 		},
