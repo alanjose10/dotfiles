@@ -19,7 +19,7 @@ vim.opt.incsearch = true
 
 -- Appearance
 vim.opt.termguicolors = true
-vim.opt.signcolumn = "yes"
+vim.opt.signcolumn = "yes:1"
 vim.opt.cursorline = true
 vim.opt.wrap = false
 vim.opt.scrolloff = 8

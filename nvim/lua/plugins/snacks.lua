@@ -54,7 +54,7 @@ return {
 		{
 			"<leader><space>",
 			function()
-				Snacks.picker.smart({ hidden = true })
+				Snacks.picker.smart({ hidden = true, cwd = true })
 			end,
 			desc = "Smart Find Files",
 		},
@@ -230,7 +230,7 @@ return {
 		-- jump to mark: '<char> followed
 		-- jump to exact mark col: `<char> followed by
 		{
-			"<leader>fm",
+			"<leader>`",
 			function()
 				Snacks.picker.marks()
 			end,

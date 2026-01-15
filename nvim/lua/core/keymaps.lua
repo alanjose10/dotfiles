@@ -44,3 +44,5 @@ vim.keymap.set("n", '<leader>"', "<cmd>split<cr>", { desc = "Horizontal spilt" }
 -- Paste on a new line (Force Linewise)
 vim.keymap.set("n", "<leader>p", "<cmd>pu<cr>", { desc = "Paste below line" })
 vim.keymap.set("n", "<leader>P", "<cmd>pu!<cr>", { desc = "Paste above line" })
+
+vim.keymap.set("n", "*", vim.lsp.buf.document_highlight, { desc = "Smart Highlight (*)" })

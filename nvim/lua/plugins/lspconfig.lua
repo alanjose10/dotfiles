@@ -46,18 +46,56 @@ return {
 
 			-- Keymaps on attach (navigation handled by snacks.nvim pickers)
 			vim.api.nvim_create_autocmd("LspAttach", {
-				callback = function(ev)
-					local map = function(mode, lhs, rhs, desc)
-						vim.keymap.set(mode, lhs, rhs, { buffer = ev.buf, desc = desc })
+
+				callback = function(args)
+					local client = vim.lsp.get_client_by_id(args.data.client_id)
+					if not client then
+						return
 					end
-					-- Hover & Actions
-					map("n", "K", vim.lsp.buf.hover, "Hover")
-					map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code action")
-					map("n", "<leader>cn", vim.lsp.buf.rename, "Rename")
-					-- Diagnostics
-					map("n", "<leader>ce", vim.diagnostic.open_float, "Show diagnostic")
-					map("n", "]d", vim.diagnostic.goto_next, "Next diagnostic")
-					map("n", "[d", vim.diagnostic.goto_prev, "Prev diagnostic")
+
+					local function map(keys, func, desc)
+						vim.keymap.set("n", keys, func, { buffer = args.buf, desc = desc })
+					end
+
+					-- Snacks
+					map("gd", function()
+						Snacks.picker.lsp_definitions()
+					end, "Go to Definition")
+
+					map("gr", function()
+						Snacks.picker.lsp_references()
+					end, "Go to References")
+
+					map("gI", function()
+						Snacks.picker.lsp_implementations()
+					end, "Go to Implementation")
+					map("gy", function()
+						Snacks.picker.lsp_type_definitions()
+					end, "Go to Type Definition")
+					map("<leader>ss", function()
+						Snacks.picker.lsp_symbols()
+					end, "LSP Symbols")
+
+					map("<leader>cr", vim.lsp.buf.rename, "Rename Variable")
+					map("<leader>ca", vim.lsp.buf.code_action, "Code Action")
+					map("K", vim.lsp.buf.hover, "Hover")
+					map("<leader>cd", vim.diagnostic.open_float, "Show diagnostic")
+					map("]d", vim.diagnostic.goto_next, "Next diagnostic")
+					map("[d", vim.diagnostic.goto_prev, "Prev diagnostic")
+
+					if client.server_capabilities.documentHighlightProvider then
+						local highlight_grp = vim.api.nvim_create_augroup("LspDocumentHighlight", { clear = false })
+						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+							buffer = args.buf,
+							group = highlight_grp,
+							callback = vim.lsp.buf.document_highlight,
+						})
+						vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+							buffer = args.buf,
+							group = highlight_grp,
+							callback = vim.lsp.buf.clear_references,
+						})
+					end
 				end,
 			})
 		end,
