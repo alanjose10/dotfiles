@@ -62,22 +62,26 @@ return {
 						Snacks.picker.lsp_definitions()
 					end, "Go to Definition")
 
-					map("gr", function()
+					map("grr", function()
 						Snacks.picker.lsp_references()
 					end, "Go to References")
 
-					map("gI", function()
+					map("gri", function()
 						Snacks.picker.lsp_implementations()
 					end, "Go to Implementation")
+
 					map("gy", function()
 						Snacks.picker.lsp_type_definitions()
 					end, "Go to Type Definition")
+
 					map("<leader>ss", function()
 						Snacks.picker.lsp_symbols()
 					end, "LSP Symbols")
 
-					map("<leader>cr", vim.lsp.buf.rename, "Rename Variable")
-					map("<leader>ca", vim.lsp.buf.code_action, "Code Action")
+					map("<leader>sd", function()
+						Snacks.picker.diagnostics_buffer()
+					end, "List Diagnostics")
+
 					map("K", vim.lsp.buf.hover, "Hover")
 					map("<leader>cd", vim.diagnostic.open_float, "Show diagnostic")
 					map("]d", vim.diagnostic.goto_next, "Next diagnostic")
