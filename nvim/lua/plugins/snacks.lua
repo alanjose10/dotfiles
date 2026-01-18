@@ -52,9 +52,19 @@ return {
 		{
 			"<leader><space>",
 			function()
-				Snacks.picker.smart({ hidden = true, cwd = true })
+				Snacks.picker.smart({
+					hidden = true,
+				})
 			end,
 			desc = "Smart Find Files",
+		},
+
+		{
+			"<leader>ff",
+			function()
+				Snacks.picker.files()
+			end,
+			desc = "Find Files",
 		},
 
 		{
