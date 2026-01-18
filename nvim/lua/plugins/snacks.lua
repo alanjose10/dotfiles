@@ -62,7 +62,9 @@ return {
 		{
 			"<leader>ff",
 			function()
-				Snacks.picker.files()
+				Snacks.picker.files({
+					hidden = true,
+				})
 			end,
 			desc = "Find Files",
 		},
@@ -77,8 +79,31 @@ return {
 
 		{
 			"<leader>,",
+			-- function()
+			-- 	Snacks.picker.buffers()
+			-- end,
 			function()
-				Snacks.picker.buffers()
+				Snacks.picker.buffers({
+					on_show = function()
+						vim.cmd.stopinsert()
+					end,
+					finder = "buffers",
+					format = "buffer",
+					hidden = false,
+					unloaded = true,
+					current = true,
+					sort_lastused = true,
+					win = {
+						input = {
+							keys = {
+								["d"] = "bufdelete",
+							},
+						},
+						list = { keys = { ["d"] = "bufdelete" } },
+					},
+					-- In case you want to override the layout for this keymap
+					-- layout = "ivy",
+				})
 			end,
 			desc = "Buffers",
 		},
