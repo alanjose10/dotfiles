@@ -45,7 +45,10 @@ The active config is in `nvim/` (the `nvim-old/` directory contains a previous v
 ```
 nvim/
 ├── init.lua              # Entry point: bootstraps lazy.nvim, loads core/, imports plugins/
-├── lazy-lock.json     # Plugin version lockfile
+├── lazy-lock.json        # Plugin version lockfile
+├── lsp/                  # LSP server configs (Neovim 0.11+ vim.lsp.config API)
+│   ├── gopls.lua         # Go LSP with directory filters for monorepos
+│   └── lua_ls.lua        # Lua LSP
 └── lua/
     ├── core/             # Core configuration (loaded before plugins)
     │   ├── options.lua   # Vim options (tabs, UI, clipboard, etc.)
@@ -94,8 +97,17 @@ nvim/
 **LSP:**
 - Mason for installing LSP servers, formatters, linters
 - Uses new `vim.lsp.config()` and `vim.lsp.enable()` API (Neovim 0.11+)
+- LSP server configs live in `nvim/lsp/` directory
 - lua_ls has formatting disabled (conform handles it)
 - gopls uses gofumpt for formatting
+
+**Monorepo Performance:**
+- Pickers exclude `.git`, `node_modules`, `plz-out`, `.plz-cache` directories
+- Bigfile detection disables heavy features on large files (>1MB or >10K lines)
+- LSP document highlight disabled for files >5K lines
+- Trailing whitespace trim skipped for files >10K lines
+- Format-on-save has 5s timeout for slow formatters
+- gopls configured to filter out `plz-out`, `.plz-cache`, `vendor`, `third_party`
 
 ### Important Keymaps
 
@@ -103,12 +115,14 @@ Leader key: `<Space>`
 
 **File Navigation (snacks.picker):**
 - `<leader><space>` - Smart find files
+- `<leader>ff` - Find files
 - `<leader>/` - Grep project
 - `<leader>,` - List buffers
 - `<leader>e` - File explorer
 - `<leader>fr` - Recent files (cwd)
 - `<leader>fc` - Find config file
 - `<leader>fp` - Projects
+- `<leader>fz` - Zoxide directories
 
 **Search (`<leader>s`):**
 - `<leader>sw` - Grep word under cursor
@@ -122,15 +136,15 @@ Leader key: `<Space>`
 - `<leader>gb` - Blame line (popup)
 - `<leader>gf` - Git log for file
 - `<leader>ub` - Toggle inline blame
+- `<leader>uB` - Git blame file (vertical split)
 
 **LSP:**
-- `gd` / `gD` - Go to definition/declaration
-- `gI` / `gy` - Go to implementation/type definition
-- `gr` - Find references
+- `gd` - Go to definition
+- `grr` - Find references
+- `gri` - Go to implementation
+- `gy` - Go to type definition
 - `K` - Hover documentation
-- `<leader>ca` - Code actions
-- `<leader>cn` - Rename symbol
-- `<leader>ce` - Show diagnostic
+- `<leader>cd` - Show diagnostic
 - `]d` / `[d` - Next/prev diagnostic
 
 **Flash navigation (Colemak-optimized):**
