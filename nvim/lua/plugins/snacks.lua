@@ -4,12 +4,10 @@ return {
 	lazy = false,
 	---@type snacks.Config
 	opts = {
-		opts = {
-			bigfile = {
-				enabled = false,
-				notify = true,
-				line_length = 10000,
-			},
+		bigfile = {
+			enabled = false,
+			notify = true,
+			line_length = 10000,
 		},
 		explorer = {
 			enabled = true,
