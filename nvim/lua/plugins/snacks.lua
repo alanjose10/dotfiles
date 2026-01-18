@@ -2,7 +2,6 @@ return {
 	"folke/snacks.nvim",
 	priority = 1000,
 	lazy = false,
-	---@type snacks.Config
 	opts = {
 		bigfile = {
 			enabled = false,
@@ -54,6 +53,7 @@ return {
 			function()
 				Snacks.picker.smart({
 					hidden = true,
+					layout = "vscode",
 				})
 			end,
 			desc = "Smart Find Files",
@@ -64,6 +64,7 @@ return {
 			function()
 				Snacks.picker.files({
 					hidden = true,
+					layout = "vscode",
 				})
 			end,
 			desc = "Find Files",
