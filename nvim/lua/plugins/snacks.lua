@@ -54,6 +54,8 @@ return {
 				Snacks.picker.smart({
 					hidden = true,
 					layout = "vscode",
+					ignored = false, -- Respect .gitignore
+					exclude = { ".git", "node_modules", "plz-out", ".plz-cache" },
 				})
 			end,
 			desc = "Smart Find Files",
@@ -65,6 +67,8 @@ return {
 				Snacks.picker.files({
 					hidden = true,
 					layout = "vscode",
+					ignored = false, -- Respect .gitignore
+					exclude = { ".git", "node_modules", "plz-out", ".plz-cache" },
 				})
 			end,
 			desc = "Find Files",
@@ -73,7 +77,10 @@ return {
 		{
 			"<leader>/",
 			function()
-				Snacks.picker.grep()
+				Snacks.picker.grep({
+					ignored = false, -- Respect .gitignore
+					exclude = { ".git", "node_modules", "plz-out", ".plz-cache" },
+				})
 			end,
 			desc = "Grep Project",
 		},
