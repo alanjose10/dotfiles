@@ -19,9 +19,9 @@ return {
 			lua = { "stylua" },
 			go = { "goimports", "gofumpt" }, -- imports first, then gofumpt
 		},
-		-- Auto-format on save
+		-- Auto-format on save (longer timeout for large monorepos)
 		format_on_save = {
-			timeout_ms = 2000,
+			timeout_ms = 5000,
 			lsp_fallback = true, -- Use LSP formatting if no formatter is defined
 		},
 	},

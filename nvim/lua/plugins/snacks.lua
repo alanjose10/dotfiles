@@ -4,8 +4,9 @@ return {
 	lazy = false,
 	opts = {
 		bigfile = {
-			enabled = false,
+			enabled = true, -- Disable heavy features on large files
 			notify = true,
+			size = 1024 * 1024, -- 1MB
 			line_length = 10000,
 		},
 		explorer = {

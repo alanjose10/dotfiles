@@ -11,11 +11,15 @@ autocmd("TextYankPost", {
 	end,
 })
 
--- Remove trailing whitespace on save
+-- Remove trailing whitespace on save (skip large files for performance)
 autocmd("BufWritePre", {
 	group = augroup("trim_whitespace", { clear = true }),
 	pattern = "*",
 	callback = function()
+		local max_lines = 10000
+		if vim.api.nvim_buf_line_count(0) > max_lines then
+			return
+		end
 		local pos = vim.api.nvim_win_get_cursor(0)
 		vim.cmd([[%s/\s\+$//e]])
 		vim.api.nvim_win_set_cursor(0, pos)

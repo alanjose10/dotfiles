@@ -87,7 +87,9 @@ return {
 					map("]d", vim.diagnostic.goto_next, "Next diagnostic")
 					map("[d", vim.diagnostic.goto_prev, "Prev diagnostic")
 
-					if client.server_capabilities.documentHighlightProvider then
+					-- Skip document highlight for large files (performance)
+					local max_lines = 5000
+					if client.server_capabilities.documentHighlightProvider and vim.api.nvim_buf_line_count(args.buf) <= max_lines then
 						local highlight_grp = vim.api.nvim_create_augroup("LspDocumentHighlight", { clear = false })
 						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 							buffer = args.buf,
