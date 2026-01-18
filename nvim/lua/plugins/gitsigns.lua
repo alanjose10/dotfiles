@@ -27,6 +27,7 @@ return {
 				":Gitsigns toggle_current_line_blame<CR>",
 				{ desc = "Toggle inline blame", buffer = bufnr }
 			)
+			vim.keymap.set("n", "<leader>uB", ":Gitsigns blame<CR>", { desc = "Git blame file", buffer = bufnr })
 		end,
 	},
 }
