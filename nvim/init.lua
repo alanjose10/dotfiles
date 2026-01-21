@@ -1,3 +1,8 @@
+local snap_go_path = "/snap/go/current/bin"
+if vim.fn.isdirectory(snap_go_path) == 1 then
+	vim.env.PATH = snap_go_path .. ":" .. vim.env.PATH
+end
+
 -- Minimal Neovim Configuration
 -- Add plugins one by one to debug performance issues
 
