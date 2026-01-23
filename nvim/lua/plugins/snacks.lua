@@ -40,6 +40,10 @@ return {
 		},
 		scroll = {
 			enabled = true,
+			animate = {
+				duration = { step = 20, total = 500 },
+				easing = "linear",
+			},
 		},
 		-- disable other stuff
 		dashboard = { enabled = false },
