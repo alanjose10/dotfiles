@@ -35,6 +35,11 @@ return {
 			"saghen/blink.cmp",
 			{ "folke/lazydev.nvim", ft = "lua", opts = {} },
 		},
+		opts = {
+			inlay_hints = {
+				enabled = true,
+			},
+		},
 		config = function()
 			-- Add blink.cmp capabilities to all servers
 			vim.lsp.config("*", {
@@ -66,13 +71,21 @@ return {
 						Snacks.picker.lsp_references()
 					end, "Go to References")
 
-					map("gri", function()
+					map("grI", function()
 						Snacks.picker.lsp_implementations()
 					end, "Go to Implementation")
 
 					map("gy", function()
 						Snacks.picker.lsp_type_definitions()
 					end, "Go to Type Definition")
+
+					map("gri", function()
+						Snacks.picker.lsp_incoming_calls()
+					end, "LSP Incoming Calls")
+
+					map("gro", function()
+						Snacks.picker.lsp_outgoing_calls()
+					end, "LSP Outgoing Calls")
 
 					map("<leader>ss", function()
 						Snacks.picker.lsp_symbols()
@@ -89,7 +102,10 @@ return {
 
 					-- Skip document highlight for large files (performance)
 					local max_lines = 5000
-					if client.server_capabilities.documentHighlightProvider and vim.api.nvim_buf_line_count(args.buf) <= max_lines then
+					if
+						client.server_capabilities.documentHighlightProvider
+						and vim.api.nvim_buf_line_count(args.buf) <= max_lines
+					then
 						local highlight_grp = vim.api.nvim_create_augroup("LspDocumentHighlight", { clear = false })
 						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 							buffer = args.buf,
