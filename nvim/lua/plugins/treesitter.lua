@@ -1,46 +1,90 @@
 return {
-	"nvim-treesitter/nvim-treesitter",
-	branch = "master",
-	build = ":TSUpdate",
-	lazy = false,
-	cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
-	opts = {
-		auto_install = true,
-		-- Always keep these installed because they are needed for Neovim itself.
-		ensure_installed = {
-			"bash",
-			"lua",
-			"vim",
-			"vimdoc",
-			"query",
-			"markdown",
-			"markdown_inline",
-		},
+	{
+		"nvim-treesitter/nvim-treesitter",
+		branch = "master",
+		build = ":TSUpdate",
+		lazy = false,
+		cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
+		opts = {
+			auto_install = true,
+			-- Always keep these installed because they are needed for Neovim itself.
+			ensure_installed = {
+				"bash",
+				"lua",
+				"vim",
+				"vimdoc",
+				"query",
+				"markdown",
+				"markdown_inline",
+			},
 
-		-- Highlighting:
-		-- The core feature. Makes code look correct.
-		highlight = {
+			-- Highlighting:
+			-- The core feature. Makes code look correct.
+			highlight = {
+				enable = true,
+				additional_vim_regex_highlighting = false, -- Turn off standard vim syntax (faster)
+			},
+
+			-- Indentation:
+			-- Replaces the old 'filetype indent on' with smarter, syntax-aware indentation.
+			indent = { enable = true },
+
+			-- Incremental selection
+			incremental_selection = {
+				enable = true, -- enable smart selection expansion
+				keymaps = {
+					init_selection = "<CR>", -- press Enter to start selecting
+					node_incremental = "<CR>", -- press Enter again to expand selection
+					node_decremental = "<BS>", -- press Backspace to shrink selection
+					scope_incremental = "<Tab>", -- press Tab to expand to outer scope
+				},
+			},
+		},
+		-- Pass the options to the setup function
+		config = function(_, opts)
+			require("nvim-treesitter.configs").setup(opts)
+		end,
+	},
+	{
+		"nvim-treesitter/nvim-treesitter-context",
+		event = "BufReadPost",
+		opts = {
 			enable = true,
-			additional_vim_regex_highlighting = false, -- Turn off standard vim syntax (faster)
+			max_lines = 2,
+			trim_scope = "outer",
+			min_window_height = 0,
+			patterns = {
+				default = {
+					"class",
+					"function",
+					"method",
+					"for",
+					"while",
+					"if",
+					"switch",
+					"case",
+				},
+			},
+			exact_patterns = {},
+			zindex = 20,
+			mode = "cursor",
+			separator = nil,
 		},
-
-		-- Indentation:
-		-- Replaces the old 'filetype indent on' with smarter, syntax-aware indentation.
-		indent = { enable = true },
-
-		-- Incremental selection
-		incremental_selection = {
-			enable = true, -- enable smart selection expansion
-			keymaps = {
-				init_selection = "<CR>", -- press Enter to start selecting
-				node_incremental = "<CR>", -- press Enter again to expand selection
-				node_decremental = "<BS>", -- press Backspace to shrink selection
-				scope_incremental = "<Tab>", -- press Tab to expand to outer scope
+		keys = {
+			{
+				"<leader>ut",
+				function()
+					require("treesitter-context").toggle()
+				end,
+				desc = "Toggle Sticky Scroll",
+			},
+			{
+				"[c",
+				function()
+					require("treesitter-context").go_to_context()
+				end,
+				desc = "Jump to Context (Up)",
 			},
 		},
 	},
-	-- Pass the options to the setup function
-	config = function(_, opts)
-		require("nvim-treesitter.configs").setup(opts)
-	end,
 }
