@@ -25,6 +25,7 @@ return {
 				ensure_installed = {
 					"lua_ls",
 					"gopls",
+					"buf_ls",
 				},
 			})
 		end,
@@ -47,7 +48,7 @@ return {
 			})
 
 			-- Enable servers (configs loaded from lsp/ directory)
-			vim.lsp.enable({ "lua_ls", "gopls" })
+			vim.lsp.enable({ "lua_ls", "gopls", "buf_ls" })
 
 			-- Keymaps on attach (navigation handled by snacks.nvim pickers)
 			vim.api.nvim_create_autocmd("LspAttach", {

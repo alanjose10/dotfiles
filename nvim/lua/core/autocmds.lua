@@ -49,3 +49,4 @@ autocmd("FileType", {
 		vim.opt_local.shiftwidth = 4
 	end,
 })
+

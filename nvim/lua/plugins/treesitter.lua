@@ -16,6 +16,7 @@ return {
 				"query",
 				"markdown",
 				"markdown_inline",
+				"proto",
 			},
 
 			-- Highlighting:
