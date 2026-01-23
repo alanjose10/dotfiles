@@ -18,12 +18,6 @@ return {
 				parameterNames = true,
 				rangeVariableTypes = true,
 			},
-			-- Uncomment if gopls is slow/memory-heavy:
-			-- analyses = {
-			-- 	unusedparams = false,
-			-- 	shadow = false,
-			-- },
-			-- staticcheck = false,
 		},
 	},
 }
