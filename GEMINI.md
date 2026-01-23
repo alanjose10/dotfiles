@@ -19,6 +19,7 @@ This repository contains the personal configuration files (dotfiles) for the use
     *   `lua/core/`: Core options, keymaps, and autocommands (loaded first).
     *   `lua/plugins/`: Plugin specifications managed by `lazy.nvim`.
     *   `lsp/`: LSP server configurations.
+    *   `after/ftplugin/`: Filetype-specific settings (e.g., Go, Protobuf) that override defaults.
 *   **`nvim-old/`**: specific reference for a previous Neovim configuration.
 *   **`tmux/`**: Tmux configuration file (`tmux.conf`).
 *   **`zsh/`**: Zsh configuration files (`.zshrc`, `.zprofile`, `.zshenv`).
@@ -69,8 +70,10 @@ ln -sfn ~/dotfiles/kitty ~/.config/kitty
     *   Flash.nvim: Labels optimized for Colemak-DH.
 *   **LSP & Formatting:**
     *   LSP servers configured in `lsp/` (using `vim.lsp.config` API).
-    *   `conform.nvim` handles formatting (Format-on-save enabled).
+    *   `conform.nvim` handles formatting (Format-on-save enabled for most types).
     *   `mason` manages external binaries.
+    *   **Go:** Uses `gofumpt` and `goimports`. Inlay hints enabled.
+    *   **Protobuf:** Uses `buf_ls`. Formatting is **disabled** by request; uses manual 4-space indentation.
 
 **Essential Keymaps (Leader `<Space>`):**
 
