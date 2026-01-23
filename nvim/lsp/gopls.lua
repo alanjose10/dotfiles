@@ -9,6 +9,15 @@ return {
 				"-vendor",
 				"-**/testdata",
 			},
+			hints = {
+				assignVariableTypes = true,
+				compositeLiteralFields = true,
+				compositeLiteralTypes = true,
+				constantValues = true,
+				functionTypeParameters = true,
+				parameterNames = true,
+				rangeVariableTypes = true,
+			},
 			-- Uncomment if gopls is slow/memory-heavy:
 			-- analyses = {
 			-- 	unusedparams = false,

@@ -100,6 +100,16 @@ return {
 					map("]d", vim.diagnostic.goto_next, "Next diagnostic")
 					map("[d", vim.diagnostic.goto_prev, "Prev diagnostic")
 
+					if client.server_capabilities.inlayHintProvider then
+						vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+						map("<leader>uh", function()
+							vim.lsp.inlay_hint.enable(
+								not vim.lsp.inlay_hint.is_enabled({ bufnr = args.buf }),
+								{ bufnr = args.buf }
+							)
+						end, "Toggle Inlay Hints")
+					end
+
 					-- Skip document highlight for large files (performance)
 					local max_lines = 5000
 					if
