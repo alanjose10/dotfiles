@@ -10,6 +10,8 @@ return {
 				"goimports",
 				"gofumpt",
 				"taplo",
+				"marksman",
+				"prettier",
 			},
 			auto_update = false,
 			run_on_start = true,
@@ -27,6 +29,7 @@ return {
 					"lua_ls",
 					"gopls",
 					"buf_ls",
+					"marksman",
 				},
 			})
 		end,
@@ -49,7 +52,7 @@ return {
 			})
 
 			-- Enable servers (configs loaded from lsp/ directory)
-			vim.lsp.enable({ "lua_ls", "gopls", "buf_ls" })
+			vim.lsp.enable({ "lua_ls", "gopls", "buf_ls", "marksman" })
 
 			-- Keymaps on attach (navigation handled by snacks.nvim pickers)
 			vim.api.nvim_create_autocmd("LspAttach", {
