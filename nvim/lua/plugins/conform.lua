@@ -18,6 +18,7 @@ return {
 		formatters_by_ft = {
 			lua = { "stylua" },
 			go = { "goimports", "gofumpt" }, -- imports first, then gofumpt
+			toml = { "taplo" },
 		},
 		-- Auto-format on save (longer timeout for large monorepos)
 		format_on_save = {

@@ -9,6 +9,7 @@ return {
 				"stylua",
 				"goimports",
 				"gofumpt",
+				"taplo",
 			},
 			auto_update = false,
 			run_on_start = true,
