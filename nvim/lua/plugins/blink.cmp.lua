@@ -13,7 +13,10 @@ return {
 		--   <CR>      : Accept selection
 		--   <Tab>     : Next item / Select
 		--   <S-Tab>   : Previous item
-		keymap = { preset = "enter" },
+		keymap = {
+			preset = "enter",
+			["<C-e>"] = { "hide", "fallback" },
+		},
 
 		appearance = {
 			use_nvim_cmp_as_default = true, -- Fallback for themes that don't support blink yet
