@@ -205,9 +205,32 @@ EOF
 }
 
 
+# Git branch switcher - lists branches and switches to one
+gb() {
+  if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "Not a git directory."
+    return 1
+  fi
+
+  local branch
+  branch=$(git branch --sort=-committerdate --color=always | \
+    fzf --ansi --height 40% --reverse \
+        --header "enter: checkout, esc: exit" \
+        --preview "git log -n 20 --color=always --graph --date=short --pretty='format:%C(auto)%cd %h%d %s' \$(echo {} | sed 's/^[* ]*//' | awk '{print \$1}')" \
+        --preview-window right:60%)
+
+  # Clean up branch name (remove * and spaces)
+  branch=$(echo "$branch" | sed 's/^[* ]*//' | awk '{print $1}')
+
+  if [[ -n "$branch" ]]; then
+    git checkout "$branch"
+  fi
+}
+
+
 # Do Mac-specific stuff here
 if [[ $(uname) == "Darwin" ]]; then
-  
+
   if [[ -d "/opt/homebrew/opt/libpq" ]]; then
     export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
     export LDFLAGS="-L/opt/homebrew/opt/libpq/lib"
@@ -215,7 +238,7 @@ if [[ $(uname) == "Darwin" ]]; then
   fi
 
 fi
-    
+
 
 # Do workstation specific stuff here
 if [[ $(uname) == "Linux" ]]; then
