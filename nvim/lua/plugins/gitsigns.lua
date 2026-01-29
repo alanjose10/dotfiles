@@ -50,8 +50,8 @@ return {
 			map("v", "<leader>gr", function()
 				gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
 			end, { desc = "Reset Hunk" })
-			map("n", "<leader>gS", gs.stage_buffer, { desc = "Stage Buffer" })
-			map("n", "<leader>gR", gs.reset_buffer, { desc = "Reset Buffer" })
+			-- map("n", "<leader>gS", gs.stage_buffer, { desc = "Stage Buffer" }) -- Disabled as i use lazygit
+			-- map("n", "<leader>gR", gs.reset_buffer, { desc = "Reset Buffer" }) -- Disabled as i use lazygit
 			map("n", "<leader>gp", gs.preview_hunk_inline, { desc = "Preview Hunk" })
 			map("n", "<leader>gi", gs.toggle_current_line_blame, { desc = "Toggle Line Blame" })
 			map("n", "<leader>gd", gs.diffthis, { desc = "Diff This" })
@@ -61,7 +61,14 @@ return {
 
 			-- Text object
 			map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "Select Hunk" })
+
+			-- Toggle review mode on current buffer
+			map("n", "<leader>gR", function()
+				gs.toggle_linehl()
+				gs.toggle_deleted()
+				gs.toggle_word_diff()
+				gs.toggle_signs()
+			end)
 		end,
 	},
 }
-
