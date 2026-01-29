@@ -39,4 +39,12 @@ autocmd("BufReadPost", {
 	end,
 })
 
-
+autocmd("ColorScheme", {
+	group = augroup("custom_highlights", { clear = true }),
+	pattern = "*",
+	-- Assign it to the group here:
+	callback = function()
+		-- Your custom highlight logic
+		vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { fg = "#555555", italic = true })
+	end,
+})
