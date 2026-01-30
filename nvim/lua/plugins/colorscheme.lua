@@ -7,6 +7,7 @@ return {
 		name = "rose-pine",
 		enabled = USE == "rose-pine",
 		priority = 1000,
+		lazy = false,
 		config = function()
 			require("rose-pine").setup({ variant = "moon" }) -- main, moon, or dawn
 			vim.cmd("colorscheme rose-pine")
@@ -16,6 +17,7 @@ return {
 		"rebelot/kanagawa.nvim",
 		enabled = USE == "kanagawa",
 		priority = 1000,
+		lazy = false,
 		config = function()
 			vim.cmd("colorscheme kanagawa")
 		end,
@@ -24,6 +26,7 @@ return {
 		"folke/tokyonight.nvim",
 		enabled = USE == "tokyonight",
 		priority = 1000,
+		lazy = false,
 		config = function()
 			require("tokyonight").setup({ style = "night" }) -- night, storm, day, moon
 			vim.cmd("colorscheme tokyonight")
@@ -33,6 +36,7 @@ return {
 		"sainnhe/everforest",
 		enabled = USE == "everforest",
 		priority = 1000,
+		lazy = false,
 		config = function()
 			vim.g.everforest_background = "hard" -- hard, medium, soft
 			vim.cmd("colorscheme everforest")
