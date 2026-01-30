@@ -31,6 +31,7 @@ return {
 					"gopls",
 					"buf_ls",
 					"marksman",
+					"yamlls",
 				},
 			})
 		end,
@@ -53,7 +54,7 @@ return {
 			})
 
 			-- Enable servers (configs loaded from lsp/ directory)
-			vim.lsp.enable({ "lua_ls", "gopls", "buf_ls", "marksman" })
+			vim.lsp.enable({ "lua_ls", "gopls", "buf_ls", "marksman", "yamlls" })
 
 			-- Keymaps on attach (navigation handled by snacks.nvim pickers)
 			vim.api.nvim_create_autocmd("LspAttach", {
