@@ -219,6 +219,13 @@ return {
 			end,
 			desc = "Keymaps",
 		},
+		{
+			"<leader>sr",
+			function()
+				Snacks.picker.resume()
+			end,
+			desc = "Resume Last Picker",
+		},
 
 		{
 			'<leader>s"',
