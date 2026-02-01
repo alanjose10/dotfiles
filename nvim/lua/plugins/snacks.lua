@@ -71,7 +71,7 @@ return {
 			function()
 				Snacks.picker.files({
 					hidden = true,
-					layout = "vscode",
+					-- layout = "vscode",
 					ignored = false, -- Respect .gitignore
 					exclude = { ".git", "node_modules", "plz-out", ".plz-cache" },
 				})
