@@ -11,7 +11,7 @@ return {
 				"gofumpt",
 				"taplo",
 				"marksman",
-				"prettier",
+				-- "prettier",
 			},
 			auto_update = false,
 			run_on_start = true,

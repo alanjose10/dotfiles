@@ -19,7 +19,7 @@ return {
 			lua = { "stylua" },
 			go = { "goimports", "gofumpt" }, -- imports first, then gofumpt
 			toml = { "taplo" },
-			markdown = { "prettier" },
+			-- markdown = { "prettier" },
 		},
 		-- Auto-format on save (longer timeout for large monorepos)
 		format_on_save = {
