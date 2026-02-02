@@ -19,10 +19,6 @@ vim.keymap.set("n", "<A-S-Right>", "<cmd>vertical resize +5<CR>", { desc = "Incr
 vim.keymap.set("n", "<leader>wm", "<cmd>wincmd |<cr><cmd>wincmd _<cr>", { desc = "Maximize window" })
 vim.keymap.set("n", "<leader>w=", "<cmd>wincmd =<cr>", { desc = "Equalize windows" })
 
--- Buffer navigation
-vim.keymap.set("n", "<Tab>", "<cmd>bnext<CR>", { desc = "Next buffer" })
-vim.keymap.set("n", "<S-Tab>", "<cmd>bprevious<CR>", { desc = "Previous buffer" })
-
 -- Better indenting (stay in visual mode)
 vim.keymap.set("v", "<", "<gv", { desc = "Indent left" })
 vim.keymap.set("v", ">", ">gv", { desc = "Indent right" })
