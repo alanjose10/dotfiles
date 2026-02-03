@@ -20,7 +20,7 @@ This repository contains the personal configuration files (dotfiles) for the use
     *   `lua/plugins/`: Plugin specifications managed by `lazy.nvim`.
     *   `lsp/`: LSP server configurations.
     *   `after/ftplugin/`: Filetype-specific settings (e.g., Go, Protobuf) that override defaults.
-*   **`nvim-old/`**: specific reference for a previous Neovim configuration.
+*   **`nvim-old/`**: Specific reference for a previous Neovim configuration.
 *   **`tmux/`**: Tmux configuration file (`tmux.conf`).
 *   **`zsh/`**: Zsh configuration files (`.zshrc`, `.zprofile`, `.zshenv`).
 *   **`home/`**: Directory structure mirroring the user's home directory, containing configs for other tools (e.g., `.config/nvim`, `.config/tmux`).
@@ -101,11 +101,12 @@ ln -sfn ~/dotfiles/kitty ~/.config/kitty
 ### Zsh (`zsh/`)
 
 *   **Aliases:** `lg` (lazygit), `vim`/`vi` (nvim), `k` (kubectl).
-*   **Functions:**
+*   **Interactive Functions (with fzf):**
     *   `v [dir] [session]`: Opens nvim in a new tmux window/session.
     *   `ts`: Fuzzy tmux session switcher.
-    *   `kn`: Kubectl namespace switcher.
-    *   `kc`: Kubectl context switcher.
+    *   `gb`: Git branch switcher.
+    *   `kn`: **Kubectl Namespace Switcher.** Interactively lists namespaces, shows a preview of the first 15 pods, and switches context. Displays current namespace in header.
+    *   `kc`: **Kubectl Context Switcher.** Interactively lists contexts with full details preview and switches. Displays current context in header.
 *   **Dependencies:** `zoxide` (directory jumping), `fzf`, `kubectl`, `plz` (Linux only).
 
 ## Development Conventions
@@ -120,8 +121,3 @@ ln -sfn ~/dotfiles/kitty ~/.config/kitty
     *   Add new plugins to `nvim/lua/plugins/`.
     *   Ensure no keymap conflicts with Colemak-DH layout or `flash.nvim`.
     *   Test changes by reloading Neovim or the specific module.
-
-## Neovim Setup Goal
-- The neovim configuration has been written from scratch to keep it lean and fast with only the necessary plugins and configurations necessary.
-- I would like to only setup the LSPs, formatters and linters as needed.
-- Each plugin should live in its own file allowing it to be easily removed or modified.
