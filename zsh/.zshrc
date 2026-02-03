@@ -62,11 +62,17 @@ alias vi='nvim'
 
 # kubectl namespace switcher - lists namespaces and optionally switches to one
 kn() {
-  kubectl get ns ; echo
-  if [[ "$#" -eq 1 ]]; then
-    kubectl config set-context --current --namespace $1 ; echo
+  local ns
+  ns=$(kubectl get namespaces -o name | sed 's/namespace\///' | \
+    fzf --height 40% --reverse \
+        --header "enter: switch namespace, esc: exit" \
+        --preview "kubectl get namespace {1}; echo; kubectl get pods --namespace {1} | head -n 15" \
+        --preview-window right:50%)
+
+  if [[ -n "$ns" ]]; then
+    kubectl config set-context --current --namespace "$ns"
+    echo "Switched to namespace: $ns"
   fi
-  echo "Current namespace [ $(kubectl config view --minify | grep namespace | cut -d " " -f6) ]"
 }
 
 # kubectl context switcher - lists contexts and optionally switches to one
