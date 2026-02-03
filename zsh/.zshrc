@@ -63,11 +63,13 @@ alias vi='nvim'
 # kubectl namespace switcher - lists namespaces and optionally switches to one
 kn() {
   local ns
+  local current_ns
+  current_ns=$(kubectl config view --minify --output 'jsonpath={..namespace}' 2>/dev/null || echo "default")
   ns=$(kubectl get namespaces -o name | sed 's/namespace\///' | \
     fzf --height 40% --reverse \
-        --header "enter: switch namespace, esc: exit" \
+        --header "Current Namespace: $current_ns | enter: switch namespace, esc: exit" \
         --preview "kubectl get namespace {1}; echo; kubectl get pods --namespace {1} | head -n 15" \
-        --preview-window right:50%)
+        --preview-window right:40%)
 
   if [[ -n "$ns" ]]; then
     kubectl config set-context --current --namespace "$ns"
@@ -75,13 +77,20 @@ kn() {
   fi
 }
 
-# kubectl context switcher - lists contexts and optionally switches to one
+# kubectl context switcher - lists contexts and switches to one
 kc() {
-  kubectl config get-contexts -o name ; echo
-  if [[ "$#" -eq 1 ]]; then
-    kubectl config use-context $1 ; echo
+  local context
+  local current_context
+  current_context=$(kubectl config current-context)
+  context=$(kubectl config get-contexts -o name | \
+    fzf --height 40% --reverse \
+        --header "Current Context: $current_context | enter: use context, esc: exit" \
+        --preview "kubectl config get-contexts {1}" \
+        --preview-window right:60%)
+
+  if [[ -n "$context" ]]; then
+    kubectl config use-context "$context"
   fi
-  echo "Current context [ $(kubectl config current-context) ]"
 }
 
 # init kubectl
