@@ -38,11 +38,34 @@ return {
 					-- Default to showing hidden files
 					hidden = true,
 					-- Don't close the explorer when I open a file (persistent sidebar)
-					auto_close = true,
+					auto_close = false,
 					-- Jump to the file in the explorer when I change buffers
 					follow_file = true,
 					-- your explorer picker configuration comes here
 					-- or leave it empty to use the default settings
+					actions = {
+						find_in_dir = function(picker, item)
+							local dir = item.file
+							local is_dir = false
+							if item.dir then
+								is_dir = true
+							elseif vim.fn.isdirectory(dir) == 1 then
+								is_dir = true
+							end
+
+							if not is_dir then
+								dir = vim.fn.fnamemodify(dir, ":h")
+							end
+							Snacks.picker.files({ cwd = dir })
+						end,
+					},
+					win = {
+						list = {
+							keys = {
+								["<leader>f"] = "find_in_dir",
+							},
+						},
+					},
 				},
 			},
 		},
@@ -258,6 +281,13 @@ return {
 		},
 
 		-- GIT
+		{
+			"<leader>gd",
+			function()
+				Snacks.picker.git_diff()
+			end,
+			desc = "Git Diff (Hunks)",
+		},
 		-- Opens Lazygit in a floating window
 		{
 			"<leader>gg",
