@@ -385,12 +385,12 @@ return {
 		-- 	end,
 		-- 	desc = "Go to type definition",
 		-- },
-		-- {
-		-- 	"<leader>ss",
-		-- 	function()
-		-- 		Snacks.picker.lsp_symbols()
-		-- 	end,
-		-- 	desc = "LSP Symbols",
-		-- },
+		{
+			"<leader>sS",
+			function()
+				Snacks.picker.lsp_workspace_symbols()
+			end,
+			desc = "LSP Symbols (Workspace)",
+		},
 	},
 }
