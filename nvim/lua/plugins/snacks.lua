@@ -37,8 +37,7 @@ return {
 					layout = { layout = { position = "left" } },
 					-- Default to showing hidden files
 					hidden = true,
-					-- Don't close the explorer when I open a file (persistent sidebar)
-					auto_close = false,
+					auto_close = true,
 					-- Jump to the file in the explorer when I change buffers
 					follow_file = true,
 					-- your explorer picker configuration comes here

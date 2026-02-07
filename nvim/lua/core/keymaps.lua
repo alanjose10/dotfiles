@@ -39,3 +39,6 @@ vim.keymap.set("n", "]p", "<cmd>pu<cr>", { desc = "Paste below line" })
 vim.keymap.set("n", "[p", "<cmd>pu!<cr>", { desc = "Paste above line" })
 
 vim.keymap.set("n", "*", vim.lsp.buf.document_highlight, { desc = "Smart Highlight (*)" })
+
+-- Toggle line wrap
+vim.keymap.set("n", "<leader>uw", "<cmd>set wrap!<CR>", { desc = "Toggle Line Wrap" })

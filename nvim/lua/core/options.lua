@@ -39,6 +39,7 @@ vim.opt.undofile = true
 vim.opt.undodir = vim.fn.stdpath("data") .. "/undo"
 vim.opt.confirm = true -- ask for confirmation
 vim.opt.spell = true
+vim.opt.jumpoptions = "view,stack"
 
 -- Performance
 vim.opt.updatetime = 250
