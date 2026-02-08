@@ -4,8 +4,8 @@ return {
 	dependencies = "nvim-tree/nvim-web-devicons",
 	event = "VeryLazy",
 	keys = {
-		{ "]b", "<cmd>BufferLineCycleNext<cr>", desc = "Next buffer" },
-		{ "[b", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev buffer" },
+		{ "L", "<cmd>BufferLineCycleNext<cr>", desc = "Next buffer" },
+		{ "H", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev buffer" },
 		{ "<leader>bp", "<cmd>BufferLinePick<cr>", desc = "Pick Buffer" },
 		{ "<leader>bo", "<cmd>BufferLineCloseOthers<cr>", desc = "Delete Other Buffers" },
 		{ "<leader>br", "<cmd>BufferLineCloseRight<cr>", desc = "Delete Buffers to the Right" },
