@@ -92,7 +92,8 @@ precmd() { vcs_info }
 zstyle ':vcs_info:git:*' formats '%b '
 setopt PROMPT_SUBST
 # Two-line prompt: time, path, git branch on first line; exit status and $ on second
-PROMPT='%F{green}%*%f %F{blue}%~%f %F{red}${vcs_info_msg_0_}%f
+# Show user@host in yellow when connected via SSH
+PROMPT='${SSH_CONNECTION:+%F{yellow}%n@%m%f }%F{green}%*%f %F{blue}%~%f %F{red}${vcs_info_msg_0_}%f
 %(?..%F{red}✗%f )$ '
 
 
