@@ -27,27 +27,6 @@ else
   compinit -C
 fi
 
-export NVM_DIR="$HOME/.nvm"
-# Lazy load nvm - only initialize when used (saves 200-500ms on startup)
-nvm() {
-  unset -f nvm
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-  nvm "$@"
-}
-# Also lazy load node and npm to trigger nvm initialization
-node() {
-  unset -f node
-  nvm > /dev/null 2>&1
-  node "$@"
-}
-npm() {
-  unset -f npm
-  nvm > /dev/null 2>&1
-  npm "$@"
-}
-
-
 # init zoxide
 if command -v zoxide >/dev/null 2>&1; then
   eval "$(zoxide init zsh)"
@@ -104,7 +83,9 @@ if command -v kubectl >/dev/null 2>&1; then
 fi
 
 # init fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if command -v fzf >/dev/null 2>&1; then
+  source <(fzf --zsh)
+fi
 
 autoload -Uz vcs_info
 precmd() { vcs_info }
@@ -113,9 +94,6 @@ setopt PROMPT_SUBST
 # Two-line prompt: time, path, git branch on first line; exit status and $ on second
 PROMPT='%F{green}%*%f %F{blue}%~%f %F{red}${vcs_info_msg_0_}%f
 %(?..%F{red}✗%f )$ '
-
-
-
 
 
 # Tmux session switcher using fzf
@@ -146,79 +124,6 @@ ts() {
         tmux attach-session -t "$session"
     fi
 }
-
-# Open nvim in a new tmux window
-v() {
-    # Show help if requested
-    if [[ "$1" == "--help" || "$1" == "-h" ]]; then
-        cat <<EOF
-Usage: v [directory] [session-name]
-
-Open nvim in a new tmux window with the given directory.
-
-Arguments:
-  directory      Target directory (default: current directory)
-  session-name   Custom session name (default: shortened directory basename)
-
-Examples:
-  v                    # Open nvim in current directory
-  v ~/projects/foo     # Open nvim in ~/projects/foo
-  v . my-session       # Open nvim in current directory with custom session name
-
-Window naming:
-  Windows are named "[vim] <dirname>" for easy identification
-EOF
-        return 0
-    fi
-
-    local dir session base_session suffix window_name
-
-    # Determine target directory
-    if [[ -n "$1" ]]; then
-        dir="$(cd "$1" 2>/dev/null && pwd)" || {
-            echo "Error: Directory '$1' not found" >&2
-            return 1
-        }
-    else
-        dir="$(pwd)"
-    fi
-
-    # Set window name as "[vim] dirname"
-    window_name="[vim] $(basename "$dir")"
-
-    # Determine session name (custom or derived from directory)
-    if [[ -n "$2" ]]; then
-        session="$2"
-    else
-        base_session="$(basename "$dir")"
-        # Truncate to 20 chars max for shorter names
-        if [[ ${#base_session} -gt 20 ]]; then
-            session="${base_session:0:17}..."
-        else
-            session="$base_session"
-        fi
-    fi
-
-    # If already inside tmux, just create a new window
-    if [[ -n "$TMUX" ]]; then
-        tmux new-window -n "$window_name" -c "$dir" "nvim"
-        return 0
-    fi
-
-    # Handle session name conflicts by appending a number
-    base_session="$session"
-    suffix=1
-    while tmux has-session -t "$session" 2>/dev/null; do
-        session="${base_session}-${suffix}"
-        ((suffix++))
-    done
-
-    # Create new session with nvim window
-    tmux new-session -d -s "$session" -n "$window_name" -c "$dir"
-    tmux send-keys -t "$session" "nvim" C-m
-    tmux attach-session -t "$session"
-}
-
 
 # Git branch switcher - lists branches and switches to one
 gb() {
