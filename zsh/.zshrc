@@ -82,11 +82,6 @@ if command -v kubectl >/dev/null 2>&1; then
 
 fi
 
-# init fzf
-if command -v fzf >/dev/null 2>&1; then
-  source <(fzf --zsh)
-fi
-
 autoload -Uz vcs_info
 precmd() { vcs_info }
 zstyle ':vcs_info:git:*' formats '%b '
@@ -157,11 +152,18 @@ if [[ $(uname) == "Darwin" ]]; then
     export CPPFLAGS="-I/opt/homebrew/opt/libpq/include"
   fi
 
+  # Init fzf
+  if command -v fzf >/dev/null 2>&1; then
+    source <(fzf --zsh)
+  fi
 fi
 
 
 # Do workstation specific stuff here
 if [[ $(uname) == "Linux" ]]; then
+
+  # init fzf
+  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
   # plz autocomplete
   if command -v plz >/dev/null 2>&1; then
