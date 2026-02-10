@@ -391,5 +391,19 @@ return {
 			end,
 			desc = "LSP Symbols (Workspace)",
 		},
+		{
+			"<leader>sd",
+			function()
+				Snacks.picker.diagnostics_buffer()
+			end,
+			desc = "Buffer Diagnostics",
+		},
+		{
+			"<leader>sD",
+			function()
+				Snacks.picker.diagnostics()
+			end,
+			desc = "Project Diagnostics",
+		},
 	},
 }

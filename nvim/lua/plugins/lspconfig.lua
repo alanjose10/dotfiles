@@ -98,10 +98,6 @@ return {
 						Snacks.picker.lsp_symbols()
 					end, "LSP Symbols")
 
-					map("<leader>sd", function()
-						Snacks.picker.diagnostics_buffer()
-					end, "List Diagnostics")
-
 					map("K", vim.lsp.buf.hover, "Hover")
 					map("<leader>cd", vim.diagnostic.open_float, "Show diagnostic")
 					map("]d", vim.diagnostic.goto_next, "Next diagnostic")
