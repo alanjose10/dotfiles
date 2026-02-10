@@ -23,10 +23,6 @@ vim.keymap.set("n", "<leader>w=", "<cmd>wincmd =<cr>", { desc = "Equalize window
 vim.keymap.set("v", "<", "<gv", { desc = "Indent left" })
 vim.keymap.set("v", ">", ">gv", { desc = "Indent right" })
 
--- Navigate quick fix list
-vim.keymap.set("n", "<leader><Up>", ":cnext<CR>", { desc = "Quickfix: Next item" })
-vim.keymap.set("n", "<leader><Down>", ":cprev<CR>", { desc = "Quickfix: Previous item" })
-
 vim.keymap.set("n", "<leader>us", function()
 	vim.opt.spell = not (vim.opt.spell:get())
 end, { desc = "Toggle Spell Check" })
