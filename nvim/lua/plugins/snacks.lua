@@ -57,11 +57,50 @@ return {
 							end
 							Snacks.picker.files({ cwd = dir })
 						end,
+
+						copy_path = function(_, item)
+							if not item or not item.file then
+								vim.notify("No file selected", vim.log.levels.WARN)
+								return
+							end
+
+							local modify = vim.fn.fnamemodify
+							local filepath = item.file
+							local filename = modify(filepath, ":t")
+
+							local results = {
+								modify(filepath, ":."), -- Relative to CWD
+								filepath, -- Absolute
+								modify(filepath, ":~"), -- Relative to HOME
+								filename, -- Filename only
+								modify(filename, ":r"), -- Filename no extension
+							}
+
+							vim.ui.select({
+								"1. Path relative to CWD: " .. results[1],
+								"2. Absolute path: " .. results[2],
+								"3. Path relative to HOME: " .. results[3],
+								"4. Filename: " .. results[4],
+								"5. Filename without extension: " .. results[5],
+							}, { prompt = "Choose what to copy:" }, function(choice)
+								if choice then
+									local i = tonumber(choice:sub(1, 1))
+									if i and results[i] then
+										local result = results[i]
+										-- Copy to the system clipboard (+) and unnamed register (")
+										vim.fn.setreg("+", result)
+										vim.fn.setreg('"', result)
+										vim.notify("Copied: " .. result)
+									end
+								end
+							end)
+						end,
 					},
 					win = {
 						list = {
 							keys = {
 								["<leader>f"] = "find_in_dir",
+								["Y"] = "copy_path",
 							},
 						},
 					},
