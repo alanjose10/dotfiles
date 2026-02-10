@@ -405,5 +405,33 @@ return {
 			end,
 			desc = "Project Diagnostics",
 		},
+		{
+			"<leader>st",
+			function()
+				Snacks.picker.todo_comments({})
+			end,
+			desc = "Todo Comments",
+		},
+		{
+			"<leader>sj",
+			function()
+				Snacks.picker.jumps()
+			end,
+			desc = "Jumps",
+		},
+		{
+			"<leader>s/",
+			function()
+				Snacks.picker.search_history()
+			end,
+			desc = "Search History",
+		},
+		{
+			"<leader>sg",
+			function()
+				Snacks.picker.git_status()
+			end,
+			desc = "Git Status",
+		},
 	},
 }
