@@ -142,6 +142,20 @@ gb() {
   fi
 }
 
+# Clean up Neovim cache, data, and state
+nvim-clean() {
+  if read -q "choice?Are you sure you want to clean Neovim cache, data, and state? (y/n) "; then
+    echo
+    echo "Cleaning Neovim directories..."
+    rm -rf "${XDG_CACHE_HOME:-$HOME/.cache}/nvim"
+    rm -rf "${XDG_DATA_HOME:-$HOME/.local/share}/nvim"
+    rm -rf "${XDG_STATE_HOME:-$HOME/.local/state}/nvim"
+    echo "Done. Neovim has been reset (config remains intact)."
+  else
+    echo "\nCleanup cancelled."
+  fi
+}
+
 
 # Do Mac-specific stuff here
 if [[ $(uname) == "Darwin" ]]; then

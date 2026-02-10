@@ -234,6 +234,7 @@ Custom shell functions:
 - `ts` - Tmux session switcher with fzf (ctrl-x to kill, enter to attach)
 - `kn [namespace]` - kubectl namespace switcher
 - `kc [context]` - kubectl context switcher
+- `nvim-clean` - Neovim cleanup utility (cache, data, state)
 
 Aliases: `lg` (lazygit), `vim`/`vi` (nvim), `k` (kubectl)
 

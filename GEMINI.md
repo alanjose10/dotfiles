@@ -105,6 +105,7 @@ ln -sfn ~/dotfiles/kitty ~/.config/kitty
     *   `v [dir] [session]`: Opens nvim in a new tmux window/session.
     *   `ts`: Fuzzy tmux session switcher.
     *   `gb`: Git branch switcher.
+    *   `nvim-clean`: **Neovim Cleanup Utility.** Safely removes Neovim cache, data, and state directories (with confirmation) to reset the environment for troubleshooting.
     *   `kn`: **Kubectl Namespace Switcher.** Interactively lists namespaces, shows a preview of the first 15 pods, and switches context. Displays current namespace in header.
     *   `kc`: **Kubectl Context Switcher.** Interactively lists contexts with full details preview and switches. Displays current context in header.
 *   **Dependencies:** `zoxide` (directory jumping), `fzf`, `kubectl`, `plz` (Linux only).
