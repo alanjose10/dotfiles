@@ -1,5 +1,5 @@
 -- Colorschemes - change the variable below to switch
-local USE = "everforest" -- options: rose-pine, kanagawa, tokyonight, everforest
+local USE = "tokyonight" -- options: rose-pine, kanagawa, tokyonight, everforest
 
 return {
 	{
