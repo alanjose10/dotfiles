@@ -35,5 +35,11 @@ ln -sfn ~/dotfiles/tmux/tmux.conf ~/.config/tmux/tmux.conf
 ln -sfn ~/dotfiles/home/.config/nvim ~/.config/
 ```
 
+## gemini
+
+```sh
+ln -sfn ~/dotfiles/gemini/skills/nvim-expert ~/.gemini/skills/nvim-expert
+```
+
 <!-- TODO: Use stove -->
 

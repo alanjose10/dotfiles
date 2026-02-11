@@ -23,6 +23,9 @@ ln -sfn ~/dotfiles/zsh/.zprofile ~/.zprofile
 
 # Kitty
 ln -sfn ~/dotfiles/kitty ~/.config/kitty
+
+# Gemini
+ln -sfn ~/dotfiles/gemini/skills/nvim-expert ~/.gemini/skills/nvim-expert
 ```
 
 Manual setup for tmux plugins:
