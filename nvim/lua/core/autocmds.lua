@@ -48,3 +48,21 @@ autocmd("ColorScheme", {
 		vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { fg = "#555555", italic = true })
 	end,
 })
+
+autocmd("FileType", {
+	group = augroup("qf_custom", { clear = true }),
+	pattern = "qf",
+	callback = function()
+		-- Map 'dd' to delete the current line from the list
+		vim.keymap.set("n", "dd", function()
+			local qf_list = vim.fn.getqflist()
+			local cur_line = vim.fn.line(".")
+			table.remove(qf_list, cur_line)
+			vim.fn.setqflist(qf_list, "r")
+
+			-- Re-open to refresh the view and keep cursor position logic
+			vim.cmd(cur_line .. "cfirst")
+			vim.cmd("copen")
+		end, { buffer = true, desc = "Remove item from quickfix" })
+	end,
+})
