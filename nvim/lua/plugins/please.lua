@@ -63,5 +63,12 @@ return {
 			end,
 			desc = "Build History",
 		},
+		{
+			"<leader>m",
+			function()
+				require("please").maximise_popup()
+			end,
+			desc = "Maximise popup",
+		},
 	},
 }
