@@ -66,3 +66,12 @@ autocmd("FileType", {
 		end, { buffer = true, desc = "Remove item from quickfix" })
 	end,
 })
+
+-- Enable comment continuation
+autocmd("FileType", {
+	group = augroup("comment_continuation", { clear = true }),
+	pattern = "*",
+	callback = function()
+		vim.opt_local.formatoptions:append("cro")
+	end,
+})
