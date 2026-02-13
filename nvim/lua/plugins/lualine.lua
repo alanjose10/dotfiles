@@ -39,7 +39,17 @@ return {
 			lualine_x = {
 				"lsp_status",
 			},
-			lualine_y = { "encoding", "filetype", "filesize" },
+			lualine_y = {
+				"encoding",
+				"filetype",
+				"filesize",
+				{
+					"aerial",
+					fmt = function(str)
+						return str
+					end,
+				},
+			},
 			lualine_z = { "location", "progress" },
 		},
 		always_show_tabline = true,
