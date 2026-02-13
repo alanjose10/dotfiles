@@ -1,6 +1,9 @@
 return {
 	"mrjones2014/smart-splits.nvim",
 	lazy = false,
+	opts = {
+		default_amount = 10,
+	},
 	keys = {
 		-- 1. Moving between splits (Alt + Arrows)
 		{
