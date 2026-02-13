@@ -21,6 +21,7 @@ vim.opt.incsearch = true
 vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes:1"
 vim.opt.cursorline = true
+vim.opt.colorcolumn = "100"
 vim.opt.wrap = false
 vim.opt.scrolloff = 8
 vim.opt.sidescrolloff = 8
