@@ -22,13 +22,7 @@ return {
 			win = {
 				input = {
 					keys = {
-						["<Tab>"] = "focus_preview",
 						["<Esc>"] = "close",
-					},
-				},
-				preview = {
-					keys = {
-						["<Tab>"] = "focus_input",
 					},
 				},
 			},
