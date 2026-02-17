@@ -22,6 +22,9 @@ return {
 			debug = {
 				-- scores = true, -- show scores in the list
 			},
+			matcher = {
+				cwd_bonus = true,
+			},
 			enabled = true,
 			win = {
 				input = {
