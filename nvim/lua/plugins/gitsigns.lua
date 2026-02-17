@@ -68,7 +68,7 @@ return {
 				gs.toggle_deleted()
 				gs.toggle_word_diff()
 				gs.toggle_signs()
-			end)
+			end, { desc = "Show changes (review mode)" })
 		end,
 	},
 }

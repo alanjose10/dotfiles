@@ -19,6 +19,7 @@ return {
 			lua = { "stylua" },
 			go = { "goimports", "gofumpt" }, -- imports first, then gofumpt
 			toml = { "taplo" },
+			python = { "ruff_fix", "ruff_format" },
 			-- markdown = { "prettier" },
 		},
 		-- Auto-format on save (longer timeout for large monorepos)
