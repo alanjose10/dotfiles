@@ -18,6 +18,10 @@ return {
 			-- refer to the configuration section below
 		},
 		picker = {
+			---@class snacks.picker.debug
+			debug = {
+				-- scores = true, -- show scores in the list
+			},
 			enabled = true,
 			win = {
 				input = {
