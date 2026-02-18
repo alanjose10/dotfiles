@@ -1,18 +1,23 @@
+local dev = false
+local version = "v0.1.0"
+
 return {
 	{
-		enabled = false,
-		dir = "~/repos/scopes.nvim",
-		config = function()
-			require("scopes").setup()
-		end,
-	},
-	{
-		enabled = true,
 		"alanjose10/scopes.nvim",
-		tag = "v0.1.0",
+		dir = dev and "~/repos/scopes.nvim" or nil,
+		tag = dev and nil or version,
 		dependencies = { "folke/snacks.nvim" },
 		config = function()
-			require("scopes").setup()
+			require("scopes").setup({
+				keymaps = {
+					open = "<leader>so",
+					open_root = "<leader>sO",
+				},
+			})
 		end,
+		-- keys = {
+		-- 	{ "<leader>so", desc = "Scope: open at cursor" },
+		-- 	{ "<leader>sO", desc = "Scope: open at root" },
+		-- },
 	},
 }
