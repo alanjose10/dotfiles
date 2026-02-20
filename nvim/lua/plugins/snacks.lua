@@ -24,8 +24,16 @@ return {
 			},
 			matcher = {
 				cwd_bonus = true,
+				frecency = true,
 			},
 			enabled = true,
+			-- Global exclusions for all pickers
+			exclude = {
+				".git",
+				"node_modules",
+				"plz-out",
+				".plz-cache",
+			},
 			win = {
 				input = {
 					keys = {
@@ -135,7 +143,6 @@ return {
 					hidden = true,
 					layout = "vscode",
 					ignored = false, -- Respect .gitignore
-					exclude = { ".git", "node_modules", "plz-out", ".plz-cache" },
 				})
 			end,
 			desc = "Smart Find Files",
@@ -148,7 +155,6 @@ return {
 					hidden = true,
 					-- layout = "vscode",
 					ignored = false, -- Respect .gitignore
-					exclude = { ".git", "node_modules", "plz-out", ".plz-cache" },
 				})
 			end,
 			desc = "Find Files",
@@ -159,7 +165,6 @@ return {
 			function()
 				Snacks.picker.grep({
 					ignored = false, -- Respect .gitignore
-					exclude = { ".git", "node_modules", "plz-out", ".plz-cache" },
 				})
 			end,
 			desc = "Grep Project",
@@ -207,7 +212,10 @@ return {
 		{
 			"<leader>fr",
 			function()
-				Snacks.picker.recent({ filter = { cwd = true } })
+				Snacks.picker.recent({
+					layout = "vscode",
+					filter = { cwd = true },
+				})
 			end,
 			desc = "Recent Files (CDW)",
 		},
