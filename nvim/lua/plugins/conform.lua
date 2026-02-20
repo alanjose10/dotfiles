@@ -17,7 +17,10 @@ return {
 		-- Define which formatter to use for each filetype
 		formatters_by_ft = {
 			lua = { "stylua" },
-			go = { "goimports", "gofumpt" }, -- imports first, then gofumpt
+			go = {
+				-- "goimports",
+				"gofumpt",
+			}, -- imports first, then gofumpt
 			toml = { "taplo" },
 			python = { "ruff_fix", "ruff_format" },
 			-- markdown = { "prettier" },
