@@ -37,6 +37,8 @@ alias lg='lazygit'
 alias vim='nvim'
 alias vi='nvim'
 alias g='gemini'
+# Launch fzf on current path and choose
+alias zp='z $(find . -maxdepth 1 -type d | fzf)'
 
 
 
