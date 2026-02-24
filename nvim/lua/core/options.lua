@@ -54,3 +54,13 @@ vim.opt.pumheight = 10
 vim.opt.wildmenu = true
 vim.opt.wildoptions = "pum" -- "pum" stands for Popup Menu
 vim.opt.wildmode = "longest:full,full" -- Command-line completion mode
+
+-- Enable invisible characters
+vim.opt.list = true
+
+-- Define what the characters look like
+vim.opt.listchars = {
+	tab = "▸ ", -- Shows tabs as ▸
+	trail = "·", -- Highlights trailing spaces at the ends of lines
+	nbsp = "␣", -- Highlights non-breaking spaces
+}
