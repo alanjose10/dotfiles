@@ -275,7 +275,7 @@ return {
 
 		-- Help: Search help tags (crucial for learning)
 		{
-			"<leader>sh",
+			"<leader>sH",
 			function()
 				Snacks.picker.help()
 			end,
@@ -329,7 +329,7 @@ return {
 
 		-- GIT
 		{
-			"<leader>gd",
+			"<leader>sh",
 			function()
 				Snacks.picker.git_diff()
 			end,
