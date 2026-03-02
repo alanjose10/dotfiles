@@ -7,8 +7,8 @@ return {
 			mux = {
 				backend = "tmux",
 				enabled = true,
-				-- create = "window",
-				create = "terminal",
+				create = "window",
+				-- create = "terminal",
 			},
 			---@type table<string, sidekick.cli.Config|{}>
 			tools = {
