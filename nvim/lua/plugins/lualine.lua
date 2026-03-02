@@ -10,8 +10,21 @@ return {
 			section_separators = { left = "", right = "" }, -- Minimal look (no arrows)
 		},
 		sections = {
-			-- LEFT SIDE: Mode, Branch, Diff
-			lualine_a = { "mode" },
+			-- LEFT SIDE
+			lualine_a = {
+				{
+					"tabs",
+					mode = 0, -- 0: just number, 1: just name, 2: number and name
+					path = 0, -- 0: filename, 1: relative path, 2: absolute path
+
+					-- Optional: customize colors
+					tabs_color = {
+						active = "lualine_a_normal",
+						inactive = "lualine_b_normal",
+					},
+				},
+				"mode",
+			},
 			lualine_b = {
 				{
 					"branch",
@@ -35,7 +48,7 @@ return {
 					path = 1,
 				},
 			},
-			-- RIGHT SIDE: Diagnostics, Snacks Info, Filetype, Location
+			-- RIGHT SIDE
 			lualine_x = {
 				"lsp_status",
 				{
