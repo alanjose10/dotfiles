@@ -80,3 +80,13 @@ autocmd("FileType", {
 		vim.opt_local.formatoptions:append("cro")
 	end,
 })
+
+-- Terminal setup
+autocmd("TermOpen", {
+	group = augroup("custom_term_open", { clear = true }),
+	callback = function()
+		vim.opt_local.number = false
+		vim.opt_local.relativenumber = false
+		vim.cmd.startinsert()
+	end,
+})
