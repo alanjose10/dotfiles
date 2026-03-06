@@ -30,8 +30,8 @@ vim.keymap.set("n", "<leader>uw", "<cmd>set wrap!<CR>", { desc = "Toggle Line Wr
 vim.keymap.set("n", "<leader>bo", function()
 	local curr = vim.api.nvim_get_current_buf()
 	for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-		if buf ~= curr and vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buflisted then
-			vim.api.nvim_buf_delete(buf, { force = false })
+		if buf ~= curr and vim.bo[buf].buflisted then
+			pcall(vim.api.nvim_buf_delete, buf, { force = false })
 		end
 	end
 end, { desc = "Delete other buffers" })
